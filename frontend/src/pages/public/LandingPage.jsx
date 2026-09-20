@@ -50,31 +50,17 @@ export const LandingPage = () => {
   const displayBestSellers = bestSellers.length === 4 ? bestSellers : products.slice(4, 8);
   const displayNewArrivals = newArrivals.length === 4 ? newArrivals : products.slice(8, 12);
 
-  const heroFeatured = products[0] || {
-    id: "JOY-SKN-001",
-    name: "HydraGel Ultra-Light Moisturizer",
-    brand: "Joyory Labs",
-    price: 649,
-    originalPrice: 799,
-    rating: 4.8,
-    reviewsCount: 384,
-    image: "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=800&auto=format&fit=crop&q=80",
-    texture: "Water Gel",
-    finish: "Matte",
-    shortDescription: "Ultra-lightweight oil-free water gel with 2% Hyaluronic Acid and Centella."
-  };
-
   return (
     <div className="min-h-screen bg-stone-50 dark:bg-stone-950 text-stone-900 dark:text-stone-100 transition-colors flex flex-col">
       <PublicNavbar />
 
-      {/* 2. HERO SECTION */}
-      <section className="relative pt-12 pb-16 sm:pt-20 sm:pb-24 border-b border-stone-200/80 dark:border-stone-800/80 overflow-hidden">
+      {/* 2. PRODUCT-FREE PROFESSIONAL HERO SECTION */}
+      <section className="relative pt-14 pb-18 sm:pt-24 sm:pb-28 border-b border-stone-200/80 dark:border-stone-800/80 overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
             {/* Left Content */}
             <div className="lg:col-span-7 space-y-6 text-left">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-stone-100 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-xs text-[#C26D53] font-medium">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-stone-100 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-[11px] uppercase tracking-wider text-[#C26D53] font-semibold">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#C26D53]" />
                 <span>Intelligent Beauty Commerce</span>
               </div>
@@ -84,7 +70,7 @@ export const LandingPage = () => {
               </h1>
 
               <p className="text-base sm:text-lg text-stone-600 dark:text-stone-300 max-w-2xl leading-relaxed font-normal">
-                Discover products that fit your preferences and build a beauty journey that becomes more personal over time.
+                Discover products that fit your preferences, learn from your experience, and build a beauty journey that becomes more personal over time.
               </p>
 
               {/* Buttons */}
@@ -94,88 +80,92 @@ export const LandingPage = () => {
                     Explore Products
                   </Button>
                 </Link>
-                <Link to={isAuthenticated ? "/customer/journey" : "/login"} className="w-full sm:w-auto">
+                <Link to={isAuthenticated ? "/customer/journey" : "/signup"} className="w-full sm:w-auto">
                   <Button size="lg" variant="secondary" className="w-full sm:w-auto justify-center">
-                    Discover Your Journey
+                    Discover Your Beauty Journey
                   </Button>
                 </Link>
               </div>
 
-              {/* 3 small trust points */}
-              <div className="pt-3 flex flex-wrap items-center gap-6 text-xs text-stone-500 dark:text-stone-400">
+              {/* 3 small value points */}
+              <div className="pt-3 flex flex-wrap items-center gap-6 text-xs text-stone-600 dark:text-stone-400">
                 <div className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-500" />
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-500 shrink-0" />
                   <span>Personalized discovery</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-500" />
-                  <span>Smarter recommendations</span>
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-500 shrink-0" />
+                  <span>Remembers what works for you</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-500" />
-                  <span>Beauty journey memory</span>
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-500 shrink-0" />
+                  <span>Smarter journeys over time</span>
                 </div>
               </div>
             </div>
 
-            {/* Right: Clean Featured Product Card */}
+            {/* Right: Abstract Beauty Journey Flow Visual (Product-Free) */}
             <div className="lg:col-span-5 relative">
-              <div className="relative rounded-2xl p-5 bg-white dark:bg-stone-900 border border-stone-200/80 dark:border-stone-800/80 shadow-md space-y-4">
-                <div className="relative aspect-4/3 rounded-xl overflow-hidden bg-stone-100 dark:bg-stone-950">
-                  <FallbackImage
-                    src={heroFeatured.image}
-                    alt={heroFeatured.name}
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-white/95 dark:bg-stone-900/95 backdrop-blur-xs text-[11px] font-semibold text-stone-900 dark:text-stone-100 border border-stone-200/60 dark:border-stone-800/60 shadow-xs">
-                    Featured Formulation
-                  </div>
+              <div className="relative rounded-2xl p-6 sm:p-8 bg-white dark:bg-stone-900 border border-stone-200/80 dark:border-stone-800/80 shadow-sm space-y-6">
+                <div className="border-b border-stone-100 dark:border-stone-800 pb-3 flex items-center justify-between">
+                  <span className="text-[11px] font-semibold uppercase tracking-wider text-[#C26D53]">
+                    The Journey Cycle
+                  </span>
+                  <span className="text-[11px] text-stone-400">Continuous Learning</span>
                 </div>
 
-                <div className="space-y-2">
-                  <div className="flex items-start justify-between gap-2">
+                {/* 4 Journey Steps Flow */}
+                <div className="relative pl-6 space-y-6 before:absolute before:left-2.5 before:top-2 before:bottom-2 before:w-px before:bg-gradient-to-b before:from-[#C26D53] before:via-stone-300 dark:before:via-stone-700 before:to-[#C26D53]">
+                  {/* Step 1: Discover */}
+                  <div className="relative">
+                    <div className="absolute -left-[29px] top-0.5 w-3 h-3 rounded-full bg-[#C26D53] ring-4 ring-white dark:ring-stone-900" />
                     <div>
-                      <span className="text-[10px] uppercase tracking-wider font-semibold text-[#C26D53]">
-                        {heroFeatured.brand}
-                      </span>
-                      <h3 className="text-base font-semibold text-stone-900 dark:text-stone-100">
-                        {heroFeatured.name}
-                      </h3>
-                    </div>
-                    <div className="text-right shrink-0">
-                      <span className="text-lg font-bold text-stone-950 dark:text-stone-50">
-                        ₹{heroFeatured.price}
-                      </span>
-                      {heroFeatured.originalPrice && (
-                        <span className="text-xs text-stone-400 line-through block">
-                          ₹{heroFeatured.originalPrice}
-                        </span>
-                      )}
+                      <h4 className="text-sm font-semibold text-stone-900 dark:text-stone-100">
+                        1. Discover
+                      </h4>
+                      <p className="text-xs text-stone-500 dark:text-stone-400 mt-0.5 leading-relaxed">
+                        Find products that match your specific skin type, finish, and budget.
+                      </p>
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-2 text-xs text-stone-500 dark:text-stone-400">
-                    <span className="flex items-center text-amber-500 font-semibold">
-                      ★ {heroFeatured.rating || 4.8}
-                    </span>
-                    <span>•</span>
-                    <span>{heroFeatured.texture || "Lightweight Gel"} • {heroFeatured.finish || "Matte"}</span>
+                  {/* Step 2: Choose */}
+                  <div className="relative">
+                    <div className="absolute -left-[29px] top-0.5 w-3 h-3 rounded-full bg-stone-300 dark:bg-stone-700 ring-4 ring-white dark:ring-stone-900" />
+                    <div>
+                      <h4 className="text-sm font-semibold text-stone-900 dark:text-stone-100">
+                        2. Choose
+                      </h4>
+                      <p className="text-xs text-stone-500 dark:text-stone-400 mt-0.5 leading-relaxed">
+                        Compare formulation textures and suitability to pick what works best.
+                      </p>
+                    </div>
                   </div>
 
-                  <div className="pt-2 flex items-center gap-2">
-                    <Link to={`/products/${heroFeatured.id}`} className="flex-1">
-                      <Button variant="primary" className="w-full justify-center text-xs py-2.5" icon={ArrowRight}>
-                        View Product
-                      </Button>
-                    </Link>
-                    <Button
-                      variant="outline"
-                      className="px-3 py-2.5 text-xs"
-                      onClick={() => addToCart(heroFeatured)}
-                      aria-label="Add to bag"
-                    >
-                      <ShoppingBag className="w-4 h-4" />
-                    </Button>
+                  {/* Step 3: Experience */}
+                  <div className="relative">
+                    <div className="absolute -left-[29px] top-0.5 w-3 h-3 rounded-full bg-stone-300 dark:bg-stone-700 ring-4 ring-white dark:ring-stone-900" />
+                    <div>
+                      <h4 className="text-sm font-semibold text-stone-900 dark:text-stone-100">
+                        3. Experience
+                      </h4>
+                      <p className="text-xs text-stone-500 dark:text-stone-400 mt-0.5 leading-relaxed">
+                        Share simple feedback on how the product felt and worked for you.
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Step 4: Remember */}
+                  <div className="relative">
+                    <div className="absolute -left-[29px] top-0.5 w-3 h-3 rounded-full bg-[#C26D53] ring-4 ring-white dark:ring-stone-900" />
+                    <div>
+                      <h4 className="text-sm font-semibold text-stone-900 dark:text-stone-100">
+                        4. Remember
+                      </h4>
+                      <p className="text-xs text-stone-500 dark:text-stone-400 mt-0.5 leading-relaxed">
+                        Your Beauty Memory saves what worked, making future recommendations effortless.
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>

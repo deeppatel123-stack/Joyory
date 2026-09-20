@@ -36,8 +36,11 @@ export const productService = {
 
       const queryStr = params.toString();
       const res = await apiClient.get(`/products${queryStr ? `?${queryStr}` : ""}`);
-      if (res && res.data) {
+      if (res && Array.isArray(res.data)) {
         return res.data.map(normalizeProduct);
+      }
+      if (Array.isArray(res)) {
+        return res.map(normalizeProduct);
       }
     } catch (err) {
       console.warn("[productService] Falling back to local catalog:", err.message);
@@ -97,13 +100,15 @@ export const productService = {
       result = result.filter(p => p.isNewArrival);
     }
     if (filters.searchQuery) {
-      const q = normalizeStr(filters.searchQuery);
+      const rawQ = normalizeStr(filters.searchQuery).trim();
+      let q = rawQ;
+      if (q.startsWith("moisturi")) q = "moist";
       result = result.filter(p => {
-        const nameMatch = normalizeStr(p.name).includes(q);
-        const brandMatch = normalizeStr(p.brand).includes(q);
+        const nameMatch = normalizeStr(p.name).includes(q) || normalizeStr(p.name).includes(rawQ);
+        const brandMatch = normalizeStr(p.brand).includes(q) || normalizeStr(p.brand).includes(rawQ);
         const catMatch = normalizeStr(p.category).includes(q) || normalizeStr(p.subcategory).includes(q);
         const descMatch = normalizeStr(p.description).includes(q) || normalizeStr(p.shortDescription).includes(q);
-        const tagMatch = (p.tags || []).some(t => normalizeStr(t).includes(q));
+        const tagMatch = (p.tags || []).some(t => normalizeStr(t).includes(q) || normalizeStr(t).includes(rawQ));
         const ingMatch = (p.ingredients || p.keyIngredients || []).some(i => normalizeStr(i).includes(q));
         const conMatch = (p.concerns || []).some(c => normalizeStr(c).includes(q));
         const texMatch = normalizeStr(p.texture).includes(q);

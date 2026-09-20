@@ -8,59 +8,58 @@ import { Compass } from "lucide-react";
 
 export const SmartDiscoveryPage = () => {
   const { recordSearch, profile } = useCustomer();
-  const [currentQuery, setCurrentQuery] = useState("moisturizer");
+  const [currentQuery, setCurrentQuery] = useState("");
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const handleSearch = async (queryText, tokens) => {
-    setCurrentQuery(queryText);
-    if (queryText) recordSearch(queryText);
+  const loadProducts = async (queryText = "") => {
+    const trimmed = (queryText || "").trim();
+    setCurrentQuery(trimmed);
+    if (trimmed) recordSearch(trimmed);
 
     setLoading(true);
     try {
-      let categoryFilter = null;
-      let maxPriceFilter = null;
-
-      if (tokens) {
-        const catToken = tokens.find(t => t.category === "Category");
-        if (catToken) categoryFilter = catToken.label;
-
-        const budgetToken = tokens.find(t => t.category === "Budget");
-        if (budgetToken) {
-          const num = budgetToken.label.match(/\d+/);
-          if (num) maxPriceFilter = Number(num[0]);
-        }
+      let items = [];
+      if (trimmed) {
+        // Search by query text across name, brand, category, subcategory, texture, tags, etc.
+        items = await productService.getProducts({ searchQuery: trimmed });
+      } else {
+        // Default curated/recommended view: top 8 products
+        const all = await productService.getProducts();
+        items = (all || []).slice(0, 8);
       }
 
-      const all = await productService.getProducts({
-        category: categoryFilter,
-        maxPrice: maxPriceFilter,
-        searchQuery: queryText
-      });
-
-      // Score against customer profile
-      const scored = await Promise.all(
-        all.map(async (p) => {
-          const match = await recommendationService.getProductMatch(p);
-          return { ...p, ...match };
+      // Merge customer match data safely
+      const enriched = await Promise.all(
+        (items || []).map(async (p) => {
+          try {
+            const match = await recommendationService.getProductMatch(p);
+            return { ...p, ...match };
+          } catch {
+            return p;
+          }
         })
       );
 
-      scored.sort((a, b) => (b.matchScore || 0) - (a.matchScore || 0));
-      setResults(scored);
+      setResults(enriched);
     } catch (err) {
-      console.error(err);
+      console.error("[SmartDiscoveryPage] Error loading products:", err);
+      setResults([]);
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    handleSearch("moisturizer");
+    loadProducts("");
   }, [profile]);
 
+  const handleClearSearch = () => {
+    loadProducts("");
+  };
+
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 max-w-7xl mx-auto">
       {/* Header */}
       <div className="max-w-2xl space-y-2">
         <div className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-[#C26D53]">
@@ -75,32 +74,39 @@ export const SmartDiscoveryPage = () => {
         </p>
       </div>
 
-      {/* Clean Search Box */}
+      {/* Clean Search Box with Popular Presets */}
       <div className="max-w-3xl">
-        <SearchBar onSearch={handleSearch} initialQuery={currentQuery} />
+        <SearchBar onSearch={(q) => loadProducts(q)} initialQuery={currentQuery} />
       </div>
 
       {/* Results Header */}
       <div className="pt-2 border-t border-stone-200/80 dark:border-stone-800/80 flex items-center justify-between">
         <div>
           <h2 className="text-base font-semibold text-stone-900 dark:text-stone-100">
-            Matching Products
+            {currentQuery ? `${results.length} products found` : "Recommended Products"}
           </h2>
           <p className="text-xs text-stone-500 dark:text-stone-400">
-            Filtered based on your search
+            {currentQuery ? `Showing results for "${currentQuery}"` : "Curated products tailored to your preferences"}
           </p>
         </div>
-        <span className="text-xs text-stone-400">
-          {results.length} products found
-        </span>
+        {currentQuery && (
+          <button
+            onClick={handleClearSearch}
+            className="text-xs text-[#C26D53] hover:underline font-medium cursor-pointer"
+          >
+            Clear Search
+          </button>
+        )}
       </div>
 
-      {/* Product Grid */}
+      {/* Product Grid with clear search empty state */}
       <ProductGrid
         products={results}
         loading={loading}
-        emptyTitle="No matching products found"
-        emptyDescription="Try searching for another keyword like 'serum' or 'sunscreen'."
+        emptyTitle="No products found"
+        emptyDescription="Try another product, brand or category."
+        actionLabel="Clear Search"
+        onAction={handleClearSearch}
       />
     </div>
   );

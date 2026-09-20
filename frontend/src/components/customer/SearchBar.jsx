@@ -4,11 +4,15 @@ import { Search, X, ArrowRight } from "lucide-react";
 export const SearchBar = ({ onSearch, initialQuery = "" }) => {
   const [query, setQuery] = useState(initialQuery);
 
+  React.useEffect(() => {
+    setQuery(initialQuery);
+  }, [initialQuery]);
+
   const presets = [
     "Moisturizer",
     "Sunscreen",
-    "Vitamin C Serum",
-    "Barrier Cream"
+    "Serum",
+    "Cleanser"
   ];
 
   const handleSubmit = (e) => {

@@ -12,7 +12,6 @@ export const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [rememberMe, setRememberMe] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
@@ -30,7 +29,6 @@ export const LoginPage = () => {
       return;
     }
 
-    // Basic email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       setErrorMsg("Please enter a valid email address.");
@@ -59,12 +57,42 @@ export const LoginPage = () => {
     }
   };
 
+  const handleDemoCustomerLogin = async () => {
+    setErrorMsg("");
+    setIsSubmitting(true);
+    try {
+      const data = await login("aria.chen@joyory.com", "Customer@Joyory2026");
+      addToast(`Welcome back, ${data.user.name}!`, "success");
+      navigate("/customer/discover", { replace: true });
+    } catch (err) {
+      setErrorMsg(err.message || "Demo customer login failed.");
+      addToast(err.message || "Demo customer login failed", "error");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleDemoAdminLogin = async () => {
+    setErrorMsg("");
+    setIsSubmitting(true);
+    try {
+      const data = await login("admin@joyory.com", "Admin@Joyory2026");
+      addToast(`Welcome back, ${data.user.name}!`, "success");
+      navigate("/admin", { replace: true });
+    } catch (err) {
+      setErrorMsg(err.message || "Demo admin login failed.");
+      addToast(err.message || "Demo admin login failed", "error");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-stone-50 dark:bg-stone-950 text-stone-900 dark:text-stone-100 flex flex-col transition-colors">
       <PublicNavbar />
 
       <div className="flex-1 flex items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
-        <div className="w-full max-w-md space-y-8 p-8 rounded-2xl border border-stone-200/80 dark:border-stone-800/80 bg-white/95 dark:bg-stone-900/95 shadow-sm backdrop-blur-xs">
+        <div className="w-full max-w-md space-y-6 p-8 rounded-2xl border border-stone-200/80 dark:border-stone-800/80 bg-white/95 dark:bg-stone-900/95 shadow-sm backdrop-blur-xs">
           {/* Header */}
           <div className="text-center space-y-2">
             <div className="w-10 h-10 rounded-xl bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 flex items-center justify-center font-bold text-base mx-auto shadow-xs">
@@ -74,11 +102,11 @@ export const LoginPage = () => {
               Welcome to Joyory
             </h2>
             <p className="text-xs text-stone-500 dark:text-stone-400">
-              Sign in to your account to continue your personalized beauty journey
+              Sign in to your account to continue your beauty journey
             </p>
           </div>
 
-          {/* Redirect / Auth info notice */}
+          {/* Redirect info notice */}
           {location.state?.message && !errorMsg && (
             <div className="p-3 rounded-lg bg-stone-100 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-xs text-stone-700 dark:text-stone-300 flex items-center gap-2">
               <Lock className="w-3.5 h-3.5 text-[#C26D53] shrink-0" />
@@ -107,21 +135,16 @@ export const LoginPage = () => {
                   onChange={(e) => setEmail(e.target.value)}
                   disabled={isSubmitting}
                   required
-                  className="pl-9"
+                  className="pl-9 text-xs"
                 />
                 <Mail className="w-4 h-4 text-stone-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
               </div>
             </div>
 
             <div>
-              <div className="flex items-center justify-between mb-1">
-                <label className="block text-xs font-medium text-stone-700 dark:text-stone-300">
-                  Password
-                </label>
-                <span className="text-[11px] text-[#C26D53] hover:underline cursor-pointer">
-                  Forgot password?
-                </span>
-              </div>
+              <label className="block text-xs font-medium text-stone-700 dark:text-stone-300 mb-1">
+                Password
+              </label>
               <div className="relative">
                 <Input
                   type={showPassword ? "text" : "password"}
@@ -130,13 +153,13 @@ export const LoginPage = () => {
                   onChange={(e) => setPassword(e.target.value)}
                   disabled={isSubmitting}
                   required
-                  className="pl-9 pr-10"
+                  className="pl-9 pr-10 text-xs"
                 />
                 <Lock className="w-4 h-4 text-stone-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-600 dark:hover:text-stone-200"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-600 dark:hover:text-stone-200 cursor-pointer"
                   aria-label={showPassword ? "Hide password" : "Show password"}
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -144,23 +167,10 @@ export const LoginPage = () => {
               </div>
             </div>
 
-            {/* Remember Me */}
-            <div className="flex items-center justify-between pt-1">
-              <label className="flex items-center gap-2 text-xs text-stone-600 dark:text-stone-400 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={rememberMe}
-                  onChange={(e) => setRememberMe(e.target.checked)}
-                  className="rounded border-stone-300 dark:border-stone-700 text-[#C26D53] focus:ring-[#C26D53]"
-                />
-                <span>Remember this session</span>
-              </label>
-            </div>
-
             <Button
               type="submit"
               variant="primary"
-              className="w-full justify-center text-xs py-2.5"
+              className="w-full justify-center text-xs py-2.5 mt-2"
               disabled={isSubmitting}
               icon={ArrowRight}
             >
@@ -168,12 +178,39 @@ export const LoginPage = () => {
             </Button>
           </form>
 
+          {/* Quick Demo Login Section */}
+          <div className="pt-4 border-t border-stone-100 dark:border-stone-800 space-y-2.5 text-center">
+            <span className="text-[11px] font-medium text-stone-400 dark:text-stone-500 uppercase tracking-wider block">
+              Quick Demo
+            </span>
+            <div className="flex items-center justify-center gap-3">
+              <button
+                type="button"
+                onClick={handleDemoCustomerLogin}
+                disabled={isSubmitting}
+                className="px-3.5 py-1.5 rounded-lg border border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-800/60 hover:bg-stone-100 dark:hover:bg-stone-800 text-stone-700 dark:text-stone-300 text-xs font-medium transition-colors cursor-pointer shadow-2xs"
+              >
+                Demo Customer
+              </button>
+              <button
+                type="button"
+                onClick={handleDemoAdminLogin}
+                disabled={isSubmitting}
+                className="px-3.5 py-1.5 rounded-lg border border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-800/60 hover:bg-stone-100 dark:hover:bg-stone-800 text-stone-700 dark:text-stone-300 text-xs font-medium transition-colors cursor-pointer shadow-2xs"
+              >
+                Demo Admin
+              </button>
+            </div>
+          </div>
+
           {/* Footer link */}
-          <div className="text-center text-xs text-stone-500 pt-2 border-t border-stone-100 dark:border-stone-800">
-            Don't have an account?{" "}
-            <Link to="/signup" className="text-[#C26D53] font-medium hover:underline">
-              Create an account
-            </Link>
+          <div className="text-center text-xs text-stone-500 pt-3 border-t border-stone-100 dark:border-stone-800 space-y-1">
+            <div>
+              Don't have an account?{" "}
+              <Link to="/signup" className="text-[#C26D53] font-medium hover:underline">
+                Create Account
+              </Link>
+            </div>
           </div>
         </div>
       </div>

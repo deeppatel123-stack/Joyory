@@ -84,12 +84,12 @@ export const CustomerSidebar = ({ onClose }) => {
         </nav>
       </div>
 
-      {/* Bottom Recalibrate preferences */}
-      <div className="pt-4 border-t border-stone-200/80 dark:border-stone-800/80">
+      {/* Bottom Actions */}
+      <div className="pt-3 border-t border-stone-200/80 dark:border-stone-800/80 space-y-1.5">
         <button
           onClick={resetAllDemoData}
-          className="w-full flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg text-[11px] text-stone-500 dark:text-stone-400 hover:text-stone-800 dark:hover:text-stone-200 hover:bg-stone-100 dark:hover:bg-stone-900 transition-colors cursor-pointer border border-dashed border-stone-200 dark:border-stone-800"
-          title="Recalibrate learned preferences and reset graph weights"
+          className="w-full flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] text-stone-500 dark:text-stone-400 hover:text-stone-800 dark:hover:text-stone-200 hover:bg-stone-100 dark:hover:bg-stone-900 transition-colors cursor-pointer border border-dashed border-stone-200 dark:border-stone-800"
+          title="Reset preferences to default baseline"
         >
           <RotateCcw className="w-3 h-3" />
           <span>Reset Preferences</span>

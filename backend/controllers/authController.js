@@ -58,6 +58,59 @@ export const register = async (req, res, next) => {
   }
 };
 
+export const registerAdmin = async (req, res, next) => {
+  try {
+    const { name, email, password, confirmPassword, adminKey } = req.body;
+
+    if (!name || !email || !password) {
+      return res.status(400).json({ success: false, message: "Please provide name, email, and password." });
+    }
+
+    if (confirmPassword && password !== confirmPassword) {
+      return res.status(400).json({ success: false, message: "Passwords do not match." });
+    }
+
+    if (password.length < 6) {
+      return res.status(400).json({ success: false, message: "Password must be at least 6 characters." });
+    }
+
+    const expectedAdminKey = process.env.ADMIN_REGISTRATION_KEY || "JoyoryAdmin2026";
+    if (adminKey && adminKey !== expectedAdminKey) {
+      return res.status(403).json({ success: false, message: "Invalid Admin Security Key." });
+    }
+
+    const userExists = await User.findOne({ email: email.toLowerCase() });
+    if (userExists) {
+      return res.status(400).json({ success: false, message: "An account with this email already exists." });
+    }
+
+    const user = await User.create({
+      name,
+      email: email.toLowerCase(),
+      password,
+      role: "admin"
+    });
+
+    const token = generateToken(user._id);
+
+    res.status(201).json({
+      success: true,
+      message: "Admin account registered successfully.",
+      data: {
+        user: {
+          id: user._id,
+          name: user.name,
+          email: user.email,
+          role: "admin"
+        },
+        token
+      }
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const login = async (req, res, next) => {
   try {
     const { email, password } = req.body;

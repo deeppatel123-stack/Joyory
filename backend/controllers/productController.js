@@ -24,8 +24,16 @@ export const getProducts = async (req, res, next) => {
 
     if (q) {
       const cleanQ = q.trim();
-      const escapedQ = cleanQ.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-      const flexibleQ = escapedQ.replace(/e/gi, '[eéèêë]').replace(/o/gi, '[oóòôö]');
+      let stemQ = cleanQ;
+      if (stemQ.toLowerCase().startsWith("moisturi")) {
+        stemQ = "moist";
+      }
+      const escapedQ = stemQ.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const flexibleQ = escapedQ
+        .replace(/e/gi, '[eéèêë]')
+        .replace(/o/gi, '[oóòôö]')
+        .replace(/z/gi, '[zs]')
+        .replace(/s/gi, '[zs]');
       const regex = new RegExp(flexibleQ, "i");
 
       query.$or = [

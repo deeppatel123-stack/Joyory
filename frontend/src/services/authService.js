@@ -14,6 +14,19 @@ export const authService = {
     }
   },
 
+  async registerAdmin(adminData) {
+    try {
+      const res = await apiClient.post("/auth/register-admin", adminData);
+      if (res && res.data && res.data.token) {
+        localStorage.setItem("joyory_token", res.data.token);
+        localStorage.setItem("joyory_user", JSON.stringify(res.data.user));
+      }
+      return res.data;
+    } catch (err) {
+      throw err;
+    }
+  },
+
   async login(email, password) {
     try {
       const res = await apiClient.post("/auth/login", { email, password });

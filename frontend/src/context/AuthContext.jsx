@@ -56,6 +56,18 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const registerAdmin = async (adminData) => {
+    setIsLoading(true);
+    try {
+      const data = await authService.registerAdmin(adminData);
+      setUser(data.user);
+      setToken(data.token);
+      return data;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const logout = () => {
     authService.logout();
     setUser(null);
@@ -79,6 +91,7 @@ export const AuthProvider = ({ children }) => {
         isLoading,
         login,
         register,
+        registerAdmin,
         logout
       }}
     >

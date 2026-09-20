@@ -7,7 +7,9 @@ export const ProductGrid = ({
   products = [],
   loading = false,
   emptyTitle = "No matching products found",
-  emptyDescription = "Try broadening your filters or testing another natural search query."
+  emptyDescription = "Try broadening your filters or testing another search term.",
+  actionLabel,
+  onAction
 }) => {
   if (loading) {
     return (
@@ -18,7 +20,14 @@ export const ProductGrid = ({
   }
 
   if (!products || products.length === 0) {
-    return <EmptyState title={emptyTitle} description={emptyDescription} />;
+    return (
+      <EmptyState
+        title={emptyTitle}
+        description={emptyDescription}
+        actionLabel={actionLabel}
+        onAction={onAction}
+      />
+    );
   }
 
   return (

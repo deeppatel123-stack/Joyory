@@ -18,21 +18,13 @@ export const ComparisonTable = ({ products = [] }) => {
 
   const rows = [
     {
-      label: "Preference Match",
-      render: (p) => (
-        <Badge variant="accent" size="sm" className="font-semibold">
-          Good match
-        </Badge>
-      )
-    },
-    {
-      label: "Price & Size",
+      label: "Price",
       render: (p) => (
         <div>
           <span className="font-semibold text-stone-900 dark:text-stone-100">
             ₹{p.price}
           </span>
-          <span className="text-stone-400 text-xs ml-1">/ {p.size}</span>
+          {p.size && <span className="text-stone-400 text-xs ml-1">({p.size})</span>}
         </div>
       )
     },
@@ -42,7 +34,7 @@ export const ComparisonTable = ({ products = [] }) => {
         <div className="flex items-center gap-1">
           <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
           <span className="font-medium text-stone-900 dark:text-stone-100">{p.rating}</span>
-          <span className="text-stone-400 text-xs">({p.reviewsCount})</span>
+          {p.reviewsCount && <span className="text-stone-400 text-xs">({p.reviewsCount})</span>}
         </div>
       )
     },
@@ -50,7 +42,7 @@ export const ComparisonTable = ({ products = [] }) => {
       label: "Texture",
       render: (p) => (
         <span className="font-medium text-stone-800 dark:text-stone-200">
-          {p.texture}
+          {p.texture || "Smooth"}
         </span>
       ),
       highlightBest: true
@@ -58,19 +50,19 @@ export const ComparisonTable = ({ products = [] }) => {
     {
       label: "Finish",
       render: (p) => (
-        <span className="text-stone-700 dark:text-stone-300">{p.finish}</span>
+        <span className="text-stone-700 dark:text-stone-300">{p.finish || "Natural"}</span>
       )
     },
     {
-      label: "Skin Suitability",
+      label: "Skin Type",
       render: (p) => (
         <span className="text-stone-600 dark:text-stone-400 text-xs">
-          {p.skinType?.join(", ")}
+          {Array.isArray(p.skinType) ? p.skinType.join(", ") : p.skinType || "All skin types"}
         </span>
       )
     },
     {
-      label: "Key Actives",
+      label: "Key Ingredients",
       render: (p) => (
         <div className="flex flex-wrap gap-1">
           {p.keyIngredients?.slice(0, 3).map((ing, i) => (
@@ -82,13 +74,22 @@ export const ComparisonTable = ({ products = [] }) => {
       )
     },
     {
-      label: "Customer Sentiment",
-      render: (p) => (
-        <div className="flex items-center gap-1.5 text-xs text-emerald-600 dark:text-emerald-400">
-          <Check className="w-3.5 h-3.5 stroke-[2.5]" />
-          <span>{p.reviewSummary?.sentimentLabel || "Highly Positive"}</span>
-        </div>
-      )
+      label: "Customer Reviews",
+      render: (p) => {
+        const rating = Number(p.rating) || 4.5;
+        let reviewText = "Mostly positive reviews";
+        if (rating >= 4.8) reviewText = "Well liked by customers";
+        else if (rating >= 4.6) reviewText = "Customers generally like this product";
+        else if (rating >= 4.4) reviewText = "Mostly positive reviews";
+        else reviewText = "Customers like this product";
+
+        return (
+          <div className="flex items-center gap-1.5 text-xs text-stone-700 dark:text-stone-300">
+            <Check className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
+            <span>{reviewText}</span>
+          </div>
+        );
+      }
     }
   ];
 
