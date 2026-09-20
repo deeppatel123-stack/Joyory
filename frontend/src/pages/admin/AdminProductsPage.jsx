@@ -178,66 +178,57 @@ export const AdminProductsPage = () => {
         </div>
       </div>
 
-      {/* Products Table */}
-      <div className="rounded-2xl border border-stone-200/80 dark:border-stone-800/80 bg-white dark:bg-stone-900 overflow-hidden shadow-2xs">
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs">
-            <thead className="bg-stone-50/80 dark:bg-stone-950/60 text-stone-500 border-b border-stone-200/80 dark:border-stone-800/80">
-              <tr>
-                <th className="py-3 px-4">Product</th>
-                <th className="py-3 px-4">Category</th>
-                <th className="py-3 px-4">Price / MRP</th>
-                <th className="py-3 px-4">Stock</th>
-                <th className="py-3 px-4">Flags</th>
-                <th className="py-3 px-4 text-right">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-stone-100 dark:divide-stone-800/80">
-              {filtered.map((product) => (
-                <tr key={product.id} className="hover:bg-stone-50/50 dark:hover:bg-stone-800/30 transition-colors">
-                  {/* Product Info */}
-                  <td className="py-3 px-4 flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-stone-50 dark:bg-stone-950 p-1 border border-stone-100 dark:border-stone-800 shrink-0 flex items-center justify-center">
-                      <FallbackImage
-                        src={product.image || (product.images && product.images[0])}
-                        alt={product.name}
-                        className="w-full h-full object-contain"
-                      />
-                    </div>
-                    <div className="min-w-0">
-                      <div className="text-[10px] uppercase font-bold text-[#C26D53]">
-                        {product.brand}
-                      </div>
-                      <div className="font-semibold text-stone-900 dark:text-stone-100 truncate max-w-xs">
-                        {product.name}
-                      </div>
-                      <div className="text-[10px] text-stone-400">
-                        {product.texture} • {product.finish}
-                      </div>
-                    </div>
-                  </td>
+      {/* Products Cards Grid (Bento Grid) */}
+      {filtered.length === 0 ? (
+        <div className="p-12 text-center rounded-2xl border border-stone-200/80 dark:border-stone-800/80 bg-white dark:bg-stone-900">
+          <p className="text-sm text-stone-500">No products found matching your search and filter.</p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          {filtered.map((product) => (
+            <div
+              key={product.id}
+              className="rounded-2xl border border-stone-200/80 dark:border-stone-800/80 bg-white dark:bg-stone-900 p-4 shadow-2xs hover:shadow-xs transition-shadow flex flex-col justify-between space-y-4"
+            >
+              {/* Product Image & Badges */}
+              <div className="space-y-3">
+                <div className="w-full h-44 rounded-xl bg-stone-50 dark:bg-stone-950 p-3 border border-stone-100 dark:border-stone-800 flex items-center justify-center overflow-hidden">
+                  <FallbackImage
+                    src={product.image || (product.images && product.images[0])}
+                    alt={product.name}
+                    className="w-full h-full object-contain"
+                  />
+                </div>
 
-                  {/* Category */}
-                  <td className="py-3 px-4">
+                <div className="space-y-1.5">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] uppercase font-bold tracking-wider text-[#C26D53]">
+                      {product.brand}
+                    </span>
                     <span className="px-2 py-0.5 rounded text-[10px] font-medium bg-stone-100 dark:bg-stone-800 text-stone-700 dark:text-stone-300">
                       {product.category}
                     </span>
-                  </td>
+                  </div>
 
-                  {/* Pricing */}
-                  <td className="py-3 px-4">
-                    <div className="font-semibold text-stone-900 dark:text-stone-100">
+                  <h3 className="text-sm font-semibold text-stone-900 dark:text-stone-100 line-clamp-1">
+                    {product.name}
+                  </h3>
+
+                  <div className="flex items-baseline gap-2 pt-0.5">
+                    <span className="text-base font-bold text-stone-900 dark:text-stone-100">
                       ₹{product.price}
-                    </div>
+                    </span>
                     {product.originalPrice && product.originalPrice > product.price && (
-                      <div className="text-[10px] text-stone-400 line-through">
+                      <span className="text-xs text-stone-400 line-through">
                         ₹{product.originalPrice}
-                      </div>
+                      </span>
                     )}
-                  </td>
+                  </div>
 
-                  {/* Stock Status */}
-                  <td className="py-3 px-4">
+                  <div className="flex items-center justify-between pt-1 text-xs">
+                    <span className="text-stone-500 dark:text-stone-400 font-medium">
+                      Stock: <span className="font-semibold text-stone-900 dark:text-stone-100">{product.stock || 0} units</span>
+                    </span>
                     <span
                       className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium ${
                         product.stock > 10
@@ -247,56 +238,56 @@ export const AdminProductsPage = () => {
                           : "bg-red-50 dark:bg-red-950/40 text-red-600 dark:text-red-400"
                       }`}
                     >
-                      {product.stock > 0 ? `${product.stock} units` : "Out of Stock"}
+                      {product.stock > 0 ? "In Stock" : "Out of Stock"}
                     </span>
-                  </td>
+                  </div>
 
-                  {/* Flags */}
-                  <td className="py-3 px-4">
-                    <div className="flex items-center gap-1.5">
-                      {product.isBestSeller && (
-                        <span className="px-1.5 py-0.2 rounded text-[9px] bg-amber-100 dark:bg-amber-950 text-amber-700 dark:text-amber-300 font-semibold">
-                          Best Seller
-                        </span>
-                      )}
-                      {product.isFeatured && (
-                        <span className="px-1.5 py-0.2 rounded text-[9px] bg-rose-100 dark:bg-rose-950 text-rose-700 dark:text-rose-300 font-semibold">
-                          Featured
-                        </span>
-                      )}
-                      {product.isNewArrival && (
-                        <span className="px-1.5 py-0.2 rounded text-[9px] bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300 font-semibold">
-                          New
-                        </span>
-                      )}
-                    </div>
-                  </td>
+                  {/* Flags/Badges */}
+                  <div className="flex items-center gap-1.5 pt-1">
+                    {product.isBestSeller && (
+                      <span className="px-2 py-0.5 rounded text-[10px] bg-amber-100 dark:bg-amber-950 text-amber-700 dark:text-amber-300 font-semibold">
+                        Best Seller
+                      </span>
+                    )}
+                    {product.isFeatured && (
+                      <span className="px-2 py-0.5 rounded text-[10px] bg-rose-100 dark:bg-rose-950 text-rose-700 dark:text-rose-300 font-semibold">
+                        Featured
+                      </span>
+                    )}
+                    {product.isNewArrival && (
+                      <span className="px-2 py-0.5 rounded text-[10px] bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300 font-semibold">
+                        New
+                      </span>
+                    )}
+                  </div>
+                </div>
+              </div>
 
-                  {/* Actions */}
-                  <td className="py-3 px-4 text-right">
-                    <div className="flex items-center justify-end gap-1">
-                      <button
-                        onClick={() => handleOpenEdit(product)}
-                        className="p-1.5 rounded-lg text-stone-500 hover:text-stone-900 dark:hover:text-stone-100 hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors"
-                        title="Edit product"
-                      >
-                        <Edit2 className="w-3.5 h-3.5" />
-                      </button>
-                      <button
-                        onClick={() => handleDelete(product.id, product.name)}
-                        className="p-1.5 rounded-lg text-stone-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950/40 transition-colors"
-                        title="Delete product"
-                      >
-                        <Trash2 className="w-3.5 h-3.5" />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+              {/* Actions */}
+              <div className="pt-3 border-t border-stone-100 dark:border-stone-800 flex items-center justify-end gap-2">
+                <Button
+                  size="sm"
+                  variant="secondary"
+                  icon={Edit2}
+                  className="text-xs flex-1 justify-center"
+                  onClick={() => handleOpenEdit(product)}
+                >
+                  Edit
+                </Button>
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  icon={Trash2}
+                  className="text-xs text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-950/40"
+                  onClick={() => handleDelete(product.id, product.name)}
+                >
+                  Delete
+                </Button>
+              </div>
+            </div>
+          ))}
         </div>
-      </div>
+      )}
 
       {/* Add/Edit Modal */}
       {modalOpen && (

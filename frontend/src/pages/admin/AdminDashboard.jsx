@@ -4,7 +4,6 @@ import {
   Package,
   Users,
   ShoppingBag,
-  Star,
   Sparkles,
   ArrowRight
 } from "lucide-react";
@@ -12,131 +11,162 @@ import { Button } from "../../components/common/Button";
 
 export const AdminDashboard = () => {
   const metrics = [
-    { label: "Products", value: 38, icon: Package },
-    { label: "Customers", value: 128, icon: Users },
-    { label: "Orders", value: 76, icon: ShoppingBag }
+    { label: "Active Formulations", key: "Products", value: 36, icon: Package, link: "/admin/products" },
+    { label: "Registered Customers", key: "Customers", value: 128, icon: Users, link: "/admin/customers" },
+    { label: "Completed Orders", key: "Orders", value: 76, icon: ShoppingBag, link: "/admin/orders" }
   ];
 
   const popularProducts = [
-    { name: "HydraGel Ultra-Light Moisturizer", brand: "Joyory Labs", rating: "★★★★★ 4.8" },
-    { name: "Revitalift 1.5% Hyaluronic Acid Serum", brand: "L'Oréal Paris", rating: "★★★★★ 4.8" },
-    { name: "Watermelon Cooling Glow Sunscreen SPF 50", brand: "Dot & Key", rating: "★★★★★ 4.8" }
+    { name: "HydraGel Ultra-Light Moisturizer", brand: "Joyory Labs", category: "Skincare", price: 649, rating: "★ 4.8" },
+    { name: "Oat & Cica Calming Foaming Cleanser", brand: "Minimalist", category: "Skincare", price: 349, rating: "★ 4.7" },
+    { name: "Watermelon Cooling Glow Sunscreen SPF 50", brand: "Dot & Key", category: "Skincare", price: 545, rating: "★ 4.8" }
   ];
 
   const customerNeeds = [
     {
-      need: "Lightweight moisturizers under ₹700 are frequently searched.",
-      interest: "High Interest",
-      opportunity: "Add more lightweight gel options."
+      need: "High demand for lightweight moisturizers under ₹700",
+      interest: "High Priority",
+      action: "Formulate additional water-gel variations"
     },
     {
-      need: "Fragrance-free sunscreen is getting more interest.",
-      interest: "Growing Interest",
-      opportunity: "Expand fragrance-free mineral sunscreen selection."
+      need: "Growing interest in fragrance-free mineral sunscreens",
+      interest: "Emerging Trend",
+      action: "Evaluate physical zinc oxide SPF 50 line"
     },
     {
-      need: "Clarifying hard water scalp treatments have growing queries.",
-      interest: "High Interest",
-      opportunity: "Introduce an affordable ACV scalp detox formulation."
+      need: "Frequent customer queries for hard-water scalp detox treatments",
+      interest: "High Priority",
+      action: "Introduce affordable ACV clarifying scalp serum"
     }
   ];
 
   return (
-    <div className="max-w-4xl mx-auto space-y-8 py-4">
+    <div className="max-w-5xl mx-auto space-y-6 py-2">
       {/* Header */}
-      <div className="border-b border-stone-200/80 dark:border-stone-800/80 pb-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="border-b border-stone-200/80 dark:border-stone-800/80 pb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-stone-950 dark:text-stone-50">
+          <span className="text-[11px] font-semibold uppercase tracking-wider text-[#C26D53]">
+            Admin Control
+          </span>
+          <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-stone-950 dark:text-stone-50 mt-0.5">
             Admin Overview
           </h1>
-          <p className="text-xs sm:text-sm text-stone-500 dark:text-stone-400 mt-0.5">
-            Quick store snapshot, popular products, and emerging customer needs.
+          <p className="text-xs text-stone-500 dark:text-stone-400 mt-1">
+            Store snapshot, commercial products, and customer need gaps
           </p>
         </div>
         <Link to="/admin/products">
-          <Button variant="primary" size="sm">
-            View All Products
+          <Button variant="primary" size="sm" icon={ArrowRight}>
+            Manage Products
           </Button>
         </Link>
       </div>
 
-      {/* 1. Three Simple KPIs: Products, Customers, Orders */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        {metrics.map((m, idx) => {
-          const Icon = m.icon;
-          return (
-            <div
-              key={idx}
-              className="p-5 rounded-2xl border border-stone-200/80 dark:border-stone-800/80 bg-white dark:bg-stone-900 shadow-2xs space-y-2"
-            >
-              <div className="flex items-center justify-between text-xs text-stone-400">
-                <span>Total {m.label}</span>
-                <Icon className="w-4 h-4 text-[#C26D53]" />
-              </div>
-              <div className="text-3xl font-bold text-stone-950 dark:text-stone-50">
-                {m.value}
-              </div>
-            </div>
-          );
-        })}
-      </div>
-
-      {/* 2. Popular Products */}
-      <section className="p-6 rounded-2xl border border-stone-200/80 dark:border-stone-800/80 bg-white dark:bg-stone-900 shadow-2xs space-y-4">
-        <div className="flex items-center justify-between">
-          <h2 className="text-base font-semibold text-stone-950 dark:text-stone-50">
-            Popular Products
-          </h2>
-          <Link to="/admin/products" className="text-xs text-[#C26D53] hover:underline">
-            Manage products
-          </Link>
+      {/* BENTO GRID UI: Admin Overview */}
+      <div className="space-y-6">
+        {/* Row 1: Products | Customers | Orders (3 Balanced Bento Cards) */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          {metrics.map((m, idx) => {
+            const Icon = m.icon;
+            return (
+              <Link
+                key={idx}
+                to={m.link}
+                className="p-5 rounded-2xl border border-stone-200/80 dark:border-stone-800/80 bg-white dark:bg-stone-900 shadow-2xs hover:shadow-xs transition-all space-y-2 group"
+              >
+                <div className="flex items-center justify-between text-xs text-stone-400">
+                  <span className="font-medium">{m.key}</span>
+                  <div className="w-7 h-7 rounded-lg bg-stone-100 dark:bg-stone-800 flex items-center justify-center text-[#C26D53] group-hover:scale-105 transition-transform">
+                    <Icon className="w-4 h-4" />
+                  </div>
+                </div>
+                <div className="text-3xl font-bold text-stone-950 dark:text-stone-50 tracking-tight">
+                  {m.value}
+                </div>
+                <div className="text-[11px] text-stone-400 flex items-center justify-between pt-1 border-t border-stone-100 dark:border-stone-800">
+                  <span>{m.label}</span>
+                  <span className="text-[#C26D53] font-medium opacity-0 group-hover:opacity-100 transition-opacity">View →</span>
+                </div>
+              </Link>
+            );
+          })}
         </div>
 
-        <div className="space-y-3">
-          {popularProducts.map((p, idx) => (
-            <div
-              key={idx}
-              className="flex items-center justify-between p-3.5 rounded-xl bg-stone-50 dark:bg-stone-800/50 text-xs"
-            >
+        {/* Row 2: Popular Products (Bento Card) */}
+        <section className="p-6 rounded-2xl border border-stone-200/80 dark:border-stone-800/80 bg-white dark:bg-stone-900 shadow-2xs space-y-4">
+          <div className="flex items-center justify-between border-b border-stone-100 dark:border-stone-800 pb-3">
+            <div>
+              <h2 className="text-sm font-semibold text-stone-950 dark:text-stone-50">
+                Popular Products
+              </h2>
+              <p className="text-xs text-stone-400 mt-0.5">Top customer engagement & orders</p>
+            </div>
+            <Link to="/admin/products" className="text-xs text-[#C26D53] hover:underline font-medium">
+              View All Products
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            {popularProducts.map((p, idx) => (
+              <div
+                key={idx}
+                className="p-4 rounded-xl bg-stone-50 dark:bg-stone-800/40 border border-stone-100 dark:border-stone-800 flex flex-col justify-between space-y-2 text-xs"
+              >
+                <div>
+                  <span className="text-[10px] text-stone-400 uppercase font-bold tracking-wider block">
+                    {p.brand}
+                  </span>
+                  <h3 className="font-semibold text-stone-900 dark:text-stone-100 mt-0.5 line-clamp-1">
+                    {p.name}
+                  </h3>
+                  <span className="text-[11px] text-stone-500 block mt-0.5">{p.category}</span>
+                </div>
+                <div className="flex items-center justify-between pt-2 border-t border-stone-200/60 dark:border-stone-700/60">
+                  <span className="font-bold text-stone-900 dark:text-stone-100">₹{p.price}</span>
+                  <span className="font-semibold text-amber-500">{p.rating}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Row 3: Customer Needs (Bento Card) */}
+        <section className="p-6 rounded-2xl border border-stone-200/80 dark:border-stone-800/80 bg-white dark:bg-stone-900 shadow-2xs space-y-4">
+          <div className="flex items-center justify-between border-b border-stone-100 dark:border-stone-800 pb-3">
+            <div className="flex items-center gap-2">
+              <Sparkles className="w-4 h-4 text-[#C26D53]" />
               <div>
-                <p className="font-semibold text-stone-900 dark:text-stone-100">{p.name}</p>
-                <p className="text-[11px] text-stone-400">{p.brand}</p>
+                <h2 className="text-sm font-semibold text-stone-950 dark:text-stone-50">
+                  Customer Needs & Demand Gaps
+                </h2>
+                <p className="text-xs text-stone-400 mt-0.5">Aggregated preferences from customer journeys</p>
               </div>
-              <span className="text-amber-500 font-medium">{p.rating}</span>
             </div>
-          ))}
-        </div>
-      </section>
+            <Link to="/admin/opportunities" className="text-xs text-[#C26D53] hover:underline font-medium">
+              View Opportunities
+            </Link>
+          </div>
 
-      {/* 3. Customer Needs */}
-      <section className="p-6 rounded-2xl border border-stone-200/80 dark:border-stone-800/80 bg-white dark:bg-stone-900 shadow-2xs space-y-4">
-        <div className="flex items-center justify-between">
-          <h2 className="text-base font-semibold text-stone-950 dark:text-stone-50 flex items-center gap-2">
-            <Sparkles className="w-4 h-4 text-[#C26D53]" />
-            Customer Needs
-          </h2>
-          <Link to="/admin/opportunities" className="text-xs text-[#C26D53] hover:underline">
-            View opportunities
-          </Link>
-        </div>
-
-        <div className="space-y-3">
-          {customerNeeds.map((need, idx) => (
-            <div
-              key={idx}
-              className="p-4 rounded-xl border border-stone-100 dark:border-stone-800 bg-stone-50/50 dark:bg-stone-800/30 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs"
-            >
-              <div className="space-y-0.5">
-                <p className="font-medium text-stone-900 dark:text-stone-100">{need.need}</p>
-                <p className="text-[11px] text-stone-400">Action: {need.opportunity}</p>
+          <div className="space-y-3">
+            {customerNeeds.map((need, idx) => (
+              <div
+                key={idx}
+                className="p-4 rounded-xl border border-stone-100 dark:border-stone-800 bg-stone-50/50 dark:bg-stone-800/30 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs"
+              >
+                <div className="space-y-0.5">
+                  <p className="font-semibold text-stone-900 dark:text-stone-100">{need.need}</p>
+                  <p className="text-[11px] text-stone-500 dark:text-stone-400">
+                    <span className="font-medium text-stone-700 dark:text-stone-300">Recommended Action:</span> {need.action}
+                  </p>
+                </div>
+                <span className="inline-block px-2.5 py-1 rounded-full text-[10px] font-semibold bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 shrink-0">
+                  {need.interest}
+                </span>
               </div>
-              <span className="inline-block px-2.5 py-1 rounded-full text-[10px] font-semibold bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 shrink-0">
-                {need.interest}
-              </span>
-            </div>
-          ))}
-        </div>
-      </section>
+            ))}
+          </div>
+        </section>
+      </div>
     </div>
   );
 };

@@ -1,30 +1,26 @@
-import React, { useState, useEffect } from "react";
-import { ShoppingBag, Search, CheckCircle2, Clock, Truck, Package, XCircle } from "lucide-react";
+import React, { useState, useEffect, useCallback } from "react";
+import { Search } from "lucide-react";
 import { orderService } from "../../services/orderService";
 import { useNotification } from "../../context/NotificationContext";
 import { Input } from "../../components/common/Input";
 
 export const AdminOrdersPage = () => {
   const [orders, setOrders] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const { addToast } = useNotification();
 
-  const loadOrders = async () => {
-    setLoading(true);
+  const loadOrders = useCallback(async () => {
     try {
       const data = await orderService.getOrders();
       setOrders(data);
-    } catch (err) {
+    } catch {
       addToast("Failed to load orders.", "error");
-    } finally {
-      setLoading(false);
     }
-  };
+  }, [addToast]);
 
   useEffect(() => {
     loadOrders();
-  }, []);
+  }, [loadOrders]);
 
   const handleStatusChange = async (orderId, newStatus) => {
     try {

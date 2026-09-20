@@ -20,7 +20,7 @@ export const LoginPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const from = location.state?.from?.pathname || null;
+  const from = location.state?.from?.pathname || (typeof location.state?.from === "string" ? location.state.from : null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -63,7 +63,11 @@ export const LoginPage = () => {
     try {
       const data = await login("aria.chen@joyory.com", "Customer@Joyory2026");
       addToast(`Welcome back, ${data.user.name}!`, "success");
-      navigate("/customer/discover", { replace: true });
+      if (from) {
+        navigate(from, { replace: true });
+      } else {
+        navigate("/customer/discover", { replace: true });
+      }
     } catch (err) {
       setErrorMsg(err.message || "Demo customer login failed.");
       addToast(err.message || "Demo customer login failed", "error");

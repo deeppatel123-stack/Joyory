@@ -82,14 +82,13 @@ export const BusinessSidebar = ({ onClose }) => {
         </nav>
       </div>
 
-      {/* Switch to customer */}
+      {/* Logout */}
       <div className="pt-4 border-t border-stone-200/80 dark:border-stone-800/80">
         <Link
-          to="/customer/discover"
+          to="/login"
           className="flex items-center justify-between w-full px-3 py-2 rounded-lg bg-stone-100 dark:bg-stone-900 hover:bg-stone-200/70 dark:hover:bg-stone-800 text-xs font-medium text-stone-700 dark:text-stone-300 transition-colors"
         >
-          <span>Customer Experience</span>
-          <ArrowUpRight className="w-3.5 h-3.5 text-stone-400" />
+          <span>Logout</span>
         </Link>
       </div>
     </aside>

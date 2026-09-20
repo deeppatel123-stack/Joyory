@@ -76,7 +76,14 @@ export default function App() {
                 <Route path="/discover" element={<Navigate to="/customer/discover" replace />} />
                 <Route path="/products" element={<ProductsPage />} />
                 <Route path="/products/:id" element={<ProductDetailPage />} />
-                <Route path="/compare" element={<ComparePage />} />
+                <Route
+                  path="/compare"
+                  element={
+                    <CustomerRoute>
+                      <ComparePage />
+                    </CustomerRoute>
+                  }
+                />
                 <Route path="/about" element={<AboutPage />} />
 
                 {/* Authentication Routes */}

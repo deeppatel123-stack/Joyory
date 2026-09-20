@@ -1,36 +1,45 @@
 import React from "react";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useNavigate } from "react-router-dom";
 import {
   Compass,
-  Sparkles,
-  User,
   GitBranch,
+  BookmarkCheck,
   Heart,
-  Package,
   ShoppingBag,
+  User,
   RotateCcw,
-  RotateCw,
-  Brain,
-  History
+  LogOut
 } from "lucide-react";
 import { useCustomer } from "../../context/CustomerContext";
+import { useAuth } from "../../context/AuthContext";
+import { useNotification } from "../../context/NotificationContext";
 
 export const CustomerSidebar = ({ onClose }) => {
   const { wishlist, orders, resetAllDemoData } = useCustomer();
+  const { logout } = useAuth();
+  const { addToast } = useNotification();
+  const navigate = useNavigate();
 
   const navItems = [
     { label: "Discover", path: "/customer/discover", icon: Compass },
     { label: "My Journey", path: "/customer/journey", icon: GitBranch },
-    { label: "Beauty Memory", path: "/customer/beauty-memory", icon: Brain },
+    { label: "Beauty Memory", path: "/customer/beauty-memory", icon: BookmarkCheck },
     { label: "Wishlist", path: "/customer/wishlist", icon: Heart, count: wishlist?.length || 0 },
     { label: "Orders", path: "/customer/orders", icon: ShoppingBag, count: orders?.length || 0 },
     { label: "Profile", path: "/customer/profile", icon: User }
   ];
 
+  const handleLogout = () => {
+    logout();
+    addToast("Logged out successfully.", "info");
+    if (onClose) onClose();
+    navigate("/login");
+  };
+
   return (
-    <aside className="w-64 h-screen border-r border-stone-200/80 dark:border-stone-800/80 bg-stone-50/60 dark:bg-stone-950/60 flex flex-col justify-between p-4 shrink-0">
+    <aside className="w-64 h-screen border-r border-stone-200/80 dark:border-stone-800/80 bg-stone-50/60 dark:bg-stone-950/60 flex flex-col justify-between p-4 shrink-0 transition-colors">
       <div>
-        {/* Brand & Mode */}
+        {/* Brand */}
         <div className="mb-6 px-2 pt-1 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2">
             <div className="w-7 h-7 rounded-md bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 font-semibold text-xs flex items-center justify-center">
@@ -41,7 +50,7 @@ export const CustomerSidebar = ({ onClose }) => {
                 JOYORY
               </span>
               <span className="text-[10px] text-stone-400 dark:text-stone-500 block">
-                Customer Experience
+                Beauty Commerce
               </span>
             </div>
           </Link>
@@ -73,11 +82,6 @@ export const CustomerSidebar = ({ onClose }) => {
                     {item.count}
                   </span>
                 )}
-                {item.badge && (
-                  <span className="text-[9px] px-1.5 py-0.2 rounded-sm bg-[#C26D53]/15 text-[#C26D53] font-medium uppercase tracking-wider">
-                    {item.badge}
-                  </span>
-                )}
               </NavLink>
             );
           })}
@@ -93,6 +97,14 @@ export const CustomerSidebar = ({ onClose }) => {
         >
           <RotateCcw className="w-3 h-3" />
           <span>Reset Preferences</span>
+        </button>
+
+        <button
+          onClick={handleLogout}
+          className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-xs text-stone-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950/40 transition-colors cursor-pointer"
+        >
+          <LogOut className="w-3.5 h-3.5" />
+          <span>Logout</span>
         </button>
       </div>
     </aside>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Heart, Star, Sparkles, Scale, ShoppingBag, Check, Eye } from "lucide-react";
 import { Badge } from "../common/Badge";
 import { Button } from "../common/Button";
@@ -7,14 +7,34 @@ import { FallbackImage } from "../common/FallbackImage";
 import { QuickViewModal } from "../common/QuickViewModal";
 import { WhyRecommended } from "./WhyRecommended";
 import { useCustomer } from "../../context/CustomerContext";
+import { useAuth } from "../../context/AuthContext";
 
 export const ProductCard = ({ product }) => {
   const { isWishlisted, toggleWishlist, addToBag, addToCompare, isInCompare } = useCustomer();
+  const { isAuthenticated, isCustomer } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
   const [whyOpen, setWhyOpen] = useState(false);
   const [quickViewOpen, setQuickViewOpen] = useState(false);
 
   const inWishlist = isWishlisted(product.id);
   const inCompare = isInCompare(product.id);
+
+  const handleWishlistClick = () => {
+    if (!isAuthenticated) {
+      navigate("/login", { state: { from: location, message: "Please sign in to manage your wishlist." } });
+      return;
+    }
+    toggleWishlist(product);
+  };
+
+  const handleCompareClick = () => {
+    if (!isAuthenticated) {
+      navigate("/login", { state: { from: "/compare", message: "Please sign in to compare products." } });
+      return;
+    }
+    addToCompare(product);
+  };
 
   // Derive top 2 attributes
   const keyAttributes = [
@@ -52,7 +72,7 @@ export const ProductCard = ({ product }) => {
           {/* Action buttons (Wishlist & Quick View) */}
           <div className="absolute top-2.5 right-2.5 flex flex-col gap-1.5 z-10">
             <button
-              onClick={() => toggleWishlist(product)}
+              onClick={handleWishlistClick}
               className={`p-1.5 rounded-full backdrop-blur-xs transition-colors shadow-2xs cursor-pointer ${
                 inWishlist
                   ? "bg-white dark:bg-stone-900 text-[#C26D53]"
@@ -103,7 +123,7 @@ export const ProductCard = ({ product }) => {
 
             {/* Price & MRP */}
             <div className="flex items-baseline gap-2 mt-1.5">
-              <span className="text-base font-semibold text-stone-900 dark:text-stone-100">
+              <span className="text-base font-bold text-stone-900 dark:text-stone-100">
                 ₹{product.price}
               </span>
               {product.originalPrice && product.originalPrice > product.price && (
@@ -126,19 +146,21 @@ export const ProductCard = ({ product }) => {
             </div>
           </div>
 
-          {/* Why recommended link */}
-          <button
-            onClick={() => setWhyOpen(true)}
-            className="text-[11px] text-[#C26D53] hover:underline flex items-center gap-1 pt-0.5 font-medium cursor-pointer text-left"
-          >
-            <Sparkles className="w-3 h-3 text-[#C26D53]" />
-            <span>Why this matches your journey</span>
-          </button>
+          {/* Why recommended link (Only for authenticated customer) */}
+          {isAuthenticated && isCustomer && (
+            <button
+              onClick={() => setWhyOpen(true)}
+              className="text-[11px] text-[#C26D53] hover:underline flex items-center gap-1 pt-0.5 font-medium cursor-pointer text-left"
+            >
+              <Sparkles className="w-3 h-3 text-[#C26D53]" />
+              <span>Why this matches your journey</span>
+            </button>
+          )}
 
           {/* Action Row */}
           <div className="pt-2 border-t border-stone-100 dark:border-stone-800 flex items-center justify-between gap-2">
             <button
-              onClick={() => addToCompare(product)}
+              onClick={handleCompareClick}
               className={`flex-1 flex items-center justify-center gap-1 py-1.5 px-2 rounded-lg text-xs font-medium border transition-colors cursor-pointer ${
                 inCompare
                   ? "bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 border-transparent"

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import { PublicNavbar } from "../../components/layout/PublicNavbar";
 import { Footer } from "../../components/layout/Footer";
 import { ComparisonTable } from "../../components/customer/ComparisonTable";
@@ -7,7 +6,7 @@ import { useCustomer } from "../../context/CustomerContext";
 import { Button } from "../../components/common/Button";
 import { EmptyState } from "../../components/common/EmptyState";
 import { products } from "../../data/products";
-import { Plus, Trash2, ArrowRight } from "lucide-react";
+import { Plus, Trash2 } from "lucide-react";
 
 export const ComparePage = () => {
   const { compareList, addToCompare, clearCompare } = useCustomer();

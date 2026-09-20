@@ -1,20 +1,21 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   LayoutDashboard,
   Package,
   ShoppingBag,
   Users,
-  Star,
-  Radar,
-  TrendingUp,
-  Settings,
-  ArrowLeft,
-  Sparkles
+  Sparkles,
+  LogOut
 } from "lucide-react";
+import { useAuth } from "../../context/AuthContext";
+import { useNotification } from "../../context/NotificationContext";
 
 export const AdminSidebar = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+  const { logout } = useAuth();
+  const { addToast } = useNotification();
 
   const links = [
     { label: "Overview", path: "/admin", icon: LayoutDashboard },
@@ -29,8 +30,14 @@ export const AdminSidebar = () => {
     return location.pathname.startsWith(path);
   };
 
+  const handleLogout = () => {
+    logout();
+    addToast("Logged out from admin portal.", "info");
+    navigate("/login");
+  };
+
   return (
-    <aside className="w-64 border-r border-stone-200/80 dark:border-stone-800/80 bg-white dark:bg-stone-900 flex flex-col justify-between p-4 shrink-0 transition-colors">
+    <aside className="w-64 border-r border-stone-200/80 dark:border-stone-800/80 bg-white dark:bg-stone-900 flex flex-col justify-between p-4 shrink-0 transition-colors h-screen">
       <div className="space-y-6">
         {/* Brand */}
         <div className="px-3 pt-2">
@@ -72,15 +79,15 @@ export const AdminSidebar = () => {
         </nav>
       </div>
 
-      {/* Switch to customer view link */}
+      {/* Admin Logout */}
       <div className="pt-4 border-t border-stone-100 dark:border-stone-800">
-        <Link
-          to="/"
-          className="flex items-center gap-2 px-3 py-2 rounded-lg text-xs text-stone-500 hover:text-stone-900 dark:hover:text-stone-100 hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors"
+        <button
+          onClick={handleLogout}
+          className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-xs text-stone-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950/40 transition-colors cursor-pointer"
         >
-          <ArrowLeft className="w-3.5 h-3.5" />
-          <span>View Public Storefront</span>
-        </Link>
+          <LogOut className="w-3.5 h-3.5" />
+          <span>Logout</span>
+        </button>
       </div>
     </aside>
   );
