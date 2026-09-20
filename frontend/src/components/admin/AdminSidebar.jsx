@@ -20,10 +20,8 @@ export const AdminSidebar = () => {
     { label: "Overview", path: "/admin", icon: LayoutDashboard },
     { label: "Products", path: "/admin/products", icon: Package },
     { label: "Orders", path: "/admin/orders", icon: ShoppingBag },
-    { label: "Customers", path: "/admin/users", icon: Users },
-    { label: "Reviews", path: "/admin/reviews", icon: Star },
-    { label: "Analytics", path: "/admin/analytics", icon: TrendingUp },
-    { label: "Need Gaps", path: "/admin/need-gaps", icon: Radar },
+    { label: "Customers", path: "/admin/customers", icon: Users },
+    { label: "Insights", path: "/admin/insights", icon: TrendingUp },
     { label: "Opportunities", path: "/admin/opportunities", icon: Sparkles },
     { label: "Settings", path: "/admin/settings", icon: Settings }
   ];

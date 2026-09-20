@@ -3,36 +3,34 @@ import { Link } from "react-router-dom";
 import {
   Sparkles,
   ArrowRight,
-  GitBranch,
-  Brain,
-  Compass,
-  Flame,
-  ShieldCheck,
   CheckCircle2,
-  TrendingUp,
-  Heart,
-  Radar,
   Star,
-  Layers,
+  Compass,
+  Brain,
+  RotateCw,
+  TrendingUp,
   ShoppingBag
 } from "lucide-react";
 import { Button } from "../../components/common/Button";
-import { Badge } from "../../components/common/Badge";
 import { PublicNavbar } from "../../components/layout/PublicNavbar";
 import { Footer } from "../../components/layout/Footer";
 import { ProductCard } from "../../components/customer/ProductCard";
 import { productService } from "../../services/productService";
 import { FallbackImage } from "../../components/common/FallbackImage";
+import { useAuth } from "../../context/AuthContext";
+import { useCustomer } from "../../context/CustomerContext";
 
 export const LandingPage = () => {
-  const [allProducts, setAllProducts] = useState([]);
+  const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { isAuthenticated } = useAuth();
+  const { addToCart } = useCustomer();
 
   useEffect(() => {
     async function load() {
       try {
         const data = await productService.getProducts();
-        setAllProducts(data);
+        setProducts(data);
       } catch (err) {
         console.warn("Using local product catalog");
       } finally {
@@ -42,70 +40,43 @@ export const LandingPage = () => {
     load();
   }, []);
 
-  // Filter curated showcases
-  const bestSellers = allProducts.filter(p => p.isBestSeller).slice(0, 8);
-  const newArrivals = allProducts.filter(p => p.isNewArrival).slice(0, 6);
-  const trendingNow = allProducts.filter(p => p.rating >= 4.8).slice(0, 6);
-  const personalizedPicks = allProducts.slice(0, 6);
+  // Curated 4-product selections as strictly specified
+  const featuredProducts = products.filter(p => p.isFeatured).slice(0, 4);
+  const bestSellers = products.filter(p => p.isBestSeller).slice(0, 4);
+  const newArrivals = products.filter(p => p.isNewArrival).slice(0, 4);
 
-  const categoriesShowcase = [
-    {
-      name: "Skincare",
-      desc: "Water gels, barrier creams & non-nano SPF",
-      image: "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=600&auto=format&fit=crop&q=80",
-      query: "Skincare",
-      count: "18+ Formulations"
-    },
-    {
-      name: "Makeup",
-      desc: "Breathable foundations, lip stains & blushes",
-      image: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=600&auto=format&fit=crop&q=80",
-      query: "Makeup",
-      count: "10+ Formulations"
-    },
-    {
-      name: "Hair Care",
-      desc: "Scalp serums, chelating washes & hair masks",
-      image: "https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?w=600&auto=format&fit=crop&q=80",
-      query: "Hair",
-      count: "6+ Formulations"
-    },
-    {
-      name: "Body Care",
-      desc: "AHA exfoliating gels & rich ceramide lotions",
-      image: "https://images.unsplash.com/photo-1556228722-d0b5be7490bf?w=600&auto=format&fit=crop&q=80",
-      query: "Body",
-      count: "5+ Formulations"
-    }
-  ];
+  // Fallbacks if data loading or filtering
+  const displayFeatured = featuredProducts.length === 4 ? featuredProducts : products.slice(0, 4);
+  const displayBestSellers = bestSellers.length === 4 ? bestSellers : products.slice(4, 8);
+  const displayNewArrivals = newArrivals.length === 4 ? newArrivals : products.slice(8, 12);
 
-  const brandNames = [
-    "Minimalist",
-    "Dot & Key",
-    "Aqualogica",
-    "Plum",
-    "Swiss Beauty",
-    "Lakmé",
-    "Maybelline",
-    "Pilgrim",
-    "Joyory Labs"
-  ];
+  const heroFeatured = products[0] || {
+    id: "JOY-SKN-001",
+    name: "HydraGel Ultra-Light Moisturizer",
+    brand: "Joyory Labs",
+    price: 649,
+    originalPrice: 799,
+    rating: 4.8,
+    reviewsCount: 384,
+    image: "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=800&auto=format&fit=crop&q=80",
+    texture: "Water Gel",
+    finish: "Matte",
+    shortDescription: "Ultra-lightweight oil-free water gel with 2% Hyaluronic Acid and Centella."
+  };
 
   return (
-    <div className="min-h-screen bg-stone-50 dark:bg-stone-950 text-stone-900 dark:text-stone-100 transition-colors">
+    <div className="min-h-screen bg-stone-50 dark:bg-stone-950 text-stone-900 dark:text-stone-100 transition-colors flex flex-col">
       <PublicNavbar />
 
-      {/* 1. HERO SECTION */}
-      <section className="relative pt-12 pb-16 sm:pt-20 sm:pb-24 overflow-hidden border-b border-stone-200/80 dark:border-stone-800/80">
+      {/* 2. HERO SECTION */}
+      <section className="relative pt-12 pb-16 sm:pt-20 sm:pb-24 border-b border-stone-200/80 dark:border-stone-800/80 overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             {/* Left Content */}
             <div className="lg:col-span-7 space-y-6 text-left">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-stone-100 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-xs text-stone-600 dark:text-stone-300">
-                <span className="w-2 h-2 rounded-full bg-[#C26D53] animate-ping" />
-                <span className="font-semibold text-stone-900 dark:text-stone-100">Intelligent Beauty Commerce</span>
-                <span className="text-stone-400">•</span>
-                <span>Continuously Adaptive Preferences</span>
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-stone-100 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-xs text-[#C26D53] font-medium">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#C26D53]" />
+                <span>Intelligent Beauty Commerce</span>
               </div>
 
               <h1 className="text-3xl sm:text-5xl lg:text-6xl font-semibold tracking-tight text-stone-950 dark:text-stone-50 leading-[1.12]">
@@ -113,85 +84,99 @@ export const LandingPage = () => {
               </h1>
 
               <p className="text-base sm:text-lg text-stone-600 dark:text-stone-300 max-w-2xl leading-relaxed font-normal">
-                A personalized beauty experience that learns from what you discover, choose and experience. Calibrated formulations tailored to your exact skin tolerances.
+                Discover products that fit your preferences and build a beauty journey that becomes more personal over time.
               </p>
 
-              {/* Hero CTAs */}
+              {/* Buttons */}
               <div className="pt-2 flex flex-col sm:flex-row items-center gap-3">
                 <Link to="/products" className="w-full sm:w-auto">
                   <Button size="lg" variant="primary" icon={ArrowRight} className="w-full sm:w-auto justify-center">
                     Explore Products
                   </Button>
                 </Link>
-                <Link to="/customer/discover" className="w-full sm:w-auto">
+                <Link to={isAuthenticated ? "/customer/journey" : "/login"} className="w-full sm:w-auto">
                   <Button size="lg" variant="secondary" className="w-full sm:w-auto justify-center">
                     Discover Your Beauty Journey
                   </Button>
                 </Link>
               </div>
 
-              {/* Guarantees */}
-              <div className="pt-4 flex flex-wrap items-center gap-6 text-xs text-stone-500">
-                <div className="flex items-center gap-1.5">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                  <span>Verified Formulations</span>
+              {/* 3 small trust points */}
+              <div className="pt-3 flex flex-wrap items-center gap-6 text-xs text-stone-500 dark:text-stone-400">
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-500" />
+                  <span>Personalized discovery</span>
                 </div>
-                <div className="flex items-center gap-1.5">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                  <span>Explainable Match Scoring</span>
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-500" />
+                  <span>Smarter recommendations</span>
                 </div>
-                <div className="flex items-center gap-1.5">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                  <span>Persistent Beauty Passport</span>
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-500" />
+                  <span>Beauty journey memory</span>
                 </div>
               </div>
             </div>
 
-            {/* Right Hero Visual Card */}
+            {/* Right: Clean Featured Product Card */}
             <div className="lg:col-span-5 relative">
-              <div className="relative rounded-3xl p-6 bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 shadow-xl overflow-hidden space-y-6">
-                <div className="relative aspect-4/3 rounded-2xl overflow-hidden bg-stone-100 dark:bg-stone-950">
+              <div className="relative rounded-2xl p-5 bg-white dark:bg-stone-900 border border-stone-200/80 dark:border-stone-800/80 shadow-md space-y-4">
+                <div className="relative aspect-4/3 rounded-xl overflow-hidden bg-stone-100 dark:bg-stone-950">
                   <FallbackImage
-                    src="https://images.unsplash.com/photo-1556228720-195a672e8a03?w=800&auto=format&fit=crop&q=80"
-                    alt="Hero Product"
+                    src={heroFeatured.image}
+                    alt={heroFeatured.name}
                     className="w-full h-full object-cover"
                   />
-                  <div className="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-white/90 dark:bg-stone-900/90 backdrop-blur-xs text-[11px] font-semibold text-[#C26D53] border border-stone-200/60 dark:border-stone-800/60 shadow-xs flex items-center gap-1.5">
-                    <Sparkles className="w-3.5 h-3.5" />
-                    <span>96% Journey Alignment</span>
+                  <div className="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-white/95 dark:bg-stone-900/95 backdrop-blur-xs text-[11px] font-semibold text-stone-900 dark:text-stone-100 border border-stone-200/60 dark:border-stone-800/60 shadow-xs">
+                    Featured Formulation
                   </div>
                 </div>
 
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between">
+                <div className="space-y-2">
+                  <div className="flex items-start justify-between gap-2">
                     <div>
-                      <span className="text-[10px] uppercase tracking-wider font-bold text-[#C26D53]">
-                        Joyory Labs
+                      <span className="text-[10px] uppercase tracking-wider font-semibold text-[#C26D53]">
+                        {heroFeatured.brand}
                       </span>
                       <h3 className="text-base font-semibold text-stone-900 dark:text-stone-100">
-                        HydraGel Ultra-Light Moisturizer
+                        {heroFeatured.name}
                       </h3>
                     </div>
-                    <div className="text-right">
-                      <span className="text-lg font-bold text-stone-900 dark:text-stone-100">₹649</span>
-                      <span className="text-xs text-stone-400 line-through block">₹799</span>
+                    <div className="text-right shrink-0">
+                      <span className="text-lg font-bold text-stone-950 dark:text-stone-50">
+                        ₹{heroFeatured.price}
+                      </span>
+                      {heroFeatured.originalPrice && (
+                        <span className="text-xs text-stone-400 line-through block">
+                          ₹{heroFeatured.originalPrice}
+                        </span>
+                      )}
                     </div>
                   </div>
 
-                  <p className="text-xs text-stone-500 leading-relaxed">
-                    Zero-oil water burst gel with 2% Hyaluronic Acid & Centella. Tailored for oily T-zones under humid conditions.
-                  </p>
-
-                  <div className="p-3 rounded-xl bg-stone-50 dark:bg-stone-950/60 border border-stone-100 dark:border-stone-800 flex items-center justify-between text-xs">
-                    <span className="text-stone-500">Learned Affinity:</span>
-                    <span className="font-semibold text-emerald-600">Lightweight Texture (+4%)</span>
+                  <div className="flex items-center gap-2 text-xs text-stone-500 dark:text-stone-400">
+                    <span className="flex items-center text-amber-500 font-semibold">
+                      ★ {heroFeatured.rating || 4.8}
+                    </span>
+                    <span>•</span>
+                    <span>{heroFeatured.texture || "Lightweight Gel"} • {heroFeatured.finish || "Matte"}</span>
                   </div>
 
-                  <Link to="/products/JOY-SKN-001">
-                    <Button variant="primary" className="w-full justify-center text-xs py-2.5" icon={ArrowRight}>
-                      View Formulation Specs
+                  <div className="pt-2 flex items-center gap-2">
+                    <Link to={`/products/${heroFeatured.id}`} className="flex-1">
+                      <Button variant="primary" className="w-full justify-center text-xs py-2.5" icon={ArrowRight}>
+                        View Product
+                      </Button>
+                    </Link>
+                    <Button
+                      variant="outline"
+                      className="px-3 py-2.5 text-xs"
+                      onClick={() => addToCart(heroFeatured)}
+                      aria-label="Add to bag"
+                    >
+                      <ShoppingBag className="w-4 h-4" />
                     </Button>
-                  </Link>
+                  </div>
                 </div>
               </div>
             </div>
@@ -199,281 +184,226 @@ export const LandingPage = () => {
         </div>
       </section>
 
-      {/* 2. BRANDS CAROUSEL / STRIP */}
-      <section className="py-8 bg-stone-100/60 dark:bg-stone-900/40 border-b border-stone-200/80 dark:border-stone-800/80">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center text-xs font-semibold uppercase tracking-wider text-stone-400 mb-5">
-            Formulations From Respected Beauty Innovators
-          </div>
-          <div className="flex flex-wrap items-center justify-center gap-8 sm:gap-12 opacity-80 dark:opacity-70">
-            {brandNames.map((brand) => (
-              <span
-                key={brand}
-                className="text-sm font-semibold tracking-wider uppercase text-stone-700 dark:text-stone-300 hover:text-[#C26D53] transition-colors cursor-default"
-              >
-                {brand}
-              </span>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 3. SHOP BY CATEGORY */}
-      <section className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+      {/* 3. FEATURED PRODUCTS (4 Products) */}
+      <section className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 w-full">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2">
           <div>
             <span className="text-xs font-semibold uppercase tracking-wider text-[#C26D53]">
-              Curated Collections
+              Curated Selection
             </span>
-            <h2 className="text-2xl sm:text-3xl font-semibold text-stone-950 dark:text-stone-50">
-              Shop By Category
+            <h2 className="text-2xl sm:text-3xl font-semibold text-stone-950 dark:text-stone-50 mt-1">
+              Featured for You
             </h2>
           </div>
-          <Link to="/products" className="text-xs text-[#C26D53] hover:underline font-medium flex items-center gap-1">
-            Browse All Formulations
+          <Link
+            to="/products"
+            className="text-xs text-[#C26D53] hover:underline font-medium flex items-center gap-1"
+          >
+            Browse All Products
             <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {categoriesShowcase.map((cat) => (
-            <Link
-              key={cat.name}
-              to={`/products?category=${cat.query}`}
-              className="group relative rounded-2xl overflow-hidden border border-stone-200/80 dark:border-stone-800/80 bg-white dark:bg-stone-900 hover:border-[#C26D53]/40 transition-all shadow-2xs hover:shadow-sm flex flex-col justify-between"
-            >
-              <div className="aspect-4/3 overflow-hidden bg-stone-100 dark:bg-stone-950">
-                <FallbackImage
-                  src={cat.image}
-                  alt={cat.name}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-              </div>
-              <div className="p-4 space-y-1">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-base font-semibold text-stone-900 dark:text-stone-100 group-hover:text-[#C26D53] transition-colors">
-                    {cat.name}
-                  </h3>
-                  <span className="text-[10px] text-stone-400 font-mono">{cat.count}</span>
-                </div>
-                <p className="text-xs text-stone-500 line-clamp-1">{cat.desc}</p>
-              </div>
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      {/* 4. BEST SELLERS SECTION (8 Products) */}
-      <section className="py-16 bg-stone-100/40 dark:bg-stone-900/20 border-y border-stone-200/80 dark:border-stone-800/80">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2">
-            <div>
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-900/60 text-[11px] text-amber-700 dark:text-amber-300 font-medium mb-1">
-                <Star className="w-3 h-3 fill-current" />
-                <span>Customer Verified Favorites</span>
-              </div>
-              <h2 className="text-2xl sm:text-3xl font-semibold text-stone-950 dark:text-stone-50">
-                Best Sellers
-              </h2>
-            </div>
-            <Link to="/products" className="text-xs text-[#C26D53] hover:underline font-medium flex items-center gap-1">
-              View All
-              <ArrowRight className="w-3.5 h-3.5" />
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {(bestSellers.length > 0 ? bestSellers : allProducts.slice(0, 8)).map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 5. NEW ARRIVALS (6 Products) */}
-      <section className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2">
-          <div>
-            <span className="text-xs font-semibold uppercase tracking-wider text-[#C26D53]">
-              Fresh Drops
-            </span>
-            <h2 className="text-2xl sm:text-3xl font-semibold text-stone-950 dark:text-stone-50">
-              New Arrivals
-            </h2>
-          </div>
-          <Link to="/products" className="text-xs text-[#C26D53] hover:underline font-medium flex items-center gap-1">
-            Explore All New
-            <ArrowRight className="w-3.5 h-3.5" />
-          </Link>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {(newArrivals.length > 0 ? newArrivals : allProducts.slice(8, 14)).map((product) => (
+          {displayFeatured.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
         </div>
       </section>
 
-      {/* 6. FOUR CORE BEAUTY INNOVATION PILLARS */}
-      <section className="py-20 bg-stone-100/60 dark:bg-stone-900/40 border-y border-stone-200/80 dark:border-stone-800/80">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-          <div className="text-center max-w-2xl mx-auto space-y-3">
-            <Badge variant="accent" size="md">
-              Core Platform Architecture
-            </Badge>
+      {/* 4. SIMPLE SOLUTION SECTION (Discover, Remember, Experience, Understand) */}
+      <section className="py-16 bg-stone-100/50 dark:bg-stone-900/30 border-y border-stone-200/80 dark:border-stone-800/80">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+          <div className="text-center max-w-2xl mx-auto space-y-2">
+            <span className="text-xs font-semibold uppercase tracking-wider text-[#C26D53]">
+              How Joyory Works
+            </span>
             <h2 className="text-2xl sm:text-3xl font-semibold text-stone-950 dark:text-stone-50">
-              Beyond Quizzes: An Active Learning Loop
+              Your beauty journey, connected.
             </h2>
             <p className="text-xs sm:text-sm text-stone-500 dark:text-stone-400">
-              Unlike static recommendation quizzes, Joyory tracks the full shopping lifecycle from natural search intent to post-purchase sensory evaluation.
-            </p>
-            <p className="text-[11px] text-stone-400 dark:text-stone-500 italic">
-              * This capability is not publicly listed/documented among Joyory's current visible product features.
+              A continuous, thoughtful cycle designed around what truly works for your skin.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Innovation 1: Beauty Outcome Loop */}
-            <div className="p-6 rounded-2xl border border-stone-200/80 dark:border-stone-800/80 bg-white dark:bg-stone-900 space-y-4 flex flex-col justify-between hover:border-[#C26D53]/40 transition-colors">
-              <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-mono font-bold text-[#C26D53]">01 • Post-Purchase Tracking</span>
-                  <Badge variant="accent" size="sm">Active Loop</Badge>
-                </div>
-                <h3 className="text-base font-semibold text-stone-900 dark:text-stone-100">
-                  Beauty Outcome Loop
-                </h3>
-                <p className="text-xs text-stone-500 dark:text-stone-400 leading-relaxed">
-                  Transforms post-purchase shopping. Tracks the lifecycle from <em>Purchased &rarr; Trying &rarr; Used &rarr; Experience Logged &rarr; Preference Updated</em>. Submitting sensory feedback immediately updates your Beauty Preference Graph with a transparent "What We Learned" feedback loop.
-                </p>
-                <div className="p-3 rounded-lg bg-stone-50 dark:bg-stone-950/50 border border-stone-100 dark:border-stone-800 text-[11px] text-stone-600 dark:text-stone-300">
-                  <span className="font-semibold text-stone-800 dark:text-stone-200">Outcome Impact: </span>
-                  Calibrates tolerance against niacinamide/peptides and reinforces lightweight texture preference scores.
-                </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {/* Card 1: Discover */}
+            <div className="p-6 rounded-2xl border border-stone-200/80 dark:border-stone-800/80 bg-white dark:bg-stone-900 shadow-2xs space-y-3">
+              <div className="w-10 h-10 rounded-xl bg-stone-100 dark:bg-stone-800 flex items-center justify-center text-[#C26D53]">
+                <Compass className="w-5 h-5" />
               </div>
-              <Link to="/customer/beauty-outcome" className="pt-2">
-                <Button variant="secondary" size="sm" className="w-full" icon={ArrowRight}>
-                  View Beauty Outcome Loop
-                </Button>
-              </Link>
+              <h3 className="text-base font-semibold text-stone-900 dark:text-stone-100">
+                Discover
+              </h3>
+              <p className="text-xs text-stone-500 dark:text-stone-400 leading-relaxed">
+                Find products that match your personal preferences, textures, and comfort levels.
+              </p>
             </div>
 
-            {/* Innovation 2: Beauty Memory / Personal Beauty Passport */}
-            <div className="p-6 rounded-2xl border border-stone-200/80 dark:border-stone-800/80 bg-white dark:bg-stone-900 space-y-4 flex flex-col justify-between hover:border-[#C26D53]/40 transition-colors">
-              <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-mono font-bold text-[#C26D53]">02 • Persistent Identity</span>
-                  <Badge variant="neutral" size="sm">Passport ID</Badge>
-                </div>
-                <h3 className="text-base font-semibold text-stone-900 dark:text-stone-100">
-                  Beauty Memory (Personal Beauty Passport)
-                </h3>
-                <p className="text-xs text-stone-500 dark:text-stone-400 leading-relaxed">
-                  A permanent, customer-owned beauty memory profile storing proven ingredient synergies, texture tolerances, fragrance sensitivities, and 3-month seasonal shift trends so you never have to re-explain your skin again.
-                </p>
-                <div className="p-3 rounded-lg bg-stone-50 dark:bg-stone-950/50 border border-stone-100 dark:border-stone-800 text-[11px] text-stone-600 dark:text-stone-300">
-                  <span className="font-semibold text-stone-800 dark:text-stone-200">Continuous Memory: </span>
-                  Chronological timeline captures seasonal shifts (Monsoon barrier recovery, Gel hydration adaptations).
-                </div>
+            {/* Card 2: Remember */}
+            <div className="p-6 rounded-2xl border border-stone-200/80 dark:border-stone-800/80 bg-white dark:bg-stone-900 shadow-2xs space-y-3">
+              <div className="w-10 h-10 rounded-xl bg-stone-100 dark:bg-stone-800 flex items-center justify-center text-[#C26D53]">
+                <Brain className="w-5 h-5" />
               </div>
-              <Link to="/customer/beauty-memory" className="pt-2">
-                <Button variant="secondary" size="sm" className="w-full" icon={ArrowRight}>
-                  Open Beauty Passport
-                </Button>
-              </Link>
+              <h3 className="text-base font-semibold text-stone-900 dark:text-stone-100">
+                Remember
+              </h3>
+              <p className="text-xs text-stone-500 dark:text-stone-400 leading-relaxed">
+                Your Beauty Memory learns what works for you and carries your preferences forward.
+              </p>
             </div>
 
-            {/* Innovation 3: Beauty Decision Replay */}
-            <div className="p-6 rounded-2xl border border-stone-200/80 dark:border-stone-800/80 bg-white dark:bg-stone-900 space-y-4 flex flex-col justify-between hover:border-[#C26D53]/40 transition-colors">
-              <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-mono font-bold text-[#C26D53]">03 • Journey Transparency</span>
-                  <Badge variant="neutral" size="sm">Explainable AI</Badge>
-                </div>
-                <h3 className="text-base font-semibold text-stone-900 dark:text-stone-100">
-                  Beauty Decision Replay
-                </h3>
-                <p className="text-xs text-stone-500 dark:text-stone-400 leading-relaxed">
-                  Reconstructs the entire trajectory behind every past purchase: <em>Search Query &rarr; Product Views &rarr; Side-by-Side Comparison &rarr; Key Decision Factors &rarr; Post-Purchase Validation</em>. Understand exactly why you made each choice and how it turned out.
-                </p>
-                <div className="p-3 rounded-lg bg-stone-50 dark:bg-stone-950/50 border border-stone-100 dark:border-stone-800 text-[11px] text-stone-600 dark:text-stone-300">
-                  <span className="font-semibold text-stone-800 dark:text-stone-200">Explainable Drivers: </span>
-                  Reveals trade-offs evaluated (e.g. Ceramide repair vs. oily finish, SPF 50 non-greasy finish).
-                </div>
+            {/* Card 3: Experience */}
+            <div className="p-6 rounded-2xl border border-stone-200/80 dark:border-stone-800/80 bg-white dark:bg-stone-900 shadow-2xs space-y-3">
+              <div className="w-10 h-10 rounded-xl bg-stone-100 dark:bg-stone-800 flex items-center justify-center text-[#C26D53]">
+                <RotateCw className="w-5 h-5" />
               </div>
-              <Link to="/customer/decision-replay" className="pt-2">
-                <Button variant="secondary" size="sm" className="w-full" icon={ArrowRight}>
-                  Explore Decision Replay
-                </Button>
-              </Link>
+              <h3 className="text-base font-semibold text-stone-900 dark:text-stone-100">
+                Experience
+              </h3>
+              <p className="text-xs text-stone-500 dark:text-stone-400 leading-relaxed">
+                Your real product experience updates your profile to improve future recommendations.
+              </p>
             </div>
 
-            {/* Innovation 4: Customer Need Gap Radar */}
-            <div className="p-6 rounded-2xl border border-stone-200/80 dark:border-stone-800/80 bg-white dark:bg-stone-900 space-y-4 flex flex-col justify-between hover:border-[#C26D53]/40 transition-colors">
-              <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-mono font-bold text-[#C26D53]">04 • Business Intelligence</span>
-                  <Badge variant="accent" size="sm">Radar Engine</Badge>
-                </div>
-                <h3 className="text-base font-semibold text-stone-900 dark:text-stone-100">
-                  Customer Need Gap Radar
-                </h3>
-                <p className="text-xs text-stone-500 dark:text-stone-400 leading-relaxed">
-                  Empowers Joyory brand managers by systematically identifying unmet customer beauty demands where search volume and exit rates are high, but catalog SKU coverage or pricing options are inadequate.
-                </p>
-                <div className="p-3 rounded-lg bg-stone-50 dark:bg-stone-950/50 border border-stone-100 dark:border-stone-800 text-[11px] text-stone-600 dark:text-stone-300">
-                  <span className="font-semibold text-stone-800 dark:text-stone-200">Catalog Opportunity: </span>
-                  Identifies gaps such as Mineral matte physical sunscreens &lt; ₹500 with a 94/100 Gap Severity Score.
-                </div>
+            {/* Card 4: Understand */}
+            <div className="p-6 rounded-2xl border border-stone-200/80 dark:border-stone-800/80 bg-white dark:bg-stone-900 shadow-2xs space-y-3">
+              <div className="w-10 h-10 rounded-xl bg-stone-100 dark:bg-stone-800 flex items-center justify-center text-[#C26D53]">
+                <TrendingUp className="w-5 h-5" />
               </div>
-              <Link to="/business/need-gaps" className="pt-2">
-                <Button variant="secondary" size="sm" className="w-full" icon={ArrowRight}>
-                  Open Need Gap Radar
-                </Button>
-              </Link>
+              <h3 className="text-base font-semibold text-stone-900 dark:text-stone-100">
+                Understand
+              </h3>
+              <p className="text-xs text-stone-500 dark:text-stone-400 leading-relaxed">
+                Joyory sees aggregated demand and emerging needs to bring better products to life.
+              </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 7. TRENDING NOW & PERSONALIZED PICKS (6 Products) */}
-      <section className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+      {/* 5. BEST SELLERS SECTION (4 Products) */}
+      <section className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 w-full">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2">
           <div>
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/60 text-[11px] text-[#C26D53] font-medium mb-1">
-              <Flame className="w-3 h-3 text-[#C26D53]" />
-              <span>High Community Velocity</span>
-            </div>
-            <h2 className="text-2xl sm:text-3xl font-semibold text-stone-950 dark:text-stone-50">
-              Trending Formulations
+            <span className="text-xs font-semibold uppercase tracking-wider text-[#C26D53]">
+              Customer Favorites
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-semibold text-stone-950 dark:text-stone-50 mt-1">
+              Best Sellers
             </h2>
           </div>
-          <Link to="/products" className="text-xs text-[#C26D53] hover:underline font-medium flex items-center gap-1">
+          <Link
+            to="/products"
+            className="text-xs text-[#C26D53] hover:underline font-medium flex items-center gap-1"
+          >
             View All
             <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {(trendingNow.length > 0 ? trendingNow : allProducts.slice(14, 20)).map((product) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {displayBestSellers.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
         </div>
       </section>
 
-      {/* 8. FOOTER CTA */}
+      {/* 6. BEAUTY JOURNEY SECTION (Simple Visual Journey) */}
+      <section className="py-16 bg-stone-100/40 dark:bg-stone-900/20 border-y border-stone-200/80 dark:border-stone-800/80">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+          <div className="text-center max-w-xl mx-auto space-y-2">
+            <span className="text-xs font-semibold uppercase tracking-wider text-[#C26D53]">
+              Simple & Transparent
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-semibold text-stone-950 dark:text-stone-50">
+              A beauty journey that evolves with you
+            </h2>
+            <p className="text-xs sm:text-sm text-stone-500 dark:text-stone-400">
+              Every step you take makes your next beauty choice more effortless.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+            <div className="p-6 rounded-2xl bg-white dark:bg-stone-900 border border-stone-200/80 dark:border-stone-800/80 shadow-2xs space-y-3 text-center">
+              <div className="w-8 h-8 rounded-full bg-stone-100 dark:bg-stone-800 text-stone-900 dark:text-stone-100 font-semibold text-sm flex items-center justify-center mx-auto">
+                1
+              </div>
+              <h3 className="text-sm font-semibold text-stone-900 dark:text-stone-100">
+                Find products that fit you
+              </h3>
+              <p className="text-xs text-stone-500 dark:text-stone-400">
+                Search and filter effortlessly across curated, high-efficacy formulations.
+              </p>
+            </div>
+
+            <div className="p-6 rounded-2xl bg-white dark:bg-stone-900 border border-stone-200/80 dark:border-stone-800/80 shadow-2xs space-y-3 text-center">
+              <div className="w-8 h-8 rounded-full bg-stone-100 dark:bg-stone-800 text-stone-900 dark:text-stone-100 font-semibold text-sm flex items-center justify-center mx-auto">
+                2
+              </div>
+              <h3 className="text-sm font-semibold text-stone-900 dark:text-stone-100">
+                Remember what works
+              </h3>
+              <p className="text-xs text-stone-500 dark:text-stone-400">
+                Log quick feedback on textures and absorption to build your Beauty Memory.
+              </p>
+            </div>
+
+            <div className="p-6 rounded-2xl bg-white dark:bg-stone-900 border border-stone-200/80 dark:border-stone-800/80 shadow-2xs space-y-3 text-center">
+              <div className="w-8 h-8 rounded-full bg-stone-100 dark:bg-stone-800 text-stone-900 dark:text-stone-100 font-semibold text-sm flex items-center justify-center mx-auto">
+                3
+              </div>
+              <h3 className="text-sm font-semibold text-stone-900 dark:text-stone-100">
+                Understand why you chose it
+              </h3>
+              <p className="text-xs text-stone-500 dark:text-stone-400">
+                Replay your past choices and see the factors that led to great results.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 7. NEW ARRIVALS (4 Products) */}
+      <section className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 w-full">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2">
+          <div>
+            <span className="text-xs font-semibold uppercase tracking-wider text-[#C26D53]">
+              Fresh Drops
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-semibold text-stone-950 dark:text-stone-50 mt-1">
+              New Arrivals
+            </h2>
+          </div>
+          <Link
+            to="/products"
+            className="text-xs text-[#C26D53] hover:underline font-medium flex items-center gap-1"
+          >
+            Explore Catalog
+            <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {displayNewArrivals.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
+        </div>
+      </section>
+
+      {/* 8. SHORT CTA */}
       <section className="py-16 bg-stone-900 text-stone-100 text-center">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
-          <h2 className="text-2xl sm:text-4xl font-semibold tracking-tight">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-5">
+          <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight">
             Start your smarter beauty journey today.
           </h2>
-          <p className="text-sm text-stone-400 max-w-xl mx-auto leading-relaxed">
-            Create your personalized beauty profile in under 60 seconds and experience recommendations that truly understand your skin.
+          <p className="text-xs sm:text-sm text-stone-400 max-w-lg mx-auto leading-relaxed">
+            Discover products that fit your preferences and build a beauty journey that becomes more personal over time.
           </p>
           <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
             <Link to="/signup">
               <Button size="lg" variant="primary" icon={ArrowRight}>
-                Create Free Beauty Passport
+                Join Joyory Free
               </Button>
             </Link>
             <Link to="/products">
@@ -485,7 +415,7 @@ export const LandingPage = () => {
         </div>
       </section>
 
-      {/* Professional Commercial Footer */}
+      {/* 9. FOOTER */}
       <Footer />
     </div>
   );

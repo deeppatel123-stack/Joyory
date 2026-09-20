@@ -24,8 +24,10 @@ export const productService = {
       if (filters.category && filters.category !== "All" && filters.category !== "all") params.append("category", filters.category);
       if (filters.brand && filters.brand !== "All") params.append("brand", filters.brand);
       if (filters.skinType && filters.skinType !== "All") params.append("skinType", filters.skinType);
+      if (filters.concern && filters.concern !== "All") params.append("concern", filters.concern);
       if (filters.texture && filters.texture !== "All") params.append("texture", filters.texture);
       if (filters.finish && filters.finish !== "All") params.append("finish", filters.finish);
+      if (filters.rating && filters.rating !== "All") params.append("rating", filters.rating);
       if (filters.maxPrice) params.append("maxPrice", filters.maxPrice);
       if (filters.sort) params.append("sort", filters.sort);
       if (filters.isFeatured) params.append("isFeatured", "true");
@@ -44,20 +46,46 @@ export const productService = {
     // Resilient local fallback
     let result = localProducts.map(normalizeProduct);
 
+    // Helper for diacritic/case insensitive normalization
+    const normalizeStr = (str) =>
+      (str || "").toString().normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+
     if (filters.category && filters.category !== "All" && filters.category !== "all") {
-      result = result.filter(p => p.category.toLowerCase() === filters.category.toLowerCase());
+      const catNorm = normalizeStr(filters.category);
+      result = result.filter(p =>
+        normalizeStr(p.category) === catNorm ||
+        normalizeStr(p.subcategory) === catNorm
+      );
     }
-    if (filters.brand && filters.brand !== "All") {
-      result = result.filter(p => p.brand.toLowerCase() === filters.brand.toLowerCase());
+    if (filters.brand && filters.brand !== "All" && filters.brand !== "all") {
+      const brandNorm = normalizeStr(filters.brand);
+      result = result.filter(p => normalizeStr(p.brand) === brandNorm);
     }
     if (filters.maxPrice) {
       result = result.filter(p => p.price <= filters.maxPrice);
     }
-    if (filters.skinType && filters.skinType !== "All") {
-      result = result.filter(p => p.skinType.some(st => st.toLowerCase().includes(filters.skinType.toLowerCase())));
+    if (filters.rating && filters.rating !== "All") {
+      result = result.filter(p => p.rating >= Number(filters.rating));
     }
-    if (filters.texture && filters.texture !== "All") {
-      result = result.filter(p => p.texture.toLowerCase().includes(filters.texture.toLowerCase()));
+    if (filters.skinType && filters.skinType !== "All" && filters.skinType !== "all") {
+      const stNorm = normalizeStr(filters.skinType);
+      result = result.filter(p =>
+        (p.skinTypes || p.skinType || []).some(st => normalizeStr(st).includes(stNorm))
+      );
+    }
+    if (filters.concern && filters.concern !== "All" && filters.concern !== "all") {
+      const cnNorm = normalizeStr(filters.concern);
+      result = result.filter(p =>
+        (p.concerns || []).some(c => normalizeStr(c).includes(cnNorm))
+      );
+    }
+    if (filters.texture && filters.texture !== "All" && filters.texture !== "all") {
+      const texNorm = normalizeStr(filters.texture);
+      result = result.filter(p => normalizeStr(p.texture).includes(texNorm));
+    }
+    if (filters.finish && filters.finish !== "All" && filters.finish !== "all") {
+      const finNorm = normalizeStr(filters.finish);
+      result = result.filter(p => normalizeStr(p.finish).includes(finNorm));
     }
     if (filters.isFeatured) {
       result = result.filter(p => p.isFeatured);
@@ -69,13 +97,19 @@ export const productService = {
       result = result.filter(p => p.isNewArrival);
     }
     if (filters.searchQuery) {
-      const q = filters.searchQuery.toLowerCase();
-      result = result.filter(p =>
-        p.name.toLowerCase().includes(q) ||
-        p.brand.toLowerCase().includes(q) ||
-        p.description.toLowerCase().includes(q) ||
-        p.tags.some(t => t.toLowerCase().includes(q))
-      );
+      const q = normalizeStr(filters.searchQuery);
+      result = result.filter(p => {
+        const nameMatch = normalizeStr(p.name).includes(q);
+        const brandMatch = normalizeStr(p.brand).includes(q);
+        const catMatch = normalizeStr(p.category).includes(q) || normalizeStr(p.subcategory).includes(q);
+        const descMatch = normalizeStr(p.description).includes(q) || normalizeStr(p.shortDescription).includes(q);
+        const tagMatch = (p.tags || []).some(t => normalizeStr(t).includes(q));
+        const ingMatch = (p.ingredients || p.keyIngredients || []).some(i => normalizeStr(i).includes(q));
+        const conMatch = (p.concerns || []).some(c => normalizeStr(c).includes(q));
+        const texMatch = normalizeStr(p.texture).includes(q);
+        const stMatch = (p.skinTypes || p.skinType || []).some(st => normalizeStr(st).includes(q));
+        return nameMatch || brandMatch || catMatch || descMatch || tagMatch || ingMatch || conMatch || texMatch || stMatch;
+      });
     }
 
     return result;

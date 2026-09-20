@@ -7,8 +7,7 @@ import {
   GitBranch,
   Heart,
   Package,
-  MessageSquare,
-  ArrowUpRight,
+  ShoppingBag,
   RotateCcw,
   RotateCw,
   Brain,
@@ -21,13 +20,13 @@ export const CustomerSidebar = ({ onClose }) => {
 
   const navItems = [
     { label: "Discover", path: "/customer/discover", icon: Compass },
-    { label: "Recommendations", path: "/customer/recommendations", icon: Sparkles },
+    { label: "Products", path: "/products", icon: Package },
     { label: "My Journey", path: "/customer/journey", icon: GitBranch },
     { label: "Beauty Memory", path: "/customer/beauty-memory", icon: Brain },
     { label: "Outcome Loop", path: "/customer/beauty-outcome", icon: RotateCw },
     { label: "Decision Replay", path: "/customer/decision-replay", icon: History },
     { label: "Wishlist", path: "/customer/wishlist", icon: Heart, count: wishlist?.length || 0 },
-    { label: "Orders", path: "/customer/orders", icon: Package, count: orders?.length || 0 },
+    { label: "Orders", path: "/customer/orders", icon: ShoppingBag, count: orders?.length || 0 },
     { label: "Profile", path: "/customer/profile", icon: User }
   ];
 
@@ -88,23 +87,15 @@ export const CustomerSidebar = ({ onClose }) => {
         </nav>
       </div>
 
-      {/* Bottom Switcher & Reset */}
-      <div className="pt-4 border-t border-stone-200/80 dark:border-stone-800/80 space-y-2">
-        <Link
-          to="/business/overview"
-          className="flex items-center justify-between w-full px-3 py-2 rounded-lg bg-stone-100 dark:bg-stone-900 hover:bg-stone-200/70 dark:hover:bg-stone-800 text-xs font-medium text-stone-700 dark:text-stone-300 transition-colors"
-        >
-          <span>Joyory Business</span>
-          <ArrowUpRight className="w-3.5 h-3.5 text-stone-400" />
-        </Link>
-
+      {/* Bottom Recalibrate preferences */}
+      <div className="pt-4 border-t border-stone-200/80 dark:border-stone-800/80">
         <button
           onClick={resetAllDemoData}
-          className="w-full flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] text-stone-500 dark:text-stone-400 hover:text-stone-800 dark:hover:text-stone-200 hover:bg-stone-100 dark:hover:bg-stone-900 transition-colors cursor-pointer"
+          className="w-full flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg text-[11px] text-stone-500 dark:text-stone-400 hover:text-stone-800 dark:hover:text-stone-200 hover:bg-stone-100 dark:hover:bg-stone-900 transition-colors cursor-pointer border border-dashed border-stone-200 dark:border-stone-800"
           title="Recalibrate learned preferences and reset graph weights"
         >
           <RotateCcw className="w-3 h-3" />
-          <span>Recalibrate Preferences</span>
+          <span>Reset Preferences</span>
         </button>
       </div>
     </aside>

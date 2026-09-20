@@ -78,6 +78,14 @@ export const LoginPage = () => {
             </p>
           </div>
 
+          {/* Redirect / Auth info notice */}
+          {location.state?.message && !errorMsg && (
+            <div className="p-3 rounded-lg bg-stone-100 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-xs text-stone-700 dark:text-stone-300 flex items-center gap-2">
+              <Lock className="w-3.5 h-3.5 text-[#C26D53] shrink-0" />
+              <span>{location.state.message}</span>
+            </div>
+          )}
+
           {/* Error notice */}
           {errorMsg && (
             <div className="p-3 rounded-lg bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900/60 text-xs text-red-600 dark:text-red-300">

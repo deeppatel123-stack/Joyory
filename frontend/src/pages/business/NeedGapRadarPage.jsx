@@ -1,280 +1,175 @@
-import React, { useState, useEffect } from "react";
-import { outcomeService } from "../../services/outcomeService";
-import { StatCard } from "../../components/common/StatCard";
-import { Badge } from "../../components/common/Badge";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { Radar, ArrowRight, TrendingUp, Sparkles, Package, Search } from "lucide-react";
 import { Button } from "../../components/common/Button";
 import { Modal } from "../../components/common/Modal";
-import {
-  Radar,
-  ArrowUpRight,
-  TrendingUp,
-  AlertTriangle,
-  Flame,
-  Search,
-  Users,
-  Package,
-  CheckCircle2,
-  X,
-  Info
-} from "lucide-react";
 
 export const NeedGapRadarPage = () => {
-  const [kpis, setKpis] = useState([]);
-  const [gaps, setGaps] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [selectedGap, setSelectedGap] = useState(null);
-  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedOpportunity, setSelectedOpportunity] = useState(null);
 
-  useEffect(() => {
-    async function load() {
-      setLoading(true);
-      try {
-        const kpiData = await outcomeService.getNeedGapRadarKPIs();
-        const gapsData = await outcomeService.getNeedGaps();
-        setKpis(kpiData);
-        setGaps(gapsData);
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
+  const opportunities = [
+    {
+      id: "opp-1",
+      need: "Lightweight moisturizer under ₹700",
+      category: "Skincare",
+      demand: "High",
+      matchingProducts: 6,
+      interest: "Growing (+42% YoY)",
+      searchVolume: "14,200 / mo",
+      customerInsight: "Shoppers consistently search for non-greasy barrier repair moisturizers for warm and humid seasons.",
+      recommendedAction: "Expand Joyory Labs catalog with a 5-Ceramide Water Burst gel priced at ₹649."
+    },
+    {
+      id: "opp-2",
+      need: "Clarifying scalp treatment for metro hard water",
+      category: "Hair",
+      demand: "High",
+      matchingProducts: 2,
+      interest: "Growing (+36% YoY)",
+      searchVolume: "11,800 / mo",
+      customerInsight: "Shoppers in major metro cities frequently report mineral buildup and sticky roots within 24 hours.",
+      recommendedAction: "Source an Apple Cider Vinegar + EDTA clarifying scalp detox serum target priced at ₹499."
+    },
+    {
+      id: "opp-3",
+      need: "Fragrance-free concealer for acne-prone skin",
+      category: "Makeup",
+      demand: "Medium",
+      matchingProducts: 4,
+      interest: "Growing (+28% YoY)",
+      searchVolume: "8,900 / mo",
+      customerInsight: "Customers with active breakouts need high coverage that doesn't trigger comedones or irritation.",
+      recommendedAction: "Introduce non-comedogenic liquid concealers formulated with tea tree or salicylic acid."
+    },
+    {
+      id: "opp-4",
+      need: "Matte zinc sunscreen with zero white cast",
+      category: "Skincare",
+      demand: "High",
+      matchingProducts: 3,
+      interest: "Growing (+31% YoY)",
+      searchVolume: "9,400 / mo",
+      customerInsight: "Shoppers with sensitive or deeper skin tones desire 100% mineral protection that leaves zero white residue.",
+      recommendedAction: "Develop tinted fluid mineral SPF 50 with ultra-micronized zinc."
     }
-    load();
-  }, []);
-
-  const handleInspect = (gap) => {
-    setSelectedGap(gap);
-    setModalOpen(true);
-  };
+  ];
 
   return (
-    <div className="space-y-8 pb-12">
-      {/* 8. HEADER */}
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-stone-200/80 dark:border-stone-800/80 pb-6">
-        <div>
-          <div className="flex flex-wrap items-center gap-2 mb-1.5">
-            <span className="text-xs font-semibold uppercase tracking-wider text-[#C26D53]">
-              Merchandising Demand Intelligence
-            </span>
-            <Badge variant="accent" size="sm" className="font-semibold">
-              ⭐ Need Gap Radar
-            </Badge>
-            <span className="text-[11px] text-stone-400 italic">
-              * This capability is not publicly listed/documented among Joyory's current visible product features.
-            </span>
-          </div>
-          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-stone-950 dark:text-stone-50">
-            Customer Need Gap Radar
-          </h1>
-          <p className="text-xs sm:text-sm text-stone-500 dark:text-stone-400 mt-1 max-w-2xl leading-relaxed">
-            Discover customer needs that are growing faster than catalog coverage. Cross-references natural queries, comparisons, and friction feedback against inventory availability.
-          </p>
+    <div className="space-y-8 max-w-5xl mx-auto py-4">
+      {/* Header */}
+      <div className="border-b border-stone-200/80 dark:border-stone-800/80 pb-5">
+        <div className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-[#C26D53] mb-1">
+          <Radar className="w-3.5 h-3.5" />
+          <span>Need Gap Radar</span>
         </div>
+        <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-stone-950 dark:text-stone-50">
+          Customer Demand Opportunities
+        </h1>
+        <p className="text-xs sm:text-sm text-stone-500 dark:text-stone-400 mt-1">
+          Detect unmet customer needs and high-intent searches to guide catalog expansion.
+        </p>
       </div>
 
-      {/* 8. KPI CARDS (4 Cards) */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        {kpis.map((kpi) => (
-          <StatCard
-            key={kpi.id}
-            label={kpi.label}
-            value={kpi.value}
-            change={kpi.change}
-            trend={kpi.trend}
-            subtitle={kpi.subtitle}
-          />
+      {/* Opportunity Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        {opportunities.map((opp) => (
+          <div
+            key={opp.id}
+            className="p-6 rounded-2xl border border-stone-200/80 dark:border-stone-800/80 bg-white dark:bg-stone-900 shadow-2xs space-y-4 flex flex-col justify-between"
+          >
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] uppercase font-bold text-stone-400">
+                  {opp.category}
+                </span>
+                <span className={`px-2 py-0.5 rounded text-[10px] font-semibold ${
+                  opp.demand === "High"
+                    ? "bg-rose-100 dark:bg-rose-950 text-rose-700 dark:text-rose-300"
+                    : "bg-amber-100 dark:bg-amber-950 text-amber-700 dark:text-amber-300"
+                }`}>
+                  Demand: {opp.demand}
+                </span>
+              </div>
+
+              <div>
+                <span className="text-[11px] text-stone-400 block">Potential Customer Need</span>
+                <h3 className="text-base font-semibold text-stone-900 dark:text-stone-100 mt-0.5">
+                  "{opp.need}"
+                </h3>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3 pt-2 text-xs border-t border-stone-100 dark:border-stone-800">
+                <div>
+                  <span className="text-stone-400 block text-[11px]">Matching Products:</span>
+                  <strong className="text-stone-800 dark:text-stone-200 font-semibold">{opp.matchingProducts}</strong>
+                </div>
+                <div>
+                  <span className="text-stone-400 block text-[11px]">Interest:</span>
+                  <strong className="text-emerald-600 font-semibold">{opp.interest}</strong>
+                </div>
+              </div>
+            </div>
+
+            <div className="pt-2">
+              <Button
+                variant="outline"
+                size="sm"
+                className="w-full justify-center"
+                onClick={() => setSelectedOpportunity(opp)}
+                icon={ArrowRight}
+              >
+                View Opportunity
+              </Button>
+            </div>
+          </div>
         ))}
       </div>
 
-      {/* 9. NEED GAP TABLE */}
-      <div className="rounded-xl border border-stone-200/80 dark:border-stone-800/80 bg-white dark:bg-stone-900 shadow-2xs overflow-hidden space-y-3">
-        <div className="p-4 border-b border-stone-100 dark:border-stone-800 flex items-center justify-between">
-          <div>
-            <h2 className="text-sm font-semibold text-stone-900 dark:text-stone-100">
-              Active Catalog Demand-Coverage Disparities
-            </h2>
-            <p className="text-xs text-stone-500">
-              Prioritized by search intent volume and catalogue deficit ratio
-            </p>
-          </div>
-          <span className="text-xs text-stone-400 font-mono">
-            {gaps.length} Need Gaps Identified
-          </span>
-        </div>
-
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs border-collapse">
-            <thead>
-              <tr className="border-b border-stone-100 dark:border-stone-800 text-stone-400 bg-stone-50/50 dark:bg-stone-950/30">
-                <th className="p-3.5 font-medium">Customer Need</th>
-                <th className="p-3.5 font-medium">Inquiry Demand</th>
-                <th className="p-3.5 font-medium">Catalog Coverage</th>
-                <th className="p-3.5 font-medium">Gap Severity</th>
-                <th className="p-3.5 font-medium">Search Trend</th>
-                <th className="p-3.5 font-medium text-right">Action</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-stone-100 dark:divide-stone-800 text-stone-800 dark:text-stone-200">
-              {gaps.map((gap) => (
-                <tr
-                  key={gap.id}
-                  className="hover:bg-stone-50/70 dark:hover:bg-stone-800/30 transition-colors"
-                >
-                  <td className="p-3.5">
-                    <span className="font-semibold text-stone-900 dark:text-stone-100 block">
-                      {gap.customerNeed}
-                    </span>
-                    <span className="text-[10px] text-stone-400 uppercase tracking-wider block mt-0.5">
-                      {gap.category}
-                    </span>
-                  </td>
-                  <td className="p-3.5 font-mono font-bold text-stone-900 dark:text-stone-100">
-                    {gap.demand.toLocaleString()} inquiries
-                  </td>
-                  <td className="p-3.5 font-mono">
-                    <span className={`px-2 py-0.5 rounded text-[11px] font-semibold ${
-                      gap.catalogCoverage <= 4
-                        ? "bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 border border-rose-200/50 dark:border-rose-900/50"
-                        : "bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-400 border border-amber-200/50 dark:border-amber-900/50"
-                    }`}>
-                      {gap.catalogCoverage} matching SKUs
-                    </span>
-                  </td>
-                  <td className="p-3.5">
-                    <Badge variant={gap.gapLevel === "High" ? "danger" : "warning"} size="sm">
-                      {gap.gapLevel} Gap
-                    </Badge>
-                  </td>
-                  <td className="p-3.5">
-                    <span className="text-emerald-600 dark:text-emerald-400 font-semibold inline-flex items-center gap-0.5">
-                      {gap.trend === "up" ? "↑ Rising" : "→ Stable"}
-                    </span>
-                  </td>
-                  <td className="p-3.5 text-right">
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      onClick={() => handleInspect(gap)}
-                    >
-                      Inspect Gap
-                    </Button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      {/* 10. NEED GAP DETAIL MODAL */}
-      {selectedGap && (
+      {/* Opportunity Modal Detail */}
+      {selectedOpportunity && (
         <Modal
-          isOpen={modalOpen}
-          onClose={() => setModalOpen(false)}
-          title={`Need Gap: ${selectedGap.customerNeed}`}
-          subtitle="Detailed Demand vs Coverage Analysis"
-          maxWidth="max-w-2xl"
+          isOpen={Boolean(selectedOpportunity)}
+          onClose={() => setSelectedOpportunity(null)}
+          title="Demand Opportunity Detail"
         >
-          <div className="space-y-6 pt-2 text-xs">
-            {/* Summary */}
-            <p className="text-stone-600 dark:text-stone-300 leading-relaxed">
-              {selectedGap.summary}
-            </p>
-
-            {/* 10. Customer Demand Metrics (4 metrics) */}
-            <div className="space-y-2">
-              <span className="text-[10px] uppercase tracking-wider font-semibold text-stone-400 block">
-                Aggregated Customer Demand Metrics
+          <div className="space-y-4 text-xs">
+            <div>
+              <span className="text-[11px] uppercase font-semibold text-[#C26D53]">
+                Customer Need
               </span>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                <div className="p-3 rounded-lg bg-stone-50 dark:bg-stone-950/40 border border-stone-100 dark:border-stone-800">
-                  <span className="text-stone-400 text-[10px] block uppercase">Searches</span>
-                  <span className="font-mono font-bold text-sm text-stone-900 dark:text-stone-100">
-                    {selectedGap.demand.toLocaleString()}
-                  </span>
-                </div>
-                <div className="p-3 rounded-lg bg-stone-50 dark:bg-stone-950/40 border border-stone-100 dark:border-stone-800">
-                  <span className="text-stone-400 text-[10px] block uppercase">Product Views</span>
-                  <span className="font-mono font-bold text-sm text-stone-900 dark:text-stone-100">
-                    {selectedGap.searchVolume.toLocaleString()}
-                  </span>
-                </div>
-                <div className="p-3 rounded-lg bg-stone-50 dark:bg-stone-950/40 border border-stone-100 dark:border-stone-800">
-                  <span className="text-stone-400 text-[10px] block uppercase">Wishlists</span>
-                  <span className="font-mono font-bold text-sm text-stone-900 dark:text-stone-100">
-                    {selectedGap.wishlists.toLocaleString()}
-                  </span>
-                </div>
-                <div className="p-3 rounded-lg bg-stone-50 dark:bg-stone-950/40 border border-stone-100 dark:border-stone-800">
-                  <span className="text-stone-400 text-[10px] block uppercase">Purchases</span>
-                  <span className="font-mono font-bold text-sm text-stone-900 dark:text-stone-100">
-                    {selectedGap.purchases.toLocaleString()}
-                  </span>
-                </div>
-              </div>
+              <h2 className="text-base font-bold text-stone-900 dark:text-stone-100 mt-0.5">
+                {selectedOpportunity.need}
+              </h2>
             </div>
 
-            {/* 10. Customer Signals Quotes */}
-            <div className="space-y-2">
-              <span className="text-[10px] uppercase tracking-wider font-semibold text-stone-400 block">
-                Representative Customer Signals & Feedback Quotes
-              </span>
-              <div className="space-y-1.5">
-                {selectedGap.signals.map((sig, i) => (
-                  <div
-                    key={i}
-                    className="p-2.5 rounded-lg bg-stone-50/70 dark:bg-stone-950/30 border border-stone-100 dark:border-stone-800/80 italic text-stone-700 dark:text-stone-300 text-[11px]"
-                  >
-                    "{sig}"
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* 10. Catalog Coverage & Target Price Disparity */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 p-4 rounded-xl border border-stone-200 dark:border-stone-800 bg-stone-50/50 dark:bg-stone-950/40">
-              <div>
-                <span className="text-[10px] uppercase text-stone-400 block">Matching Products</span>
-                <span className="font-bold text-sm text-stone-900 dark:text-stone-100">
-                  {selectedGap.catalogCoverage} SKUs
-                </span>
-              </div>
-              <div>
-                <span className="text-[10px] uppercase text-stone-400 block">Avg Catalog Price</span>
-                <span className="font-bold text-sm text-stone-900 dark:text-stone-100">
-                  ₹{selectedGap.avgCatalogPrice}
-                </span>
-              </div>
-              <div>
-                <span className="text-[10px] uppercase text-[#C26D53] font-semibold block">Customer Target Band</span>
-                <span className="font-bold text-sm text-[#C26D53]">
-                  {selectedGap.customerTargetPrice}
-                </span>
-              </div>
-            </div>
-
-            {/* 10. Opportunity Signal Box */}
-            <div className="p-4 rounded-xl border border-[#C26D53]/30 bg-[#C26D53]/5 space-y-1.5">
-              <span className="text-[10px] font-bold uppercase tracking-wider text-[#C26D53] block">
-                Opportunity Signal Formula:
-              </span>
-              <div className="flex flex-wrap items-center gap-1.5 text-[11px] font-semibold text-stone-800 dark:text-stone-200">
-                <span>High Demand ({selectedGap.demand})</span>
-                <span>+</span>
-                <span>Low Catalog Coverage ({selectedGap.catalogCoverage} SKUs)</span>
-                <span>+</span>
-                <span>Repeated Customer Need</span>
-                <span>=</span>
-                <span className="text-[#C26D53] font-bold">Potential Product Opportunity</span>
-              </div>
-              <p className="text-[11px] text-stone-500 pt-1">
-                {selectedGap.opportunityConclusion}
+            <div className="p-3.5 rounded-xl bg-stone-50 dark:bg-stone-800 space-y-1">
+              <span className="text-[11px] font-semibold text-stone-500">Customer Insight:</span>
+              <p className="text-stone-700 dark:text-stone-300 leading-relaxed">
+                {selectedOpportunity.customerInsight}
               </p>
             </div>
 
-            <div className="flex justify-end pt-2">
-              <Button size="sm" variant="secondary" onClick={() => setModalOpen(false)}>
-                Close Gap Radar Insight
+            <div className="grid grid-cols-2 gap-3">
+              <div className="p-3 rounded-lg border border-stone-200 dark:border-stone-700">
+                <span className="text-stone-400 text-[11px] block">Search Volume:</span>
+                <span className="font-semibold text-stone-900 dark:text-stone-100">{selectedOpportunity.searchVolume}</span>
+              </div>
+              <div className="p-3 rounded-lg border border-stone-200 dark:border-stone-700">
+                <span className="text-stone-400 text-[11px] block">Current Catalog:</span>
+                <span className="font-semibold text-stone-900 dark:text-stone-100">{selectedOpportunity.matchingProducts} products</span>
+              </div>
+            </div>
+
+            <div className="p-3.5 rounded-xl bg-[#C26D53]/10 border border-[#C26D53]/20 space-y-1">
+              <span className="text-[11px] font-semibold text-[#C26D53]">Action Item:</span>
+              <p className="text-stone-800 dark:text-stone-200 font-medium">
+                {selectedOpportunity.recommendedAction}
+              </p>
+            </div>
+
+            <div className="pt-2 flex justify-end">
+              <Button variant="primary" size="sm" onClick={() => setSelectedOpportunity(null)}>
+                Close
               </Button>
             </div>
           </div>

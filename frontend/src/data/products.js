@@ -1460,6 +1460,84 @@ export const products = [
       sentimentScore: 0.98,
       sentimentLabel: "Exceptional"
     }
+  },
+  // 37. Skincare - Serum (L'Oréal Paris)
+  {
+    id: "LOR-REV-037",
+    name: "Revitalift 1.5% Hyaluronic Acid Plumping Serum",
+    brand: "L'Oréal Paris",
+    category: "Skincare",
+    subcategory: "Serum",
+    price: 799,
+    originalPrice: 999,
+    mrp: 999,
+    discount: 20,
+    image: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=600&auto=format&fit=crop&q=80",
+    images: [
+      "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=600&auto=format&fit=crop&q=80"
+    ],
+    description: "Intensive hydrating serum with 1.5% pure Hyaluronic Acid. Instantly plumps and hydrates skin, visibly reducing fine lines and boosting skin radiance.",
+    shortDescription: "1.5% Pure Hyaluronic Acid plumping serum for deep moisture and anti-aging bounce.",
+    size: "30ml",
+    texture: "Lightweight Liquid",
+    finish: "Natural Dewy Glow",
+    skinType: ["Dry", "All Skin Types", "Mature"],
+    skinTypes: ["Dry", "All Skin Types", "Mature"],
+    concerns: ["Dehydration", "Fine Lines", "Dullness", "Dry Skin"],
+    keyIngredients: ["1.5% Pure Hyaluronic Acid", "Micro Hyaluronic Acid", "Glycerin", "Ascorbyl Glucoside"],
+    ingredients: ["1.5% Pure Hyaluronic Acid", "Micro Hyaluronic Acid", "Glycerin", "Ascorbyl Glucoside"],
+    benefits: ["Deeply plumps skin", "Instant 42% radiance boost", "Lightweight non-sticky absorption"],
+    howToUse: "Apply 3-4 drops onto clean, damp face and neck morning and night.",
+    preferences: ["Plumping", "Hydrating", "Fragrance gentle"],
+    tags: ["loreal", "serum", "hyaluronic acid", "plumping", "revitalift", "dry skin"],
+    rating: 4.8,
+    reviewsCount: 1450,
+    reviewCount: 1450,
+    stock: 60,
+    sku: "LOR-REV-037",
+    inStock: true,
+    isFeatured: true,
+    isBestSeller: true,
+    isNewArrival: false
+  },
+  // 38. Skincare - Moisturizer (L'Oréal Paris)
+  {
+    id: "LOR-HYD-038",
+    name: "Hydra Genius Daily Liquid Care Moisturizer",
+    brand: "L'Oréal Paris",
+    category: "Skincare",
+    subcategory: "Moisturizer",
+    price: 699,
+    originalPrice: 849,
+    mrp: 849,
+    discount: 18,
+    image: "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=600&auto=format&fit=crop&q=80",
+    images: [
+      "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=600&auto=format&fit=crop&q=80"
+    ],
+    description: "Lightweight daily liquid moisturizer infused with Aloe Water and Hyaluronic Acid. Delivers 72 hours of continuous hydration specifically formulated for dry and normal skin.",
+    shortDescription: "72H daily liquid care moisturizer with Aloe Water and Hyaluronic Acid for dry skin.",
+    size: "50ml",
+    texture: "Lightweight Fluid",
+    finish: "Natural Dewy",
+    skinType: ["Dry", "Normal", "Dehydrated"],
+    skinTypes: ["Dry", "Normal", "Dehydrated"],
+    concerns: ["Dry Skin", "Rough Texture", "Flakiness"],
+    keyIngredients: ["Aloe Vera Water", "Hyaluronic Acid", "Dimethiconol", "Citric Acid"],
+    ingredients: ["Aloe Vera Water", "Hyaluronic Acid", "Dimethiconol", "Citric Acid"],
+    benefits: ["72 hours instant hydration", "Fresh water-like absorption", "Locks in moisture barrier"],
+    howToUse: "Use every morning and night on clean face and neck.",
+    preferences: ["Fast absorption", "All-day hydration", "Non-greasy"],
+    tags: ["loreal", "moisturizer", "hydra genius", "aloe water", "dry skin"],
+    rating: 4.7,
+    reviewsCount: 920,
+    reviewCount: 920,
+    stock: 50,
+    sku: "LOR-HYD-038",
+    inStock: true,
+    isFeatured: true,
+    isBestSeller: true,
+    isNewArrival: false
   }
 ];
 
@@ -1469,6 +1547,21 @@ export const categories = [
   { id: "Makeup", name: "Makeup" },
   { id: "Hair", name: "Hair" },
   { id: "Body", name: "Body" }
+];
+
+export const subcategoriesList = [
+  "All",
+  "Moisturizer",
+  "Serum",
+  "Sunscreen",
+  "Face Wash",
+  "Toner",
+  "Face Mask",
+  "Lipstick",
+  "Concealer",
+  "Foundation",
+  "Shampoo",
+  "Body Lotion"
 ];
 
 export const textures = [
@@ -1494,6 +1587,8 @@ export const skinTypesList = [
 
 export const brandsList = [
   "All",
+  "Joyory Labs",
+  "L'Oréal Paris",
   "Minimalist",
   "Dot & Key",
   "Aqualogica",
@@ -1501,6 +1596,5 @@ export const brandsList = [
   "Swiss Beauty",
   "Lakmé",
   "Maybelline",
-  "Pilgrim",
-  "Joyory Labs"
+  "Pilgrim"
 ];

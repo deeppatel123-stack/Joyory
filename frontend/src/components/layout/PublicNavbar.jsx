@@ -28,10 +28,10 @@ export const PublicNavbar = () => {
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
 
   const navLinks = [
-    { label: "Discover", path: "/discover" },
     { label: "Products", path: "/products" },
     { label: "Compare", path: "/compare", count: compareList?.length || 0 },
-    { label: "About", path: "/about" }
+    { label: "About", path: "/about" },
+    ...(isAuthenticated ? [{ label: "My Journey", path: "/customer/journey" }] : [])
   ];
 
   const isActive = (path) => location.pathname === path;
@@ -205,22 +205,27 @@ export const PublicNavbar = () => {
             </div>
           )}
 
-          {/* Portal Switchers */}
-          <div className="hidden lg:flex items-center gap-2 pl-2 border-l border-stone-200 dark:border-stone-800">
-            <Link
-              to="/customer/discover"
-              className="px-3 py-1.5 rounded-lg text-xs font-medium text-stone-700 dark:text-stone-300 hover:text-stone-900 dark:hover:text-stone-100 hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors"
-            >
-              Customer App
-            </Link>
-            <Link
-              to="/business/overview"
-              className="px-3 py-1.5 rounded-lg text-xs font-medium bg-stone-900 dark:bg-stone-100 text-stone-50 dark:text-stone-900 hover:bg-stone-800 dark:hover:bg-stone-200 transition-colors inline-flex items-center gap-1.5"
-            >
-              Business Portal
-              <ArrowRight className="w-3 h-3" />
-            </Link>
-          </div>
+          {/* Authenticated Portal Shortcut (Admins or Customers) */}
+          {isAuthenticated && (
+            <div className="hidden lg:flex items-center gap-2 pl-2 border-l border-stone-200 dark:border-stone-800">
+              {isAdmin ? (
+                <Link
+                  to="/admin"
+                  className="px-3 py-1.5 rounded-lg text-xs font-medium bg-stone-900 dark:bg-stone-100 text-stone-50 dark:text-stone-900 hover:bg-stone-800 dark:hover:bg-stone-200 transition-colors inline-flex items-center gap-1.5"
+                >
+                  <ShieldCheck className="w-3.5 h-3.5" />
+                  Admin Dashboard
+                </Link>
+              ) : (
+                <Link
+                  to="/customer"
+                  className="px-3 py-1.5 rounded-lg text-xs font-medium text-stone-700 dark:text-stone-300 hover:text-stone-900 dark:hover:text-stone-100 hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors"
+                >
+                  My Beauty Space
+                </Link>
+              )}
+            </div>
+          )}
 
           {/* Mobile menu trigger */}
           <button
@@ -311,22 +316,17 @@ export const PublicNavbar = () => {
             )}
           </div>
 
-          <div className="pt-2 border-t border-stone-100 dark:border-stone-800 flex flex-col gap-2">
-            <Link
-              to="/customer/discover"
-              onClick={() => setMobileMenuOpen(false)}
-              className="px-3 py-2 rounded-lg text-sm text-stone-700 dark:text-stone-300 bg-stone-100 dark:bg-stone-800 text-center font-medium"
-            >
-              Enter Customer Experience
-            </Link>
-            <Link
-              to="/business/overview"
-              onClick={() => setMobileMenuOpen(false)}
-              className="px-3 py-2 rounded-lg text-sm bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 text-center font-medium"
-            >
-              Enter Joyory Business Intelligence
-            </Link>
-          </div>
+          {isAuthenticated && !isAdmin && (
+            <div className="pt-2 border-t border-stone-100 dark:border-stone-800">
+              <Link
+                to="/customer"
+                onClick={() => setMobileMenuOpen(false)}
+                className="block px-3 py-2 rounded-lg text-sm text-stone-700 dark:text-stone-300 bg-stone-100 dark:bg-stone-800 text-center font-medium"
+              >
+                Go to My Beauty Space
+              </Link>
+            </div>
+          )}
         </div>
       )}
     </header>

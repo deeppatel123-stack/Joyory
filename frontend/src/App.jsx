@@ -130,9 +130,16 @@ export default function App() {
                 <Route path="feedback" element={<FeedbackPage />} />
               </Route>
 
-              {/* Business Intelligence Routes */}
-              <Route path="/business" element={<BusinessLayout />}>
-                <Route index element={<Navigate to="/business/overview" replace />} />
+              {/* Business Intelligence Routes (Protected Admin) */}
+              <Route
+                path="/business"
+                element={
+                  <AdminRoute>
+                    <BusinessLayout />
+                  </AdminRoute>
+                }
+              >
+                <Route index element={<Navigate to="/admin" replace />} />
                 <Route path="overview" element={<BusinessOverviewPage />} />
                 <Route path="need-gaps" element={<NeedGapRadarPage />} />
                 <Route path="customer-insights" element={<CustomerInsightsPage />} />
@@ -147,7 +154,7 @@ export default function App() {
                 <Route path="settings" element={<BusinessSettingsPage />} />
               </Route>
 
-              {/* Admin Suite Routes */}
+              {/* Admin Suite Routes (Protected Admin) */}
               <Route
                 path="/admin"
                 element={
@@ -159,8 +166,10 @@ export default function App() {
                 <Route index element={<AdminDashboard />} />
                 <Route path="products" element={<AdminProductsPage />} />
                 <Route path="orders" element={<AdminOrdersPage />} />
+                <Route path="customers" element={<AdminUsersPage />} />
                 <Route path="users" element={<AdminUsersPage />} />
                 <Route path="reviews" element={<AdminReviewsPage />} />
+                <Route path="insights" element={<BusinessOverviewPage />} />
                 <Route path="analytics" element={<BusinessOverviewPage />} />
                 <Route path="need-gaps" element={<NeedGapRadarPage />} />
                 <Route path="opportunities" element={<OpportunitiesPage />} />

@@ -65,67 +65,52 @@ export const AboutPage = () => {
         {/* 4 Innovation Features Deep-Dive */}
         <div className="p-6 sm:p-8 rounded-2xl border border-stone-200/80 dark:border-stone-800/80 bg-white dark:bg-stone-900 space-y-6 shadow-2xs">
           <div className="space-y-1">
-            <div className="flex items-center justify-between">
-              <h2 className="text-lg font-semibold text-stone-900 dark:text-stone-100">
-                Four Flagship Innovation Systems
-              </h2>
-              <Badge variant="accent" size="sm">Smart Shopping Experience</Badge>
-            </div>
-            <p className="text-xs text-stone-400 italic">
-              * This capability is not publicly listed/documented among Joyory's current visible product features.
+            <h2 className="text-lg font-semibold text-stone-900 dark:text-stone-100">
+              Four Flagship Innovation Systems
+            </h2>
+            <p className="text-xs text-stone-500 dark:text-stone-400">
+              How our platform connects customer discovery, post-purchase experience, and product development.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5 text-xs">
             {/* 1. Beauty Outcome Loop */}
             <div className="p-4 rounded-xl border border-stone-200 dark:border-stone-800 bg-stone-50 dark:bg-stone-950/40 space-y-2">
-              <div className="flex items-center justify-between">
-                <span className="font-semibold text-stone-900 dark:text-stone-100">
-                  1. Beauty Outcome Loop
-                </span>
-                <span className="text-[10px] font-mono text-[#C26D53]">/customer/beauty-outcome</span>
-              </div>
+              <span className="font-semibold text-stone-900 dark:text-stone-100 block">
+                1. Beauty Outcome Loop
+              </span>
               <p className="text-stone-500 leading-relaxed">
-                Tracks purchased products across a progressive status lifecycle (<em>Purchased &rarr; Trying &rarr; Used &rarr; Experience Logged &rarr; Preference Updated</em>). Captures structured sensory feedback (texture feel, breakout reaction, hydration rating) and dynamically adjusts preference graph node weights with instant feedback.
+                Tracks purchased products across a progressive status lifecycle. Captures structured sensory feedback (texture feel, breakout reaction, hydration rating) and dynamically adjusts preference scores with instant feedback.
               </p>
             </div>
 
             {/* 2. Beauty Memory (Personal Beauty Passport) */}
             <div className="p-4 rounded-xl border border-stone-200 dark:border-stone-800 bg-stone-50 dark:bg-stone-950/40 space-y-2">
-              <div className="flex items-center justify-between">
-                <span className="font-semibold text-stone-900 dark:text-stone-100">
-                  2. Personal Beauty Passport
-                </span>
-                <span className="text-[10px] font-mono text-[#C26D53]">/customer/beauty-memory</span>
-              </div>
+              <span className="font-semibold text-stone-900 dark:text-stone-100 block">
+                2. Personal Beauty Memory
+              </span>
               <p className="text-stone-500 leading-relaxed">
-                A persistent, cross-session beauty profile displaying verified skin attributes, liked/disliked ingredients, texture tolerances, fragrance sensitivity, 3-month seasonal evolution shifts, and a chronological memory event log.
+                A persistent, cross-session beauty profile displaying verified skin attributes, liked/disliked ingredients, texture tolerances, fragrance sensitivity, and a continuous memory event log.
               </p>
             </div>
 
             {/* 3. Beauty Decision Replay */}
             <div className="p-4 rounded-xl border border-stone-200 dark:border-stone-800 bg-stone-50 dark:bg-stone-950/40 space-y-2">
-              <div className="flex items-center justify-between">
-                <span className="font-semibold text-stone-900 dark:text-stone-100">
-                  3. Beauty Decision Replay
-                </span>
-                <span className="text-[10px] font-mono text-[#C26D53]">/customer/decision-replay</span>
-              </div>
+              <span className="font-semibold text-stone-900 dark:text-stone-100 block">
+                3. Beauty Decision Replay
+              </span>
               <p className="text-stone-500 leading-relaxed">
-                Reconstructs the step-by-step decision trajectory for any past purchase: <em>Intent Search &rarr; Detail Inspection &rarr; Head-to-Head Comparison &rarr; Selection Drivers &rarr; Usage Outcome Correlation</em>. Provides complete transparency into why choices succeeded or failed.
+                Reconstructs the step-by-step decision trajectory for past purchases: <em>Search &rarr; Inspection &rarr; Comparison &rarr; Selection Drivers &rarr; Usage Outcome</em>. Provides complete transparency into why choices worked.
               </p>
             </div>
 
             {/* 4. Customer Need Gap Radar */}
             <div className="p-4 rounded-xl border border-stone-200 dark:border-stone-800 bg-stone-50 dark:bg-stone-950/40 space-y-2">
-              <div className="flex items-center justify-between">
-                <span className="font-semibold text-stone-900 dark:text-stone-100">
-                  4. Customer Need Gap Radar
-                </span>
-                <span className="text-[10px] font-mono text-[#C26D53]">/business/need-gaps</span>
-              </div>
+              <span className="font-semibold text-stone-900 dark:text-stone-100 block">
+                4. Customer Need Gap Radar
+              </span>
               <p className="text-stone-500 leading-relaxed">
-                A business intelligence radar that correlates customer search demand, bounce rates, price resistance, and missing catalog attributes to surface high-priority product gaps for Joyory brand managers and inventory planners.
+                A business intelligence radar that correlates customer search demand, bounce rates, and missing catalog attributes to surface high-priority product opportunities for brand managers and product developers.
               </p>
             </div>
           </div>

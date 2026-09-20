@@ -23,37 +23,61 @@ export const getProducts = async (req, res, next) => {
     const query = {};
 
     if (q) {
+      const cleanQ = q.trim();
+      const escapedQ = cleanQ.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const flexibleQ = escapedQ.replace(/e/gi, '[eéèêë]').replace(/o/gi, '[oóòôö]');
+      const regex = new RegExp(flexibleQ, "i");
+
       query.$or = [
-        { name: { $regex: q, $options: "i" } },
-        { brand: { $regex: q, $options: "i" } },
-        { category: { $regex: q, $options: "i" } },
-        { tags: { $regex: q, $options: "i" } },
-        { description: { $regex: q, $options: "i" } }
+        { name: { $regex: regex } },
+        { brand: { $regex: regex } },
+        { category: { $regex: regex } },
+        { subcategory: { $regex: regex } },
+        { tags: { $regex: regex } },
+        { description: { $regex: regex } },
+        { shortDescription: { $regex: regex } },
+        { ingredients: { $regex: regex } },
+        { concerns: { $regex: regex } },
+        { skinTypes: { $regex: regex } },
+        { texture: { $regex: regex } },
+        { finish: { $regex: regex } }
       ];
     }
 
-    if (category && category !== "All") {
-      query.category = { $regex: new RegExp(`^${category}$`, "i") };
+    if (category && category !== "All" && category !== "all") {
+      const catRegex = new RegExp(`^${category}$`, "i");
+      query.$and = query.$and || [];
+      query.$and.push({
+        $or: [
+          { category: { $regex: catRegex } },
+          { subcategory: { $regex: catRegex } }
+        ]
+      });
     }
 
-    if (brand && brand !== "All") {
-      query.brand = { $regex: new RegExp(`^${brand}$`, "i") };
+    if (brand && brand !== "All" && brand !== "all") {
+      const brandRegex = new RegExp(`^${brand.replace(/e/gi, '[eéèêë]')}$`, "i");
+      query.brand = { $regex: brandRegex };
     }
 
-    if (skinType && skinType !== "All") {
+    if (skinType && skinType !== "All" && skinType !== "all") {
       query.skinTypes = { $in: [new RegExp(skinType, "i")] };
     }
 
-    if (concern && concern !== "All") {
+    if (concern && concern !== "All" && concern !== "all") {
       query.concerns = { $in: [new RegExp(concern, "i")] };
     }
 
-    if (texture && texture !== "All") {
+    if (texture && texture !== "All" && texture !== "all") {
       query.texture = { $regex: new RegExp(texture, "i") };
     }
 
-    if (finish && finish !== "All") {
+    if (finish && finish !== "All" && finish !== "all") {
       query.finish = { $regex: new RegExp(finish, "i") };
+    }
+
+    if (req.query.rating && req.query.rating !== "All") {
+      query.rating = { $gte: Number(req.query.rating) };
     }
 
     if (minPrice || maxPrice) {
