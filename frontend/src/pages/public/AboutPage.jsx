@@ -1,5 +1,6 @@
 import React from "react";
 import { PublicNavbar } from "../../components/layout/PublicNavbar";
+import { Footer } from "../../components/layout/Footer";
 import { Badge } from "../../components/common/Badge";
 import {
   Layers,
@@ -130,121 +131,49 @@ export const AboutPage = () => {
           </div>
         </div>
 
-        {/* Future MERN + Python AI/ML Stack Architecture */}
+        {/* Intelligent Platform Capabilities */}
         <div className="p-6 sm:p-8 rounded-2xl border border-stone-200/80 dark:border-stone-800/80 bg-white dark:bg-stone-900 space-y-6 shadow-2xs">
           <div className="flex items-center justify-between">
             <h2 className="text-lg font-semibold text-stone-900 dark:text-stone-100">
-              Future MERN + Python AI/ML Integration Blueprint
+              How Beauty Journey Intelligence Operates
             </h2>
-            <Badge variant="neutral" size="sm">Architecture Design</Badge>
+            <Badge variant="neutral" size="sm">Product Philosophy</Badge>
           </div>
 
-          <p className="text-xs text-stone-500">
-            The frontend has been built with an isolated Promise-based service layer (`/src/services`), perfectly prepared for the subsequent backend implementation phase:
+          <p className="text-xs sm:text-sm text-stone-600 dark:text-stone-300 leading-relaxed">
+            Every layer of Joyory is designed to eliminate the guesswork from beauty shopping through continuous, transparent customer intelligence:
           </p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 text-xs">
             <div className="p-4 rounded-xl border border-stone-200 dark:border-stone-800 bg-stone-50 dark:bg-stone-950/40 space-y-2">
-              <span className="text-[10px] font-mono text-[#C26D53] uppercase font-bold">Tier 1: Client</span>
-              <h4 className="font-semibold text-stone-900 dark:text-stone-100">React + Vite Frontend</h4>
-              <p className="text-stone-500 text-[11px]">
-                Reactive Context state, interactive Preference Graph, Tailwind minimalism styling.
+              <span className="text-[10px] uppercase tracking-wider text-[#C26D53] font-bold block">1. Discovery</span>
+              <h4 className="font-semibold text-stone-900 dark:text-stone-100">Adaptive Matching</h4>
+              <p className="text-stone-500 leading-relaxed">
+                Rather than treating all oily or dry skin the same, Joyory evaluates specific ingredient sensitivities, seasonal humidity changes, and formula textures to recommend optimal products.
               </p>
             </div>
 
             <div className="p-4 rounded-xl border border-stone-200 dark:border-stone-800 bg-stone-50 dark:bg-stone-950/40 space-y-2">
-              <span className="text-[10px] font-mono text-[#C26D53] uppercase font-bold">Tier 2: Backend</span>
-              <h4 className="font-semibold text-stone-900 dark:text-stone-100">Node.js + Express + MongoDB</h4>
-              <p className="text-stone-500 text-[11px]">
-                REST endpoints, customer graph document store, session management, catalog database.
+              <span className="text-[10px] uppercase tracking-wider text-[#C26D53] font-bold block">2. Experience</span>
+              <h4 className="font-semibold text-stone-900 dark:text-stone-100">Outcome Calibration</h4>
+              <p className="text-stone-500 leading-relaxed">
+                After receiving a product, log sensory feedback (hydration feel, breakout reactions, finish). Your personal profile instantly recalibrates to prevent future mismatches.
               </p>
             </div>
 
             <div className="p-4 rounded-xl border border-stone-200 dark:border-stone-800 bg-stone-50 dark:bg-stone-950/40 space-y-2">
-              <span className="text-[10px] font-mono text-[#C26D53] uppercase font-bold">Tier 3: AI Engine</span>
-              <h4 className="font-semibold text-stone-900 dark:text-stone-100">Python + FastAPI + Scikit</h4>
-              <p className="text-stone-500 text-[11px]">
-                NLP query understanding, customer clustering, review sentiment analysis, demand gap detector.
+              <span className="text-[10px] uppercase tracking-wider text-[#C26D53] font-bold block">3. Innovation</span>
+              <h4 className="font-semibold text-stone-900 dark:text-stone-100">Demand Intelligence</h4>
+              <p className="text-stone-500 leading-relaxed">
+                Aggregated, anonymized search patterns and unfulfilled queries directly signal formulation gaps to brand managers, ensuring new products match real customer desires.
               </p>
-            </div>
-          </div>
-
-          {/* Prepared API Contract Table */}
-          <div className="space-y-3 pt-2">
-            <h4 className="text-xs font-semibold text-stone-800 dark:text-stone-200 uppercase tracking-wider">
-              Prepared Service Abstraction Contracts (Future API Specs)
-            </h4>
-            <div className="overflow-x-auto rounded-lg border border-stone-200 dark:border-stone-800">
-              <table className="w-full text-left text-xs">
-                <thead className="bg-stone-50 dark:bg-stone-950/50 text-stone-500">
-                  <tr className="border-b border-stone-200 dark:border-stone-800">
-                    <th className="p-2.5">Method</th>
-                    <th className="p-2.5">Endpoint</th>
-                    <th className="p-2.5">Service Abstraction</th>
-                    <th className="p-2.5">Function</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-stone-100 dark:divide-stone-800/80 font-mono text-[11px]">
-                  <tr>
-                    <td className="p-2.5 font-bold text-emerald-600">GET</td>
-                    <td className="p-2.5">/api/products</td>
-                    <td className="p-2.5 text-stone-600 dark:text-stone-300">productService.getProducts()</td>
-                    <td className="p-2.5 text-stone-400 font-sans">Filtered catalog query</td>
-                  </tr>
-                  <tr>
-                    <td className="p-2.5 font-bold text-emerald-600">GET</td>
-                    <td className="p-2.5">/api/recommendations</td>
-                    <td className="p-2.5 text-stone-600 dark:text-stone-300">recommendationService.getRecommendations()</td>
-                    <td className="p-2.5 text-stone-400 font-sans">Ranked personalized bundles</td>
-                  </tr>
-                  <tr>
-                    <td className="p-2.5 font-bold text-blue-600">POST</td>
-                    <td className="p-2.5">/api/feedback</td>
-                    <td className="p-2.5 text-stone-600 dark:text-stone-300">feedbackService.submitFeedback()</td>
-                    <td className="p-2.5 text-stone-400 font-sans">Preference graph tuning loop</td>
-                  </tr>
-                  <tr>
-                    <td className="p-2.5 font-bold text-emerald-600">GET</td>
-                    <td className="p-2.5">/api/customer/outcomes</td>
-                    <td className="p-2.5 text-stone-600 dark:text-stone-300">outcomeService.getBeautyOutcomes()</td>
-                    <td className="p-2.5 text-stone-400 font-sans">Track outcome lifecycle</td>
-                  </tr>
-                  <tr>
-                    <td className="p-2.5 font-bold text-blue-600">POST</td>
-                    <td className="p-2.5">/api/customer/outcomes/:id</td>
-                    <td className="p-2.5 text-stone-600 dark:text-stone-300">outcomeService.updateOutcomeFeedback()</td>
-                    <td className="p-2.5 text-stone-400 font-sans">Submit experience feedback & update graph</td>
-                  </tr>
-                  <tr>
-                    <td className="p-2.5 font-bold text-emerald-600">GET</td>
-                    <td className="p-2.5">/api/customer/memory</td>
-                    <td className="p-2.5 text-stone-600 dark:text-stone-300">outcomeService.getBeautyMemory()</td>
-                    <td className="p-2.5 text-stone-400 font-sans">Fetch Personal Beauty Passport</td>
-                  </tr>
-                  <tr>
-                    <td className="p-2.5 font-bold text-emerald-600">GET</td>
-                    <td className="p-2.5">/api/customer/decision-replays</td>
-                    <td className="p-2.5 text-stone-600 dark:text-stone-300">outcomeService.getDecisionReplays()</td>
-                    <td className="p-2.5 text-stone-400 font-sans">Reconstruct decision paths</td>
-                  </tr>
-                  <tr>
-                    <td className="p-2.5 font-bold text-emerald-600">GET</td>
-                    <td className="p-2.5">/api/business/need-gaps</td>
-                    <td className="p-2.5 text-stone-600 dark:text-stone-300">outcomeService.getNeedGaps()</td>
-                    <td className="p-2.5 text-stone-400 font-sans">Catalog Need Gap Radar metrics</td>
-                  </tr>
-                  <tr>
-                    <td className="p-2.5 font-bold text-emerald-600">GET</td>
-                    <td className="p-2.5">/api/business/opportunities</td>
-                    <td className="p-2.5 text-stone-600 dark:text-stone-300">opportunityService.getOpportunities()</td>
-                    <td className="p-2.5 text-stone-400 font-sans">Unmet need demand detector</td>
-                  </tr>
-                </tbody>
-              </table>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Commercial Footer */}
+      <Footer />
     </div>
   );
 };

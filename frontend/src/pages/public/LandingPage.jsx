@@ -19,6 +19,7 @@ import {
 import { Button } from "../../components/common/Button";
 import { Badge } from "../../components/common/Badge";
 import { PublicNavbar } from "../../components/layout/PublicNavbar";
+import { Footer } from "../../components/layout/Footer";
 import { ProductCard } from "../../components/customer/ProductCard";
 import { productService } from "../../services/productService";
 import { FallbackImage } from "../../components/common/FallbackImage";
@@ -484,10 +485,8 @@ export const LandingPage = () => {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="py-8 border-t border-stone-200 dark:border-stone-800 text-center text-xs text-stone-400">
-        <p>© 2026 Joyory Beauty Journey Intelligence. Powered by Node.js, Express & MongoDB.</p>
-      </footer>
+      {/* Professional Commercial Footer */}
+      <Footer />
     </div>
   );
 };

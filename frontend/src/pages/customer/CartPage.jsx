@@ -5,6 +5,7 @@ import { useCustomer } from "../../context/CustomerContext";
 import { Button } from "../../components/common/Button";
 import { FallbackImage } from "../../components/common/FallbackImage";
 import { PublicNavbar } from "../../components/layout/PublicNavbar";
+import { Footer } from "../../components/layout/Footer";
 
 export const CartPage = () => {
   const { cart, updateQuantity, removeFromBag, cartTotal, cartCount } = useCustomer();
@@ -33,6 +34,7 @@ export const CartPage = () => {
             </Button>
           </Link>
         </div>
+        <Footer />
       </div>
     );
   }
@@ -161,11 +163,13 @@ export const CartPage = () => {
 
             <div className="pt-2 text-[11px] text-stone-400 flex items-center justify-center gap-1.5">
               <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
-              <span>Safe & Secure Cash on Delivery / Demo Checkout</span>
+              <span>Safe & Secure Encrypted UPI, Cards & Cash on Delivery</span>
             </div>
           </div>
         </div>
       </div>
+
+      <Footer />
     </div>
   );
 };

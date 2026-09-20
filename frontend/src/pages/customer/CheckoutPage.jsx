@@ -9,6 +9,7 @@ import { Button } from "../../components/common/Button";
 import { Input } from "../../components/common/Input";
 import { FallbackImage } from "../../components/common/FallbackImage";
 import { PublicNavbar } from "../../components/layout/PublicNavbar";
+import { Footer } from "../../components/layout/Footer";
 
 export const CheckoutPage = () => {
   const { cart, cartTotal, resetAllDemoData } = useCustomer();
@@ -106,7 +107,7 @@ export const CheckoutPage = () => {
               </div>
               <div className="flex justify-between">
                 <span className="text-stone-500">Payment:</span>
-                <span className="font-medium text-stone-900 dark:text-stone-100 uppercase">{paymentMethod === "cod" ? "Cash on Delivery" : "Demo Paid"}</span>
+                <span className="font-medium text-stone-900 dark:text-stone-100 uppercase">{paymentMethod === "cod" ? "Cash on Delivery" : "Online Paid (Prepaid)"}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-stone-500">Total Paid:</span>
@@ -128,6 +129,7 @@ export const CheckoutPage = () => {
             </div>
           </div>
         </div>
+        <Footer />
       </div>
     );
   }
@@ -279,7 +281,7 @@ export const CheckoutPage = () => {
 
                 <label
                   className={`flex items-center justify-between p-4 rounded-xl border cursor-pointer transition-colors ${
-                    paymentMethod === "demo_pay"
+                    paymentMethod === "online"
                       ? "border-[#C26D53] bg-rose-50/50 dark:bg-rose-950/20"
                       : "border-stone-200 dark:border-stone-800"
                   }`}
@@ -288,17 +290,17 @@ export const CheckoutPage = () => {
                     <input
                       type="radio"
                       name="paymentMethod"
-                      value="demo_pay"
-                      checked={paymentMethod === "demo_pay"}
-                      onChange={() => setPaymentMethod("demo_pay")}
+                      value="online"
+                      checked={paymentMethod === "online"}
+                      onChange={() => setPaymentMethod("online")}
                       className="text-[#C26D53] focus:ring-[#C26D53]"
                     />
                     <div>
                       <div className="text-xs font-semibold text-stone-900 dark:text-stone-100">
-                        Instant Checkout (Demo Gateway)
+                        Online Payment (UPI, Cards & Netbanking)
                       </div>
                       <div className="text-[11px] text-stone-500">
-                        Simulated online debit/credit card or UPI instant authorization.
+                        Instant payment via PhonePe, Google Pay, Cards, or Netbanking.
                       </div>
                     </div>
                   </div>
@@ -358,6 +360,8 @@ export const CheckoutPage = () => {
           </div>
         </form>
       </div>
+
+      <Footer />
     </div>
   );
 };

@@ -39,7 +39,7 @@ export const Topbar = ({ mode = "customer", onMenuClick }) => {
       </div>
 
       <div className="flex items-center gap-3">
-        {/* Prototype banner tag */}
+        {/* Mode status badge */}
         <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-stone-100 dark:bg-stone-800 border border-stone-200/60 dark:border-stone-700/60 text-[11px] text-stone-600 dark:text-stone-300">
           <Sparkles className="w-3 h-3 text-[#C26D53]" />
           <span>{mode === "customer" ? "Continuous Learning Active" : "Aggregated Analytics"}</span>
@@ -49,9 +49,10 @@ export const Topbar = ({ mode = "customer", onMenuClick }) => {
         <button
           onClick={toggleTheme}
           className="p-1.5 rounded-lg text-stone-500 hover:text-stone-800 dark:text-stone-400 dark:hover:text-stone-100 hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors"
-          aria-label="Toggle theme"
+          aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+          title={isDark ? "Switch to light mode" : "Switch to dark mode"}
         >
-          {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+          {isDark ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-stone-600" />}
         </button>
 
         {/* Mode switcher button */}

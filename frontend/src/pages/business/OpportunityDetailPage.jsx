@@ -63,7 +63,7 @@ export const OpportunityDetailPage = () => {
         <span>Back to Unmet Needs List</span>
       </Link>
 
-      {/* 47. HEADER & PROTOTYPE DISCLAIMER */}
+      {/* HEADER & DISCLAIMER */}
       <div className="p-6 sm:p-8 rounded-2xl border border-stone-200/80 dark:border-stone-800/80 bg-white dark:bg-stone-900 shadow-2xs space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
           <div>

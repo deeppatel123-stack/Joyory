@@ -54,7 +54,7 @@ export const NeedGapRadarPage = () => {
         <div>
           <div className="flex flex-wrap items-center gap-2 mb-1.5">
             <span className="text-xs font-semibold uppercase tracking-wider text-[#C26D53]">
-              Feature 04: White Space Intelligence
+              Merchandising Demand Intelligence
             </span>
             <Badge variant="accent" size="sm" className="font-semibold">
               ⭐ Need Gap Radar

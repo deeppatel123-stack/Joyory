@@ -53,7 +53,7 @@ export const BeautyMemoryPage = () => {
           <div>
             <div className="flex flex-wrap items-center gap-2 mb-1.5">
               <span className="text-xs font-semibold uppercase tracking-wider text-[#C26D53]">
-                Feature 02: Longitudinal Memory
+                Continuous Skin Identity & Memory
               </span>
               <Badge variant="accent" size="sm">
                 Personal Beauty Passport

@@ -63,7 +63,7 @@ export const OpportunitiesPage = () => {
         </div>
       </div>
 
-      {/* Info notice about prototype analytics */}
+      {/* Analytics methodology notice */}
       <div className="p-4 rounded-xl bg-stone-100/70 dark:bg-stone-900/60 border border-stone-200/80 dark:border-stone-800 text-xs flex items-start gap-3">
         <Info className="w-4 h-4 text-[#C26D53] shrink-0 mt-0.5" />
         <div className="text-stone-600 dark:text-stone-300 leading-relaxed">

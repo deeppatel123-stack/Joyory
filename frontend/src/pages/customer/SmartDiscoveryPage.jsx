@@ -57,7 +57,7 @@ export const SmartDiscoveryPage = () => {
     }
   };
 
-  // Initial search load with the hackathon demo query
+  // Initial search load with curated discovery query
   useEffect(() => {
     handleSearch("lightweight moisturizer for oily skin under ₹800", [
       { label: "Oily skin", category: "Skin Type" },

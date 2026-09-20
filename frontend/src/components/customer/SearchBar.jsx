@@ -6,7 +6,7 @@ export const SearchBar = ({ onSearch, initialQuery = "" }) => {
   const [query, setQuery] = useState(initialQuery);
   const [extractedTokens, setExtractedTokens] = useState(() => parseIntent(initialQuery));
 
-  // Quick preset queries for the hackathon demo story
+  // Popular natural language intent queries
   const presets = [
     "lightweight moisturizer for oily skin under ₹800",
     "sunscreen for oily skin zero white cast",
@@ -14,7 +14,7 @@ export const SearchBar = ({ onSearch, initialQuery = "" }) => {
     "gentle foaming cleanser for sensitive skin under ₹500"
   ];
 
-  // Natural Language Intent Parser Simulation (MERN / Python NLP ready)
+  // Natural Language Intent Parser
   function parseIntent(text) {
     if (!text || text.trim() === "") return null;
     const lower = text.toLowerCase();

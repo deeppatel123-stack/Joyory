@@ -21,9 +21,9 @@ export const AdminNavbar = () => {
     <header className="h-16 border-b border-stone-200/80 dark:border-stone-800/80 bg-white dark:bg-stone-900 px-6 flex items-center justify-between shrink-0 transition-colors">
       <div className="flex items-center gap-2 text-xs">
         <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-        <span className="font-semibold text-stone-900 dark:text-stone-100">Live Production Server</span>
+        <span className="font-semibold text-stone-900 dark:text-stone-100">System Operational</span>
         <span className="text-stone-400">•</span>
-        <span className="text-stone-500">Node.js + MongoDB</span>
+        <span className="text-stone-500">Active</span>
       </div>
 
       <div className="flex items-center gap-3">
@@ -31,21 +31,22 @@ export const AdminNavbar = () => {
         <button
           onClick={toggleTheme}
           className="p-2 rounded-lg text-stone-500 hover:text-stone-800 dark:text-stone-400 dark:hover:text-stone-100 hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors"
-          aria-label="Toggle theme"
+          aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+          title={isDark ? "Switch to light mode" : "Switch to dark mode"}
         >
-          {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+          {isDark ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-stone-600" />}
         </button>
 
         {/* Admin profile */}
         <div className="flex items-center gap-2 pl-3 border-l border-stone-200 dark:border-stone-800">
           <div className="w-8 h-8 rounded-full bg-stone-100 dark:bg-stone-800 text-stone-700 dark:text-stone-300 flex items-center justify-center font-bold text-xs">
-            A
+            {user?.name?.charAt(0)?.toUpperCase() || "A"}
           </div>
           <div className="hidden sm:block text-left text-xs">
             <div className="font-semibold text-stone-900 dark:text-stone-100">
               {user?.name || "Admin Manager"}
             </div>
-            <div className="text-[10px] text-stone-400">admin@joyory.com</div>
+            <div className="text-[10px] text-stone-400">{user?.email || "admin@joyory.com"}</div>
           </div>
 
           <button

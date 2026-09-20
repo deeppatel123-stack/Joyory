@@ -1,5 +1,5 @@
 // Aggregated business analytics and shopping funnel data
-// Prototype analytics engine
+// Aggregated beauty intelligence analytics engine
 
 export const businessAnalytics = {
   kpis: [

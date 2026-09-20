@@ -29,7 +29,8 @@ export const AdminProductsPage = () => {
     skinTypes: ["Oily", "Combination"],
     concerns: ["Midday Shine", "Dehydration"],
     isBestSeller: false,
-    isFeatured: false
+    isFeatured: false,
+    isNewArrival: false
   });
 
   const { addToast } = useNotification();
@@ -67,7 +68,8 @@ export const AdminProductsPage = () => {
       skinTypes: ["Oily", "Combination"],
       concerns: ["Midday Shine"],
       isBestSeller: false,
-      isFeatured: false
+      isFeatured: false,
+      isNewArrival: true
     });
     setModalOpen(true);
   };
@@ -89,7 +91,8 @@ export const AdminProductsPage = () => {
       skinTypes: p.skinTypes || p.skinType || ["All"],
       concerns: p.concerns || [],
       isBestSeller: !!p.isBestSeller,
-      isFeatured: !!p.isFeatured
+      isFeatured: !!p.isFeatured,
+      isNewArrival: !!p.isNewArrival
     });
     setModalOpen(true);
   };
@@ -403,7 +406,7 @@ export const AdminProductsPage = () => {
                 />
               </div>
 
-              <div className="flex items-center gap-6 pt-2">
+              <div className="flex flex-wrap items-center gap-6 pt-2 text-xs">
                 <label className="flex items-center gap-2 cursor-pointer">
                   <input
                     type="checkbox"
@@ -421,6 +424,15 @@ export const AdminProductsPage = () => {
                     className="rounded text-[#C26D53]"
                   />
                   <span>Mark as Featured</span>
+                </label>
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={formData.isNewArrival}
+                    onChange={(e) => setFormData({ ...formData, isNewArrival: e.target.checked })}
+                    className="rounded text-[#C26D53]"
+                  />
+                  <span>Mark as New Arrival</span>
                 </label>
               </div>
 

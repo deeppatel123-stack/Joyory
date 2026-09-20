@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Search, Filter, SlidersHorizontal, ArrowUpDown } from "lucide-react";
 import { PublicNavbar } from "../../components/layout/PublicNavbar";
+import { Footer } from "../../components/layout/Footer";
 import { ProductGrid } from "../../components/customer/ProductGrid";
 import { productService } from "../../services/productService";
 import { Input } from "../../components/common/Input";
@@ -160,6 +161,8 @@ export const ProductsPage = () => {
         {/* Product Grid */}
         <ProductGrid products={products} loading={loading} />
       </div>
+
+      <Footer />
     </div>
   );
 };

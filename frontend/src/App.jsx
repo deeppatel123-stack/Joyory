@@ -7,6 +7,7 @@ import { CustomerProvider } from "./context/CustomerContext";
 
 // Auth & Security Components
 import { AdminRoute } from "./components/auth/AdminRoute";
+import { CustomerRoute } from "./components/auth/CustomerRoute";
 
 // Layouts
 import { CustomerLayout } from "./components/layout/CustomerLayout";
@@ -82,17 +83,38 @@ export default function App() {
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/signup" element={<SignupPage />} />
 
-                {/* Commerce & Checkout Routes */}
-                <Route path="/cart" element={<CartPage />} />
-                <Route path="/checkout" element={<CheckoutPage />} />
+                {/* Commerce & Checkout Routes (Customer Protected) */}
+                <Route
+                  path="/cart"
+                  element={
+                    <CustomerRoute>
+                      <CartPage />
+                    </CustomerRoute>
+                  }
+                />
+                <Route
+                  path="/checkout"
+                  element={
+                    <CustomerRoute>
+                      <CheckoutPage />
+                    </CustomerRoute>
+                  }
+                />
               
               {/* Public direct shortcut aliases */}
               <Route path="/beauty-outcome" element={<Navigate to="/customer/beauty-outcome" replace />} />
               <Route path="/beauty-memory" element={<Navigate to="/customer/beauty-memory" replace />} />
               <Route path="/decision-replay" element={<Navigate to="/customer/decision-replay" replace />} />
 
-              {/* Customer Routes */}
-              <Route path="/customer" element={<CustomerLayout />}>
+              {/* Customer Routes (Customer Protected) */}
+              <Route
+                path="/customer"
+                element={
+                  <CustomerRoute>
+                    <CustomerLayout />
+                  </CustomerRoute>
+                }
+              >
                 <Route index element={<CustomerDashboard />} />
                 <Route path="discover" element={<SmartDiscoveryPage />} />
                 <Route path="recommendations" element={<RecommendationsPage />} />
@@ -139,6 +161,11 @@ export default function App() {
                 <Route path="orders" element={<AdminOrdersPage />} />
                 <Route path="users" element={<AdminUsersPage />} />
                 <Route path="reviews" element={<AdminReviewsPage />} />
+                <Route path="analytics" element={<BusinessOverviewPage />} />
+                <Route path="need-gaps" element={<NeedGapRadarPage />} />
+                <Route path="opportunities" element={<OpportunitiesPage />} />
+                <Route path="opportunities/:id" element={<OpportunityDetailPage />} />
+                <Route path="settings" element={<BusinessSettingsPage />} />
               </Route>
 
               {/* Catch-all fallback */}

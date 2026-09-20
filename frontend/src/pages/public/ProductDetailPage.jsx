@@ -13,6 +13,7 @@ import {
   Wind
 } from "lucide-react";
 import { PublicNavbar } from "../../components/layout/PublicNavbar";
+import { Footer } from "../../components/layout/Footer";
 import { productService } from "../../services/productService";
 import { recommendationService } from "../../services/recommendationService";
 import { ReviewSummary } from "../../components/customer/ReviewSummary";
@@ -339,6 +340,8 @@ export const ProductDetailPage = () => {
           </div>
         )}
       </div>
+
+      <Footer />
 
       <WhyRecommended
         product={product}

@@ -17,14 +17,15 @@ export const AdminSidebar = () => {
   const location = useLocation();
 
   const links = [
-    { label: "Dashboard", path: "/admin", icon: LayoutDashboard },
-    { label: "Products Catalog", path: "/admin/products", icon: Package },
-    { label: "Orders Pipeline", path: "/admin/orders", icon: ShoppingBag },
-    { label: "Customer Directory", path: "/admin/users", icon: Users },
-    { label: "Review Moderation", path: "/admin/reviews", icon: Star },
-    { label: "Need Gap Radar", path: "/business/need-gaps", icon: Radar },
-    { label: "Business Analytics", path: "/business/overview", icon: TrendingUp },
-    { label: "Admin Settings", path: "/business/settings", icon: Settings }
+    { label: "Overview", path: "/admin", icon: LayoutDashboard },
+    { label: "Products", path: "/admin/products", icon: Package },
+    { label: "Orders", path: "/admin/orders", icon: ShoppingBag },
+    { label: "Customers", path: "/admin/users", icon: Users },
+    { label: "Reviews", path: "/admin/reviews", icon: Star },
+    { label: "Analytics", path: "/admin/analytics", icon: TrendingUp },
+    { label: "Need Gaps", path: "/admin/need-gaps", icon: Radar },
+    { label: "Opportunities", path: "/admin/opportunities", icon: Sparkles },
+    { label: "Settings", path: "/admin/settings", icon: Settings }
   ];
 
   const isActive = (path) => {

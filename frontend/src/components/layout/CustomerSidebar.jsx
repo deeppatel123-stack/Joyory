@@ -20,16 +20,15 @@ export const CustomerSidebar = ({ onClose }) => {
   const { wishlist, orders, resetAllDemoData } = useCustomer();
 
   const navItems = [
-    { label: "Smart Discovery", path: "/customer/discover", icon: Compass },
+    { label: "Discover", path: "/customer/discover", icon: Compass },
     { label: "Recommendations", path: "/customer/recommendations", icon: Sparkles },
-    { label: "Beauty Profile", path: "/customer/profile", icon: User },
-    { label: "Beauty Memory", path: "/customer/beauty-memory", icon: Brain, badge: "Passport" },
-    { label: "Beauty Journey", path: "/customer/journey", icon: GitBranch, badge: "Continuous" },
-    { label: "Outcome Loop", path: "/customer/beauty-outcome", icon: RotateCw, badge: "Outcomes" },
-    { label: "Decision Replay", path: "/customer/decision-replay", icon: History, badge: "Replay" },
-    { label: "Wishlist", path: "/customer/wishlist", icon: Heart, count: wishlist.length },
-    { label: "My Orders", path: "/customer/orders", icon: Package, count: orders.length },
-    { label: "Feedback & Tuning", path: "/customer/feedback", icon: MessageSquare }
+    { label: "My Journey", path: "/customer/journey", icon: GitBranch },
+    { label: "Beauty Memory", path: "/customer/beauty-memory", icon: Brain },
+    { label: "Outcome Loop", path: "/customer/beauty-outcome", icon: RotateCw },
+    { label: "Decision Replay", path: "/customer/decision-replay", icon: History },
+    { label: "Wishlist", path: "/customer/wishlist", icon: Heart, count: wishlist?.length || 0 },
+    { label: "Orders", path: "/customer/orders", icon: Package, count: orders?.length || 0 },
+    { label: "Profile", path: "/customer/profile", icon: User }
   ];
 
   return (
@@ -102,10 +101,10 @@ export const CustomerSidebar = ({ onClose }) => {
         <button
           onClick={resetAllDemoData}
           className="w-full flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] text-stone-500 dark:text-stone-400 hover:text-stone-800 dark:hover:text-stone-200 hover:bg-stone-100 dark:hover:bg-stone-900 transition-colors cursor-pointer"
-          title="Reset learned preferences and test the feedback story again"
+          title="Recalibrate learned preferences and reset graph weights"
         >
           <RotateCcw className="w-3 h-3" />
-          <span>Reset Demo Flow</span>
+          <span>Recalibrate Preferences</span>
         </button>
       </div>
     </aside>

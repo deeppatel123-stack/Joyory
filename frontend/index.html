@@ -8,6 +8,18 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
     <title>Joyory Beauty Journey Intelligence</title>
     <meta name="description" content="A smarter beauty journey, powered by what you discover, choose and experience. Continuously learned preferences and aggregated business intelligence for Joyory." />
+    <script>
+      (function() {
+        try {
+          var saved = localStorage.getItem('joyory_theme');
+          if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+          }
+        } catch (e) {}
+      })();
+    </script>
   </head>
   <body class="bg-stone-50 dark:bg-stone-950 text-stone-900 dark:text-stone-100 font-sans antialiased selection:bg-stone-200 dark:selection:bg-stone-800">
     <div id="root"></div>

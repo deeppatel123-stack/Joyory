@@ -5,12 +5,14 @@ import { useNotification } from "../../context/NotificationContext";
 import { Button } from "../../components/common/Button";
 import { Input } from "../../components/common/Input";
 import { PublicNavbar } from "../../components/layout/PublicNavbar";
-import { Eye, EyeOff, Sparkles, ArrowRight, ShieldCheck, UserCheck } from "lucide-react";
+import { Footer } from "../../components/layout/Footer";
+import { Eye, EyeOff, Lock, Mail, ArrowRight } from "lucide-react";
 
 export const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
@@ -24,7 +26,14 @@ export const LoginPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!email || !password) {
-      setErrorMsg("Please enter both email and password.");
+      setErrorMsg("Please enter both your email address and password.");
+      return;
+    }
+
+    // Basic email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setErrorMsg("Please enter a valid email address.");
       return;
     }
 
@@ -50,28 +59,15 @@ export const LoginPage = () => {
     }
   };
 
-  // Quick fill shortcuts for seamless evaluator testing
-  const fillCustomerCredentials = () => {
-    setEmail("aria.chen@joyory.com");
-    setPassword("Customer@Joyory2026");
-    setErrorMsg("");
-  };
-
-  const fillAdminCredentials = () => {
-    setEmail("admin@joyory.com");
-    setPassword("Admin@Joyory2026");
-    setErrorMsg("");
-  };
-
   return (
     <div className="min-h-screen bg-stone-50 dark:bg-stone-950 text-stone-900 dark:text-stone-100 flex flex-col transition-colors">
       <PublicNavbar />
 
       <div className="flex-1 flex items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
-        <div className="w-full max-w-md space-y-8 p-8 rounded-2xl border border-stone-200/80 dark:border-stone-800/80 bg-white/90 dark:bg-stone-900/90 shadow-sm backdrop-blur-xs">
+        <div className="w-full max-w-md space-y-8 p-8 rounded-2xl border border-stone-200/80 dark:border-stone-800/80 bg-white/95 dark:bg-stone-900/95 shadow-sm backdrop-blur-xs">
           {/* Header */}
           <div className="text-center space-y-2">
-            <div className="w-10 h-10 rounded-xl bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 flex items-center justify-center font-bold text-base mx-auto">
+            <div className="w-10 h-10 rounded-xl bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 flex items-center justify-center font-bold text-base mx-auto shadow-xs">
               J
             </div>
             <h2 className="text-2xl font-semibold tracking-tight text-stone-950 dark:text-stone-50">
@@ -95,14 +91,18 @@ export const LoginPage = () => {
               <label className="block text-xs font-medium text-stone-700 dark:text-stone-300 mb-1">
                 Email Address
               </label>
-              <Input
-                type="email"
-                placeholder="name@example.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className="w-full text-xs"
-              />
+              <div className="relative">
+                <Input
+                  type="email"
+                  placeholder="name@example.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  disabled={isSubmitting}
+                  required
+                  className="pl-9"
+                />
+                <Mail className="w-4 h-4 text-stone-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+              </div>
             </div>
 
             <div>
@@ -110,24 +110,21 @@ export const LoginPage = () => {
                 <label className="block text-xs font-medium text-stone-700 dark:text-stone-300">
                   Password
                 </label>
-                <button
-                  type="button"
-                  onClick={() => addToast("Password reset link sent to registered email.", "info")}
-                  className="text-[11px] text-[#C26D53] hover:underline"
-                >
+                <span className="text-[11px] text-[#C26D53] hover:underline cursor-pointer">
                   Forgot password?
-                </button>
+                </span>
               </div>
-
               <div className="relative">
                 <Input
                   type={showPassword ? "text" : "password"}
                   placeholder="••••••••"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  disabled={isSubmitting}
                   required
-                  className="w-full text-xs pr-10"
+                  className="pl-9 pr-10"
                 />
+                <Lock className="w-4 h-4 text-stone-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
@@ -139,43 +136,32 @@ export const LoginPage = () => {
               </div>
             </div>
 
+            {/* Remember Me */}
+            <div className="flex items-center justify-between pt-1">
+              <label className="flex items-center gap-2 text-xs text-stone-600 dark:text-stone-400 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={rememberMe}
+                  onChange={(e) => setRememberMe(e.target.checked)}
+                  className="rounded border-stone-300 dark:border-stone-700 text-[#C26D53] focus:ring-[#C26D53]"
+                />
+                <span>Remember this session</span>
+              </label>
+            </div>
+
             <Button
               type="submit"
               variant="primary"
               className="w-full justify-center text-xs py-2.5"
               disabled={isSubmitting}
+              icon={ArrowRight}
             >
               {isSubmitting ? "Signing in..." : "Sign In"}
             </Button>
           </form>
 
-          {/* 1-Click Fast Credentials for Evaluators */}
-          <div className="pt-2 border-t border-stone-100 dark:border-stone-800 space-y-2">
-            <div className="text-[10px] uppercase tracking-wider text-stone-400 font-semibold text-center">
-              Quick Sign-In Shortcuts
-            </div>
-            <div className="grid grid-cols-2 gap-2">
-              <button
-                type="button"
-                onClick={fillCustomerCredentials}
-                className="p-2 rounded-lg border border-stone-200 dark:border-stone-800 hover:border-[#C26D53] bg-stone-50 dark:bg-stone-950/40 text-[11px] text-stone-700 dark:text-stone-300 flex items-center justify-center gap-1.5 transition-colors"
-              >
-                <UserCheck className="w-3.5 h-3.5 text-[#C26D53]" />
-                Demo Customer
-              </button>
-              <button
-                type="button"
-                onClick={fillAdminCredentials}
-                className="p-2 rounded-lg border border-stone-200 dark:border-stone-800 hover:border-stone-900 dark:hover:border-stone-100 bg-stone-50 dark:bg-stone-950/40 text-[11px] text-stone-700 dark:text-stone-300 flex items-center justify-center gap-1.5 transition-colors"
-              >
-                <ShieldCheck className="w-3.5 h-3.5 text-stone-900 dark:text-stone-100" />
-                Demo Admin
-              </button>
-            </div>
-          </div>
-
           {/* Footer link */}
-          <div className="text-center text-xs text-stone-500">
+          <div className="text-center text-xs text-stone-500 pt-2 border-t border-stone-100 dark:border-stone-800">
             Don't have an account?{" "}
             <Link to="/signup" className="text-[#C26D53] font-medium hover:underline">
               Create an account
@@ -183,6 +169,8 @@ export const LoginPage = () => {
           </div>
         </div>
       </div>
+
+      <Footer />
     </div>
   );
 };

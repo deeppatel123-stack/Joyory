@@ -42,7 +42,7 @@ export const BusinessOverviewPage = () => {
 
   return (
     <div className="space-y-8">
-      {/* 39. HEADER & PROTOTYPE BANNER */}
+      {/* HEADER & OVERVIEW BANNER */}
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-stone-200/80 dark:border-stone-800/80 pb-6">
         <div>
           <div className="flex items-center gap-2 mb-1">

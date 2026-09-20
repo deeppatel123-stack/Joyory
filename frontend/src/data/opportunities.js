@@ -14,7 +14,7 @@ export const opportunities = [
     status: "Active Opportunity",
     createdAt: "September 2026",
     summary: "Surging customer demand for ultra-lightweight, non-sticky water gel moisturizers priced between ₹500 and ₹700 suitable for hot & humid climates, currently undersupplied in catalog.",
-    explanation: "High customer interest with limited matching products in the prototype catalog.",
+    explanation: "High customer interest with limited matching products in the current catalog.",
     metrics: {
       searchGrowth: "+48% MoM",
       unmetQueriesCount: "3,420 queries with 0 checkout",

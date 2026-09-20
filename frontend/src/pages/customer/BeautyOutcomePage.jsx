@@ -57,7 +57,7 @@ export const BeautyOutcomePage = () => {
       <div className="border-b border-stone-200/80 dark:border-stone-800/80 pb-6">
         <div className="flex flex-wrap items-center gap-2 mb-1.5">
           <span className="text-xs font-semibold uppercase tracking-wider text-[#C26D53]">
-            Feature 01: Post-Purchase Learning Loop
+            Post-Purchase Learning Loop
           </span>
           <Badge variant="accent" size="sm">
             Continuous Outcome Loop

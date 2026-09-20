@@ -5,7 +5,8 @@ import { useNotification } from "../../context/NotificationContext";
 import { Button } from "../../components/common/Button";
 import { Input } from "../../components/common/Input";
 import { PublicNavbar } from "../../components/layout/PublicNavbar";
-import { Eye, EyeOff, Sparkles, CheckCircle2 } from "lucide-react";
+import { Footer } from "../../components/layout/Footer";
+import { Eye, EyeOff, Sparkles, CheckCircle2, ShieldCheck } from "lucide-react";
 
 export const SignupPage = () => {
   const [formData, setFormData] = useState({
@@ -230,7 +231,7 @@ export const SignupPage = () => {
           </form>
 
           {/* Footer link */}
-          <div className="text-center text-xs text-stone-500">
+          <div className="text-center text-xs text-stone-500 pt-2 border-t border-stone-100 dark:border-stone-800">
             Already have an account?{" "}
             <Link to="/login" className="text-[#C26D53] font-medium hover:underline">
               Sign in
@@ -238,6 +239,8 @@ export const SignupPage = () => {
           </div>
         </div>
       </div>
+
+      <Footer />
     </div>
   );
 };
