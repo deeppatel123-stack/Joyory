@@ -6,14 +6,7 @@ export const getJourneyEvents = async (req, res, next) => {
     if (!journey) {
       journey = await BeautyJourney.create({
         user: req.user._id,
-        events: [
-          {
-            type: "SEARCH",
-            title: "Smart Discovery Search",
-            description: "Intent parsed: Extracted texture, skin type and budget filters.",
-            timestamp: new Date()
-          }
-        ]
+        events: []
       });
     }
 

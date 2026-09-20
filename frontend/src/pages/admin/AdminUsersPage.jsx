@@ -94,38 +94,46 @@ export const AdminUsersPage = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-stone-100 dark:divide-stone-800/80">
-              {filteredUsers.map((user) => (
-                <tr key={user.id} className="hover:bg-stone-50/50 dark:hover:bg-stone-800/30 transition-colors">
-                  <td className="py-3 px-4 flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-stone-100 dark:bg-stone-800 text-stone-700 dark:text-stone-300 flex items-center justify-center font-bold text-xs">
-                      {user.name.charAt(0)}
-                    </div>
-                    <div>
-                      <div className="font-semibold text-stone-900 dark:text-stone-100">{user.name}</div>
-                      <div className="text-[10px] text-stone-400">{user.email}</div>
-                    </div>
-                  </td>
-                  <td className="py-3 px-4">
-                    <span className="px-2 py-0.5 rounded text-[10px] bg-stone-100 dark:bg-stone-800 text-stone-700 dark:text-stone-300 font-medium">
-                      {user.skinType || "Combination"}
-                    </span>
-                  </td>
-                  <td className="py-3 px-4 text-stone-500">
-                    {user.createdAt ? new Date(user.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "May 2026"}
-                  </td>
-                  <td className="py-3 px-4 font-semibold text-stone-900 dark:text-stone-100">
-                    {user.ordersCount || 1}
-                  </td>
-                  <td className="py-3 px-4 font-semibold text-stone-900 dark:text-stone-100">
-                    ₹{user.totalSpend || 1200}
-                  </td>
-                  <td className="py-3 px-4">
-                    <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400">
-                      Active
-                    </span>
+              {filteredUsers.length === 0 ? (
+                <tr>
+                  <td colSpan={6} className="py-8 text-center text-xs text-stone-500">
+                    No customers found.
                   </td>
                 </tr>
-              ))}
+              ) : (
+                filteredUsers.map((user) => (
+                  <tr key={user.id} className="hover:bg-stone-50/50 dark:hover:bg-stone-800/30 transition-colors">
+                    <td className="py-3 px-4 flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-full bg-stone-100 dark:bg-stone-800 text-stone-700 dark:text-stone-300 flex items-center justify-center font-bold text-xs">
+                        {user.name.charAt(0)}
+                      </div>
+                      <div>
+                        <div className="font-semibold text-stone-900 dark:text-stone-100">{user.name}</div>
+                        <div className="text-[10px] text-stone-400">{user.email}</div>
+                      </div>
+                    </td>
+                    <td className="py-3 px-4">
+                      <span className="px-2 py-0.5 rounded text-[10px] bg-stone-100 dark:bg-stone-800 text-stone-700 dark:text-stone-300 font-medium">
+                        {user.skinType || "Combination"}
+                      </span>
+                    </td>
+                    <td className="py-3 px-4 text-stone-500">
+                      {user.createdAt ? new Date(user.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "Recent"}
+                    </td>
+                    <td className="py-3 px-4 font-semibold text-stone-900 dark:text-stone-100">
+                      {user.ordersCount ?? 0}
+                    </td>
+                    <td className="py-3 px-4 font-semibold text-stone-900 dark:text-stone-100">
+                      ₹{user.totalSpend ?? 0}
+                    </td>
+                    <td className="py-3 px-4">
+                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400">
+                        Active
+                      </span>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>

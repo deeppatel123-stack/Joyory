@@ -179,7 +179,12 @@ export const createProduct = async (req, res, next) => {
 export const updateProduct = async (req, res, next) => {
   try {
     const { id } = req.params;
-    let product = await Product.findById(id);
+    let product;
+    if (id.match(/^[0-9a-fA-F]{24}$/)) {
+      product = await Product.findById(id);
+    } else {
+      product = await Product.findOne({ $or: [{ sku: id }, { name: id }] });
+    }
 
     if (!product) {
       return res.status(404).json({ success: false, message: "Product not found." });
@@ -189,7 +194,7 @@ export const updateProduct = async (req, res, next) => {
       req.body.discount = Math.round(((req.body.mrp - req.body.price) / req.body.mrp) * 100);
     }
 
-    product = await Product.findByIdAndUpdate(id, req.body, {
+    const updated = await Product.findByIdAndUpdate(product._id, req.body, {
       new: true,
       runValidators: true
     });
@@ -197,7 +202,7 @@ export const updateProduct = async (req, res, next) => {
     res.status(200).json({
       success: true,
       message: "Product updated successfully.",
-      data: product
+      data: updated
     });
   } catch (error) {
     next(error);
@@ -207,13 +212,18 @@ export const updateProduct = async (req, res, next) => {
 export const deleteProduct = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const product = await Product.findById(id);
+    let product;
+    if (id.match(/^[0-9a-fA-F]{24}$/)) {
+      product = await Product.findById(id);
+    } else {
+      product = await Product.findOne({ $or: [{ sku: id }, { name: id }] });
+    }
 
     if (!product) {
       return res.status(404).json({ success: false, message: "Product not found." });
     }
 
-    await Product.findByIdAndDelete(id);
+    await Product.findByIdAndDelete(product._id);
 
     res.status(200).json({
       success: true,

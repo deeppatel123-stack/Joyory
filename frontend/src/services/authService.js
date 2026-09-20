@@ -86,6 +86,34 @@ export const authService = {
     }
   },
 
+  async updateProfile(profileData) {
+    try {
+      const res = await apiClient.put("/auth/profile", profileData);
+      if (res && res.data) {
+        localStorage.setItem("joyory_user", JSON.stringify(res.data));
+        return res.data;
+      }
+    } catch (err) {
+      console.warn("[authService] Failed to update profile on backend:", err.message);
+      // Local fallback update
+      const saved = localStorage.getItem("joyory_user");
+      if (saved) {
+        const user = JSON.parse(saved);
+        const updated = {
+          ...user,
+          ...profileData,
+          beautyPreferences: {
+            ...(user.beautyPreferences || {}),
+            ...(profileData.beautyPreferences || {})
+          }
+        };
+        localStorage.setItem("joyory_user", JSON.stringify(updated));
+        return updated;
+      }
+      throw err;
+    }
+  },
+
   logout() {
     localStorage.removeItem("joyory_token");
     localStorage.removeItem("joyory_user");

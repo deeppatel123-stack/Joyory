@@ -17,10 +17,24 @@ export const getWishlist = async (req, res, next) => {
   }
 };
 
+const findProductByIdOrFallback = async (id) => {
+  if (!id) return null;
+  const strId = id.toString();
+  if (strId.match(/^[0-9a-fA-F]{24}$/)) {
+    return await Product.findById(strId);
+  }
+  if (strId.startsWith("prod-")) {
+    const idx = parseInt(strId.replace("prod-", ""), 10) - 1;
+    const allProds = await Product.find().sort({ createdAt: 1 });
+    if (allProds[idx]) return allProds[idx];
+  }
+  return await Product.findOne({ $or: [{ sku: strId }, { name: { $regex: new RegExp(`^${strId}$`, "i") } }] });
+};
+
 export const toggleWishlist = async (req, res, next) => {
   try {
     const { productId } = req.body;
-    const product = await Product.findById(productId);
+    const product = await findProductByIdOrFallback(productId);
 
     if (!product) {
       return res.status(404).json({ success: false, message: "Product not found." });
@@ -31,14 +45,14 @@ export const toggleWishlist = async (req, res, next) => {
       wishlist = new Wishlist({ user: req.user._id, products: [] });
     }
 
-    const existsIndex = wishlist.products.findIndex((p) => p.toString() === productId);
+    const existsIndex = wishlist.products.findIndex((p) => p.toString() === product._id.toString());
     let action = "added";
 
     if (existsIndex > -1) {
       wishlist.products.splice(existsIndex, 1);
       action = "removed";
     } else {
-      wishlist.products.push(productId);
+      wishlist.products.push(product._id);
     }
 
     await wishlist.save();

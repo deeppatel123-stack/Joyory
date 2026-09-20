@@ -44,11 +44,25 @@ export const getCart = async (req, res, next) => {
   }
 };
 
+const findProductByIdOrFallback = async (id) => {
+  if (!id) return null;
+  const strId = id.toString();
+  if (strId.match(/^[0-9a-fA-F]{24}$/)) {
+    return await Product.findById(strId);
+  }
+  if (strId.startsWith("prod-")) {
+    const idx = parseInt(strId.replace("prod-", ""), 10) - 1;
+    const allProds = await Product.find().sort({ createdAt: 1 });
+    if (allProds[idx]) return allProds[idx];
+  }
+  return await Product.findOne({ $or: [{ sku: strId }, { name: { $regex: new RegExp(`^${strId}$`, "i") } }] });
+};
+
 export const addToCart = async (req, res, next) => {
   try {
     const { productId, quantity = 1 } = req.body;
 
-    const product = await Product.findById(productId);
+    const product = await findProductByIdOrFallback(productId);
     if (!product) {
       return res.status(404).json({ success: false, message: "Product not found." });
     }
@@ -62,8 +76,7 @@ export const addToCart = async (req, res, next) => {
       cart = new Cart({ user: req.user._id, items: [] });
     }
 
-    const itemIndex = cart.items.findIndex((item) => item.product.toString() === productId);
-
+    const itemIndex = cart.items.findIndex((item) => item.product.toString() === product._id.toString());
     if (itemIndex > -1) {
       const newQty = cart.items[itemIndex].quantity + quantity;
       if (newQty > product.stock) {
@@ -71,7 +84,7 @@ export const addToCart = async (req, res, next) => {
       }
       cart.items[itemIndex].quantity = newQty;
     } else {
-      cart.items.push({ product: productId, quantity });
+      cart.items.push({ product: product._id, quantity });
     }
 
     await cart.save();

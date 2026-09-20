@@ -1,32 +1,99 @@
-// MERN-Ready Customer Service
-// Future integration: maps to GET /api/customer/profile, PATCH /api/customer/preferences
-
+import { authService } from "./authService";
 import { initialCustomer } from "../data/customers";
 
-const STORAGE_KEY = "joyory_customer_profile";
+const getUserProfileKey = () => {
+  try {
+    const u = JSON.parse(localStorage.getItem("joyory_user") || "{}");
+    return `joyory_profile_${u.id || u._id || (u.email ? u.email.toLowerCase() : "guest")}`;
+  } catch {
+    return "joyory_profile_guest";
+  }
+};
+
+const isDemoUser = () => {
+  try {
+    const u = JSON.parse(localStorage.getItem("joyory_user") || "{}");
+    return (u.email || "").toLowerCase().includes("aria.chen") || (u.email || "").toLowerCase().includes("customer@joyory.com");
+  } catch {
+    return false;
+  }
+};
 
 export const customerService = {
-  // GET /api/customer/profile
+  // GET customer profile
   async getProfile() {
-    await new Promise(resolve => setTimeout(resolve, 40));
-    const cached = localStorage.getItem(STORAGE_KEY);
+    let authUser = null;
+    try {
+      authUser = await authService.getMe();
+    } catch {
+      try {
+        authUser = JSON.parse(localStorage.getItem("joyory_user") || "null");
+      } catch {
+        authUser = null;
+      }
+    }
+
+    const key = getUserProfileKey();
+    const cached = localStorage.getItem(key);
     if (cached) {
       try {
-        return JSON.parse(cached);
+        const parsed = JSON.parse(cached);
+        if (authUser) {
+          parsed.name = authUser.name || parsed.name;
+          parsed.email = authUser.email || parsed.email;
+        }
+        return parsed;
       } catch (e) {
         console.error(e);
       }
     }
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(initialCustomer));
-    return initialCustomer;
+
+    if (isDemoUser() || !authUser) {
+      localStorage.setItem(key, JSON.stringify(initialCustomer));
+      return initialCustomer;
+    }
+
+    // Dynamic clean profile for new registered customer
+    const userPrefs = authUser.beautyPreferences || {};
+    const newCustomerProfile = {
+      id: authUser.id || authUser._id,
+      name: authUser.name,
+      email: authUser.email,
+      role: authUser.role || "customer",
+      phone: authUser.phone || "+91 98765 43210",
+      statedPreferences: {
+        skinType: userPrefs.skinType || "Oily / Combination",
+        primaryGoal: userPrefs.primaryGoal || "Hydration & Balance",
+        budgetRange: userPrefs.budget || "₹500 - ₹1,000",
+        fragrance: userPrefs.fragrance || "Low / None",
+        routine: "Minimal (3 steps)"
+      },
+      learnedPreferences: [
+        {
+          id: "pref-texture",
+          category: "Texture",
+          trait: userPrefs.preferredTexture || "Lightweight",
+          confidence: 85,
+          evolution: "Selected during onboarding"
+        }
+      ],
+      graphData: {
+        nodes: [
+          { id: "skinType", label: "Skin Type", value: userPrefs.skinType || "Combination", confidence: 90, source: "Profile" },
+          { id: "texture", label: "Texture", value: userPrefs.preferredTexture || "Lightweight", confidence: 85, source: "Preferences" },
+          { id: "budget", label: "Budget", value: userPrefs.budget || "₹500 - ₹1,000", confidence: 90, source: "Profile" }
+        ],
+        links: []
+      }
+    };
+
+    localStorage.setItem(key, JSON.stringify(newCustomerProfile));
+    return newCustomerProfile;
   },
 
-  // PATCH /api/customer/preferences
+  // Update preferences
   async updatePreferences(newLearnedPref) {
-    await new Promise(resolve => setTimeout(resolve, 40));
     const current = await this.getProfile();
-
-    // Update learned preferences
     const existingIndex = current.learnedPreferences.findIndex(p => p.id === newLearnedPref.id);
     let updatedLearned = [...current.learnedPreferences];
     if (existingIndex >= 0) {
@@ -35,35 +102,32 @@ export const customerService = {
       updatedLearned.push(newLearnedPref);
     }
 
-    // Update graph node if exists
-    let updatedNodes = current.graphData.nodes.map(node => {
-      if (node.id === "texture" && newLearnedPref.category === "Texture") {
-        return {
-          ...node,
-          confidence: newLearnedPref.confidence,
-          source: newLearnedPref.evolution || node.source,
-          updated: "Just now"
-        };
-      }
-      return node;
-    });
-
     const updatedProfile = {
       ...current,
-      learnedPreferences: updatedLearned,
-      graphData: {
-        ...current.graphData,
-        nodes: updatedNodes
-      }
+      learnedPreferences: updatedLearned
     };
 
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedProfile));
+    const key = getUserProfileKey();
+    localStorage.setItem(key, JSON.stringify(updatedProfile));
+
+    // Also sync to MongoDB
+    try {
+      await authService.updateProfile({
+        beautyPreferences: {
+          preferredTexture: newLearnedPref.trait || current.statedPreferences?.skinType
+        }
+      });
+    } catch (err) {
+      console.warn("[customerService] Profile sync note:", err.message);
+    }
+
     return updatedProfile;
   },
 
   // Reset to initial demo state
   async resetDemoProfile() {
-    localStorage.removeItem(STORAGE_KEY);
-    return initialCustomer;
+    const key = getUserProfileKey();
+    localStorage.removeItem(key);
+    return isDemoUser() ? initialCustomer : this.getProfile();
   }
 };

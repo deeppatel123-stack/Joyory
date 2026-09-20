@@ -163,6 +163,38 @@ export const getMe = async (req, res, next) => {
   }
 };
 
+export const updateProfile = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user._id);
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+    const { name, beautyPreferences, phone } = req.body;
+    if (name) user.name = name;
+    if (phone) user.phone = phone;
+    if (beautyPreferences) {
+      user.beautyPreferences = {
+        ...(user.beautyPreferences || {}),
+        ...beautyPreferences
+      };
+    }
+    await user.save();
+    res.status(200).json({
+      success: true,
+      message: "Profile updated successfully.",
+      data: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        beautyPreferences: user.beautyPreferences
+      }
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const logout = async (req, res) => {
   res.status(200).json({
     success: true,

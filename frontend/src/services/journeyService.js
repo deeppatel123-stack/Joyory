@@ -1,15 +1,48 @@
-// MERN-Ready Journey Service
-// Future integration: maps to GET /api/customer/journey and POST /api/customer/journey/event
-
+import { apiClient } from "./apiClient";
 import { initialJourneyEvents } from "../data/journey";
 
-const JOURNEY_KEY = "joyory_customer_journey";
+const getUserJourneyKey = () => {
+  try {
+    const u = JSON.parse(localStorage.getItem("joyory_user") || "{}");
+    return `joyory_journey_${u.id || u._id || (u.email ? u.email.toLowerCase() : "guest")}`;
+  } catch {
+    return "joyory_journey_guest";
+  }
+};
+
+const isDemoUser = () => {
+  try {
+    const u = JSON.parse(localStorage.getItem("joyory_user") || "{}");
+    return (u.email || "").toLowerCase().includes("aria.chen") || (u.email || "").toLowerCase().includes("customer@joyory.com");
+  } catch {
+    return false;
+  }
+};
 
 export const journeyService = {
-  // GET /api/customer/journey
+  // GET /api/journey
   async getJourney() {
-    await new Promise(resolve => setTimeout(resolve, 40));
-    const cached = localStorage.getItem(JOURNEY_KEY);
+    try {
+      const res = await apiClient.get("/journey");
+      if (res && res.data && Array.isArray(res.data)) {
+        // Map backend event structure if needed
+        return res.data.map(ev => ({
+          id: ev._id || `ev-${Date.now()}`,
+          date: ev.timestamp ? new Date(ev.timestamp).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "Today",
+          type: ev.type,
+          title: ev.title,
+          description: ev.description,
+          productName: ev.productName,
+          productId: ev.productId,
+          systemImpact: ev.systemImpact
+        }));
+      }
+    } catch (err) {
+      console.warn("[journeyService] Fallback to user storage:", err.message);
+    }
+
+    const key = getUserJourneyKey();
+    const cached = localStorage.getItem(key);
     if (cached) {
       try {
         return JSON.parse(cached);
@@ -17,12 +50,22 @@ export const journeyService = {
         console.error(e);
       }
     }
-    localStorage.setItem(JOURNEY_KEY, JSON.stringify(initialJourneyEvents));
-    return initialJourneyEvents;
+
+    // Only demo customer gets demo journey events, new customers start clean
+    const defaults = isDemoUser() ? initialJourneyEvents : [];
+    localStorage.setItem(key, JSON.stringify(defaults));
+    return defaults;
   },
 
-  // POST /api/customer/journey/event
+  // POST /api/journey
   async addEvent(newEvent) {
+    try {
+      await apiClient.post("/journey", newEvent);
+    } catch (err) {
+      console.warn("[journeyService] Offline event logging:", err.message);
+    }
+
+    const key = getUserJourneyKey();
     const current = await this.getJourney();
     const eventWithId = {
       id: `ev-${Date.now()}`,
@@ -30,12 +73,13 @@ export const journeyService = {
       ...newEvent
     };
     const updated = [eventWithId, ...current];
-    localStorage.setItem(JOURNEY_KEY, JSON.stringify(updated));
+    localStorage.setItem(key, JSON.stringify(updated));
     return updated;
   },
 
   async resetJourney() {
-    localStorage.removeItem(JOURNEY_KEY);
-    return initialJourneyEvents;
+    const key = getUserJourneyKey();
+    localStorage.removeItem(key);
+    return isDemoUser() ? initialJourneyEvents : [];
   }
 };

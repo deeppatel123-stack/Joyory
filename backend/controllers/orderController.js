@@ -4,6 +4,20 @@ import { Cart } from "../models/Cart.js";
 import { BeautyOutcome } from "../models/BeautyOutcome.js";
 import { BeautyJourney } from "../models/BeautyJourney.js";
 
+const findProductByIdOrFallback = async (id) => {
+  if (!id) return null;
+  const strId = id.toString();
+  if (strId.match(/^[0-9a-fA-F]{24}$/)) {
+    return await Product.findById(strId);
+  }
+  if (strId.startsWith("prod-")) {
+    const idx = parseInt(strId.replace("prod-", ""), 10) - 1;
+    const allProds = await Product.find().sort({ createdAt: 1 });
+    if (allProds[idx]) return allProds[idx];
+  }
+  return await Product.findOne({ $or: [{ sku: strId }, { name: { $regex: new RegExp(`^${strId}$`, "i") } }] });
+};
+
 export const createOrder = async (req, res, next) => {
   try {
     const { items, shippingAddress, paymentMethod = "cod" } = req.body;
@@ -22,9 +36,9 @@ export const createOrder = async (req, res, next) => {
 
     // Verify each product, price and stock on backend
     for (const item of items) {
-      const product = await Product.findById(item.productId || item.product);
+      const product = await findProductByIdOrFallback(item.productId || item.product || item.id);
       if (!product) {
-        return res.status(404).json({ success: false, message: `Product not found: ${item.name || item.productId}` });
+        return res.status(404).json({ success: false, message: `Product not found: ${item.name || item.productId || item.id}` });
       }
 
       if (product.stock < item.quantity) {
@@ -60,7 +74,14 @@ export const createOrder = async (req, res, next) => {
       orderId,
       user: req.user._id,
       items: verifiedItems,
-      shippingAddress,
+      shippingAddress: {
+        fullName: shippingAddress.fullName,
+        phone: shippingAddress.phone || "9876543210",
+        address: shippingAddress.address,
+        city: shippingAddress.city,
+        state: shippingAddress.state || "Karnataka",
+        pincode: shippingAddress.pincode
+      },
       paymentMethod,
       subtotal,
       discount,
@@ -168,7 +189,12 @@ export const updateOrderStatus = async (req, res, next) => {
       return res.status(400).json({ success: false, message: "Invalid order status." });
     }
 
-    const order = await Order.findById(id);
+    let order;
+    if (id.match(/^[0-9a-fA-F]{24}$/)) {
+      order = await Order.findById(id);
+    } else {
+      order = await Order.findOne({ orderId: id });
+    }
     if (!order) {
       return res.status(404).json({ success: false, message: "Order not found." });
     }

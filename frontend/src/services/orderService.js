@@ -1,14 +1,37 @@
 import { apiClient } from "./apiClient";
 import { initialOrders } from "../data/orders";
 
+const getUserOrdersKey = () => {
+  try {
+    const u = JSON.parse(localStorage.getItem("joyory_user") || "{}");
+    return `joyory_orders_${u.id || u._id || (u.email ? u.email.toLowerCase() : "guest")}`;
+  } catch {
+    return "joyory_orders_guest";
+  }
+};
+
+const isDemoUser = () => {
+  try {
+    const u = JSON.parse(localStorage.getItem("joyory_user") || "{}");
+    return (u.email || "").toLowerCase().includes("aria.chen") || (u.email || "").toLowerCase().includes("customer@joyory.com");
+  } catch {
+    return false;
+  }
+};
+
 export const orderService = {
   async createOrder(orderData) {
+    const key = getUserOrdersKey();
     try {
       const res = await apiClient.post("/orders", orderData);
-      return res.data;
+      const savedOrders = JSON.parse(localStorage.getItem(key) || "[]");
+      const savedOrder = res.data || res;
+      savedOrders.unshift(savedOrder);
+      localStorage.setItem(key, JSON.stringify(savedOrders));
+      return savedOrder;
     } catch (err) {
-      // Fallback order creation in localStorage
-      const savedOrders = JSON.parse(localStorage.getItem("joyory_orders") || "[]");
+      console.warn("[orderService] Falling back to local order creation:", err.message);
+      const savedOrders = JSON.parse(localStorage.getItem(key) || "[]");
       const idStr = `JOY-${Date.now().toString().slice(-6)}`;
       const dateStr = new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
       const firstItem = orderData.items?.[0] || {};
@@ -39,7 +62,7 @@ export const orderService = {
         hasFeedback: false
       };
       savedOrders.unshift(newOrder);
-      localStorage.setItem("joyory_orders", JSON.stringify(savedOrders));
+      localStorage.setItem(key, JSON.stringify(savedOrders));
       return newOrder;
     }
   },
@@ -47,11 +70,25 @@ export const orderService = {
   async getOrders() {
     try {
       const res = await apiClient.get("/orders");
-      return res.data;
+      if (res && res.data && Array.isArray(res.data)) {
+        return res.data;
+      }
+      if (Array.isArray(res)) {
+        return res;
+      }
     } catch (err) {
-      const saved = localStorage.getItem("joyory_orders");
-      return saved ? JSON.parse(saved) : initialOrders;
+      console.warn("[orderService] Falling back to user-scoped orders:", err.message);
     }
+    const key = getUserOrdersKey();
+    const saved = localStorage.getItem(key);
+    if (saved) {
+      try {
+        return JSON.parse(saved);
+      } catch {
+        return [];
+      }
+    }
+    return isDemoUser() ? initialOrders : [];
   },
 
   async getOrderById(id) {
