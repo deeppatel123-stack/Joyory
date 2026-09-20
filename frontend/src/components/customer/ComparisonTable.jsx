@@ -21,7 +21,7 @@ export const ComparisonTable = ({ products = [] }) => {
       label: "Preference Match",
       render: (p) => (
         <Badge variant="accent" size="sm" className="font-semibold">
-          {p.matchScore || 92}% Match
+          Good match
         </Badge>
       )
     },

@@ -1,30 +1,30 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
-  Sparkles,
-  GitBranch,
   ArrowRight,
-  Compass,
+  GitBranch,
+  Brain,
+  Search,
   CheckCircle2,
-  TrendingUp,
-  MessageSquare
+  Heart,
+  ShoppingBag
 } from "lucide-react";
 import { useCustomer } from "../../context/CustomerContext";
-import { recommendationService } from "../../services/recommendationService";
+import { productService } from "../../services/productService";
 import { ProductCard } from "../../components/customer/ProductCard";
-import { Badge } from "../../components/common/Badge";
 import { Button } from "../../components/common/Button";
 
 export const CustomerDashboard = () => {
   const { profile } = useCustomer();
-  const [topPicks, setTopPicks] = useState([]);
+  const [recommended, setRecommended] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function load() {
       try {
-        const data = await recommendationService.getRecommendations();
-        setTopPicks(data.topMatches?.slice(0, 3) || []);
+        const all = await productService.getProducts();
+        // Curate 3-4 gentle recommendations
+        setRecommended(all.slice(0, 4));
       } catch (e) {
         console.error(e);
       } finally {
@@ -32,135 +32,136 @@ export const CustomerDashboard = () => {
       }
     }
     load();
-  }, [profile]);
+  }, []);
+
+  const journeySteps = [
+    { title: "Searched for moisturizer", time: "Recently", icon: Search },
+    { title: "Viewed HydraGel Ultra-Light", time: "Recently", icon: ShoppingBag },
+    { title: "Purchased HydraGel", time: "Delivered", icon: CheckCircle2 },
+    { title: "Loved the lightweight texture", time: "Feedback saved", icon: Heart }
+  ];
+
+  const memoryTags = [
+    { label: "Preferred Texture", value: "Lightweight Water-Gel" },
+    { label: "Preferred Finish", value: "Natural / Matte" },
+    { label: "Skin Focus", value: "Oily / Combination" },
+    { label: "Budget Range", value: "₹500 – ₹1,000" }
+  ];
 
   return (
-    <div className="space-y-8">
-      {/* Welcome Banner */}
-      <div className="p-6 sm:p-8 rounded-2xl border border-stone-200/80 dark:border-stone-800/80 bg-white dark:bg-stone-900 shadow-2xs space-y-4">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div>
-            <div className="flex items-center gap-1.5 text-xs text-stone-500 dark:text-stone-400 mb-1">
-              <Sparkles className="w-3.5 h-3.5 text-[#C26D53]" />
-              <span>Personalized Beauty Journey</span>
-            </div>
-            <h1 className="text-2xl font-bold tracking-tight text-stone-950 dark:text-stone-50">
-              Welcome back, {profile?.name || "Aria"}
-            </h1>
-            <p className="text-xs sm:text-sm text-stone-500 dark:text-stone-400 mt-1">
-              Your Beauty Preference Graph has analyzed 7 interactions to continuously personalize your catalog.
-            </p>
-          </div>
-
-          <Link to="/customer/discover">
-            <Button variant="primary" icon={Compass}>
-              Start Smart Discovery
-            </Button>
-          </Link>
-        </div>
-
-        {/* Current Active Learned Trait Snapshot */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-4 border-t border-stone-100 dark:border-stone-800">
-          <div className="p-3 rounded-lg bg-stone-50 dark:bg-stone-950/40 border border-stone-100 dark:border-stone-800">
-            <span className="text-[10px] text-stone-400 uppercase tracking-wider font-medium block">
-              Primary Learned Preference
-            </span>
-            <span className="text-xs font-semibold text-stone-900 dark:text-stone-100 block mt-0.5">
-              Lightweight Gel Texture
-            </span>
-            <span className="text-[11px] text-[#C26D53] font-medium">94% Confidence</span>
-          </div>
-
-          <div className="p-3 rounded-lg bg-stone-50 dark:bg-stone-950/40 border border-stone-100 dark:border-stone-800">
-            <span className="text-[10px] text-stone-400 uppercase tracking-wider font-medium block">
-              Skin Barrier Objective
-            </span>
-            <span className="text-xs font-semibold text-stone-900 dark:text-stone-100 block mt-0.5">
-              Hydration without shine
-            </span>
-            <span className="text-[11px] text-emerald-600 dark:text-emerald-400 font-medium">Oily / Combo Aligned</span>
-          </div>
-
-          <div className="p-3 rounded-lg bg-stone-50 dark:bg-stone-950/40 border border-stone-100 dark:border-stone-800">
-            <span className="text-[10px] text-stone-400 uppercase tracking-wider font-medium block">
-              Active Budget Ceiling
-            </span>
-            <span className="text-xs font-semibold text-stone-900 dark:text-stone-100 block mt-0.5">
-              Under ₹800
-            </span>
-            <span className="text-[11px] text-stone-500">Average Cart: ₹674</span>
-          </div>
-        </div>
+    <div className="space-y-8 max-w-5xl mx-auto py-2">
+      {/* 1. Welcome Header */}
+      <div className="border-b border-stone-200/80 dark:border-stone-800/80 pb-5">
+        <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-stone-950 dark:text-stone-50">
+          Welcome back, {profile?.name ? profile.name.split(" ")[0] : "Aria"}
+        </h1>
+        <p className="text-xs sm:text-sm text-stone-500 dark:text-stone-400 mt-1">
+          Find something that works for you.
+        </p>
       </div>
 
-      {/* Quick Access to Graph & Journey */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-        <div className="p-6 rounded-xl border border-stone-200/80 dark:border-stone-800/80 bg-white dark:bg-stone-900 space-y-3 flex flex-col justify-between">
-          <div className="space-y-2">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold uppercase tracking-wider text-stone-400">
-                Visual Graph
-              </span>
-              <Badge variant="accent" size="sm">6 Signals Active</Badge>
-            </div>
-            <h3 className="text-base font-semibold text-stone-900 dark:text-stone-100">
-              Inspect Your Beauty Preference Graph
-            </h3>
-            <p className="text-xs text-stone-500 dark:text-stone-400 leading-relaxed">
-              Explore how your stated profile and continuous interaction signals create your personalized node network.
-            </p>
-          </div>
-          <Link to="/customer/profile" className="pt-2">
-            <Button size="sm" variant="secondary" className="w-full" icon={GitBranch}>
-              View Graph & Learned Weights
-            </Button>
-          </Link>
-        </div>
-
-        <div className="p-6 rounded-xl border border-stone-200/80 dark:border-stone-800/80 bg-white dark:bg-stone-900 space-y-3 flex flex-col justify-between">
-          <div className="space-y-2">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold uppercase tracking-wider text-stone-400">
-                Continuous Story
-              </span>
-              <Badge variant="neutral" size="sm">7 Timeline Steps</Badge>
-            </div>
-            <h3 className="text-base font-semibold text-stone-900 dark:text-stone-100">
-              Your Beauty Journey Timeline
-            </h3>
-            <p className="text-xs text-stone-500 dark:text-stone-400 leading-relaxed">
-              Track how your recent review "Feels slightly heavy" immediately updated recommendations.
-            </p>
-          </div>
-          <Link to="/customer/journey" className="pt-2">
-            <Button size="sm" variant="secondary" className="w-full" icon={ArrowRight}>
-              View Journey Events
-            </Button>
-          </Link>
-        </div>
-      </div>
-
-      {/* Top Recommendations */}
-      <div className="space-y-4">
+      {/* 2. Recommended for you (3–4 products) */}
+      <section className="space-y-4">
         <div className="flex items-center justify-between">
           <div>
-            <h3 className="text-lg font-semibold text-stone-900 dark:text-stone-100">
-              Top Matches for Your Skin Profile
-            </h3>
+            <h2 className="text-base font-semibold text-stone-950 dark:text-stone-50">
+              Recommended for you
+            </h2>
             <p className="text-xs text-stone-500 dark:text-stone-400">
-              Ranked with 90%+ match confidence based on your learned lightweight preference
+              Formulations suited to your lightweight preferences
             </p>
           </div>
-          <Link to="/customer/recommendations" className="text-xs text-[#C26D53] hover:underline font-medium">
-            View All Categories &rarr;
+          <Link
+            to="/products"
+            className="text-xs text-[#C26D53] hover:underline font-medium flex items-center gap-1"
+          >
+            Explore all products <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-          {topPicks.map((p) => (
-            <ProductCard key={p.id} product={p} />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          {recommended.map((product) => (
+            <ProductCard key={product.id} product={product} />
           ))}
         </div>
+      </section>
+
+      {/* 3. Your Recent Journey & Your Beauty Memory */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Recent Journey */}
+        <section className="p-6 rounded-2xl border border-stone-200/80 dark:border-stone-800/80 bg-white dark:bg-stone-900 shadow-2xs space-y-4">
+          <div className="flex items-center justify-between">
+            <h2 className="text-sm font-semibold text-stone-950 dark:text-stone-50 flex items-center gap-2">
+              <GitBranch className="w-4 h-4 text-[#C26D53]" />
+              Your recent journey
+            </h2>
+            <Link
+              to="/customer/journey"
+              className="text-xs text-[#C26D53] hover:underline"
+            >
+              Full journey
+            </Link>
+          </div>
+
+          <div className="space-y-3">
+            {journeySteps.map((step, idx) => {
+              const Icon = step.icon;
+              return (
+                <div key={idx} className="flex items-center gap-3 text-xs">
+                  <div className="w-6 h-6 rounded-full bg-stone-100 dark:bg-stone-800 flex items-center justify-center text-[#C26D53] shrink-0">
+                    <Icon className="w-3.5 h-3.5" />
+                  </div>
+                  <div className="flex-1 flex items-center justify-between">
+                    <span className="font-medium text-stone-800 dark:text-stone-200">
+                      {step.title}
+                    </span>
+                    <span className="text-[11px] text-stone-400">{step.time}</span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+
+        {/* Beauty Memory */}
+        <section className="p-6 rounded-2xl border border-stone-200/80 dark:border-stone-800/80 bg-white dark:bg-stone-900 shadow-2xs space-y-4 flex flex-col justify-between">
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <h2 className="text-sm font-semibold text-stone-950 dark:text-stone-50 flex items-center gap-2">
+                <Brain className="w-4 h-4 text-[#C26D53]" />
+                Your Beauty Memory
+              </h2>
+              <Link
+                to="/customer/beauty-memory"
+                className="text-xs text-[#C26D53] hover:underline"
+              >
+                View details
+              </Link>
+            </div>
+
+            <div className="grid grid-cols-2 gap-2.5">
+              {memoryTags.map((tag, idx) => (
+                <div
+                  key={idx}
+                  className="p-3 rounded-xl bg-stone-50 dark:bg-stone-800/50 border border-stone-100 dark:border-stone-800 text-xs space-y-0.5"
+                >
+                  <span className="text-[10px] text-stone-400 block font-medium">
+                    {tag.label}
+                  </span>
+                  <span className="font-semibold text-stone-800 dark:text-stone-200 block">
+                    {tag.value}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <Link to="/customer/beauty-memory" className="pt-2">
+            <Button variant="outline" size="sm" className="w-full justify-center">
+              Open Beauty Memory
+            </Button>
+          </Link>
+        </section>
       </div>
     </div>
   );

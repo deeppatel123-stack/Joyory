@@ -1,38 +1,49 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-import { outcomeService } from "../../services/outcomeService";
-import { useCustomer } from "../../context/CustomerContext";
 import {
   Brain,
-  Sparkles,
-  ArrowRight,
   Layers,
   Sparkle,
   Wallet,
-  Clock,
-  RotateCcw
+  Feather,
+  Droplets,
+  ArrowRight
 } from "lucide-react";
 import { Button } from "../../components/common/Button";
 
 export const BeautyMemoryPage = () => {
-  const { profile } = useCustomer();
-  const [memory, setMemory] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    async function load() {
-      setLoading(true);
-      try {
-        const data = await outcomeService.getBeautyMemory();
-        setMemory(data);
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
+  const preferences = [
+    {
+      label: "Texture",
+      value: "Lightweight",
+      desc: "Water-burst and gel textures that absorb quickly without greasy residue.",
+      icon: Layers
+    },
+    {
+      label: "Skin Type",
+      value: "Oily",
+      desc: "Prone to midday T-zone shine; thrives with oil-free hydration.",
+      icon: Droplets
+    },
+    {
+      label: "Budget",
+      value: "₹500–₹1,000",
+      desc: "Accessible, high-efficacy daily skincare essentials.",
+      icon: Wallet
+    },
+    {
+      label: "Finish",
+      value: "Natural",
+      desc: "Soft natural look with minimal gloss or artificial shine.",
+      icon: Sparkle
+    },
+    {
+      label: "Fragrance",
+      value: "Low",
+      desc: "Unscented or subtle botanical scents to prevent skin reactivity.",
+      icon: Feather
     }
-    load();
-  }, [profile]);
+  ];
 
   return (
     <div className="max-w-4xl mx-auto space-y-8 py-4">
@@ -43,85 +54,50 @@ export const BeautyMemoryPage = () => {
           <span>Beauty Memory</span>
         </div>
         <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-stone-950 dark:text-stone-50">
-          Your preferences, learned over time.
+          Beauty Memory
         </h1>
         <p className="text-xs sm:text-sm text-stone-500 dark:text-stone-400">
-          Joyory remembers what feels good on your skin so you never have to start from scratch.
+          Your preferences, learned from your shopping experience.
         </p>
       </div>
 
-      {/* 4 Clean Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-        {/* Card 1: Preferred Texture */}
-        <div className="p-6 rounded-2xl border border-stone-200/80 dark:border-stone-800/80 bg-white dark:bg-stone-900 shadow-2xs space-y-2">
-          <div className="flex items-center justify-between text-xs text-stone-400">
-            <span>Preferred Texture</span>
-            <Layers className="w-4 h-4 text-[#C26D53]" />
-          </div>
-          <div className="text-2xl font-semibold text-stone-900 dark:text-stone-100">
-            Lightweight Water-Gel
-          </div>
-          <p className="text-xs text-stone-500 dark:text-stone-400">
-            Fast-absorbing, non-sticky formulas that leave zero residue.
-          </p>
-        </div>
-
-        {/* Card 2: Preferred Finish */}
-        <div className="p-6 rounded-2xl border border-stone-200/80 dark:border-stone-800/80 bg-white dark:bg-stone-900 shadow-2xs space-y-2">
-          <div className="flex items-center justify-between text-xs text-stone-400">
-            <span>Preferred Finish</span>
-            <Sparkle className="w-4 h-4 text-[#C26D53]" />
-          </div>
-          <div className="text-2xl font-semibold text-stone-900 dark:text-stone-100">
-            Natural / Soft Matte
-          </div>
-          <p className="text-xs text-stone-500 dark:text-stone-400">
-            Controls shine on T-zones while preserving a healthy moisture balance.
-          </p>
-        </div>
-
-        {/* Card 3: Budget Band */}
-        <div className="p-6 rounded-2xl border border-stone-200/80 dark:border-stone-800/80 bg-white dark:bg-stone-900 shadow-2xs space-y-2">
-          <div className="flex items-center justify-between text-xs text-stone-400">
-            <span>Budget</span>
-            <Wallet className="w-4 h-4 text-[#C26D53]" />
-          </div>
-          <div className="text-2xl font-semibold text-stone-900 dark:text-stone-100">
-            ₹500 – ₹1,200
-          </div>
-          <p className="text-xs text-stone-500 dark:text-stone-400">
-            High-efficacy, research-backed everyday formulations.
-          </p>
-        </div>
-
-        {/* Card 4: Recently Learned */}
-        <div className="p-6 rounded-2xl border border-stone-200/80 dark:border-stone-800/80 bg-white dark:bg-stone-900 shadow-2xs space-y-2">
-          <div className="flex items-center justify-between text-xs text-stone-400">
-            <span>Recently Learned</span>
-            <Clock className="w-4 h-4 text-[#C26D53]" />
-          </div>
-          <div className="text-2xl font-semibold text-stone-900 dark:text-stone-100">
-            Prefers Lightweight Hydration
-          </div>
-          <p className="text-xs text-stone-500 dark:text-stone-400">
-            Updated from your positive experience with HydraGel Moisturizer.
-          </p>
-        </div>
+      {/* Preference Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {preferences.map((item, idx) => {
+          const Icon = item.icon;
+          return (
+            <div
+              key={idx}
+              className="p-5 rounded-2xl border border-stone-200/80 dark:border-stone-800/80 bg-white dark:bg-stone-900 shadow-2xs space-y-2"
+            >
+              <div className="flex items-center justify-between text-xs text-stone-400">
+                <span>{item.label}</span>
+                <Icon className="w-4 h-4 text-[#C26D53]" />
+              </div>
+              <div className="text-xl font-semibold text-stone-900 dark:text-stone-100">
+                {item.value}
+              </div>
+              <p className="text-xs text-stone-500 dark:text-stone-400 leading-relaxed">
+                {item.desc}
+              </p>
+            </div>
+          );
+        })}
       </div>
 
-      {/* Simple Connection Card */}
+      {/* Simple Link to Journey */}
       <div className="p-6 rounded-2xl border border-stone-200/60 dark:border-stone-800/60 bg-stone-100/60 dark:bg-stone-900/40 flex flex-col sm:flex-row items-center justify-between gap-4">
         <div className="space-y-1 text-center sm:text-left">
           <h3 className="text-sm font-semibold text-stone-900 dark:text-stone-100">
-            Have a new product to share feedback on?
+            See how your preferences were formed
           </h3>
           <p className="text-xs text-stone-500 dark:text-stone-400">
-            Log your product experience to keep your memory accurate.
+            View the steps in your shopping timeline and share feedback.
           </p>
         </div>
-        <Link to="/customer/beauty-outcome">
+        <Link to="/customer/journey">
           <Button variant="primary" size="sm" icon={ArrowRight}>
-            Log Product Experience
+            View My Journey
           </Button>
         </Link>
       </div>

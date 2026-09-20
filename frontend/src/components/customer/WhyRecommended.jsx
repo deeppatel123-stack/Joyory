@@ -7,10 +7,10 @@ export const WhyRecommended = ({ product, isOpen, onClose }) => {
   if (!isOpen || !product) return null;
 
   const reasons = product.matchReasons || [
-    { signal: "Lightweight texture", detail: "Matches your learned high-confidence preference for non-greasy application", aligned: true },
-    { signal: "Budget match", detail: `Priced at ₹${product.price}, well within your target ₹800 budget limit`, aligned: true },
-    { signal: "Category match", detail: `Formulated specifically for ${product.skinType?.join(" & ")} skin types`, aligned: true },
-    { signal: "Sensory match", detail: "Formulated with minimal to zero synthetic fragrance", aligned: true }
+    { signal: "Lightweight texture", detail: "Formulated with a light, non-greasy texture that absorbs quickly.", aligned: true },
+    { signal: "Budget friendly", detail: `Priced at ₹${product.price}, well within your everyday budget.`, aligned: true },
+    { signal: "Skin type match", detail: `Formulated specifically for ${product.skinType?.join(" & ") || "all"} skin types.`, aligned: true },
+    { signal: "Low fragrance", detail: "Clean formula with minimal to no added fragrance.", aligned: true }
   ];
 
   return (
@@ -33,7 +33,7 @@ export const WhyRecommended = ({ product, isOpen, onClose }) => {
                 Why this matches
               </h3>
               <p className="text-xs text-stone-500 dark:text-stone-400">
-                Beauty Preference Graph alignment
+                Based on your Beauty Memory
               </p>
             </div>
           </div>
@@ -64,16 +64,16 @@ export const WhyRecommended = ({ product, isOpen, onClose }) => {
                 ₹{product.price}
               </span>
               <Badge variant="accent" size="sm">
-                {product.matchScore || 94}% Match
+                Good match for your preferences
               </Badge>
             </div>
           </div>
         </div>
 
-        {/* Signals list */}
+        {/* Reasons list */}
         <div className="space-y-3 mb-6">
           <span className="text-xs font-medium text-stone-500 dark:text-stone-400 block uppercase tracking-wider text-[10px]">
-            Signals Analyzed
+            Key Highlights
           </span>
           {reasons.map((reason, idx) => (
             <div
@@ -97,7 +97,7 @@ export const WhyRecommended = ({ product, isOpen, onClose }) => {
 
         <div className="flex justify-end">
           <Button size="sm" variant="secondary" onClick={onClose}>
-            Close Insight
+            Close
           </Button>
         </div>
       </div>

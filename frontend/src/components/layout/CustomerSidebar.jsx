@@ -20,11 +20,8 @@ export const CustomerSidebar = ({ onClose }) => {
 
   const navItems = [
     { label: "Discover", path: "/customer/discover", icon: Compass },
-    { label: "Products", path: "/products", icon: Package },
     { label: "My Journey", path: "/customer/journey", icon: GitBranch },
     { label: "Beauty Memory", path: "/customer/beauty-memory", icon: Brain },
-    { label: "Outcome Loop", path: "/customer/beauty-outcome", icon: RotateCw },
-    { label: "Decision Replay", path: "/customer/decision-replay", icon: History },
     { label: "Wishlist", path: "/customer/wishlist", icon: Heart, count: wishlist?.length || 0 },
     { label: "Orders", path: "/customer/orders", icon: ShoppingBag, count: orders?.length || 0 },
     { label: "Profile", path: "/customer/profile", icon: User }

@@ -1,167 +1,134 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 import { useCustomer } from "../../context/CustomerContext";
-import { PreferenceGraph } from "../../components/customer/PreferenceGraph";
+import { User, Mail, MapPin, Sparkles, Shield, Heart, ArrowRight } from "lucide-react";
 import { Badge } from "../../components/common/Badge";
-import { Sparkles, ArrowRight, ShieldCheck, CheckCircle2, History } from "lucide-react";
 
 export const BeautyProfilePage = () => {
+  const { user } = useAuth();
   const { profile } = useCustomer();
 
-  const stated = profile?.statedPreferences || {};
-  const learned = profile?.learnedPreferences || [];
+  const stated = profile?.statedPreferences || {
+    skinType: "Oily / Combination",
+    primaryGoal: "Hydration & Oil Control",
+    budgetRange: "₹500 - ₹1,000",
+    fragrance: "Low / None",
+    routine: "Minimal (3 steps)"
+  };
+
+  const displayName = user?.name || "Aria Chen";
+  const displayEmail = user?.email || "aria.chen@joyory.com";
 
   return (
-    <div className="space-y-10">
+    <div className="max-w-4xl mx-auto space-y-8 py-4">
       {/* Header */}
       <div className="border-b border-stone-200/80 dark:border-stone-800/80 pb-6">
-        <span className="text-xs font-semibold uppercase tracking-wider text-[#C26D53]">
-          Customer Identity & Graph State
-        </span>
+        <div className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-[#C26D53]">
+          <User className="w-3.5 h-3.5" />
+          <span>My Account</span>
+        </div>
         <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-stone-950 dark:text-stone-50 mt-1">
-          Your Beauty Profile
+          Profile & Preferences
         </h1>
         <p className="text-xs sm:text-sm text-stone-500 dark:text-stone-400 mt-1">
-          Compare your baseline declared preferences with your dynamically learned behavioral model.
+          Manage your account information and saved beauty preferences.
         </p>
       </div>
 
-      {/* 31. BEAUTY PREFERENCE GRAPH VISUALIZATION */}
-      <section>
-        <PreferenceGraph
-          graphData={profile?.graphData}
-          learnedPreferences={profile?.learnedPreferences}
-        />
-      </section>
-
-      {/* 33. CONTINUOUS LEARNING TRANSITION CARD */}
-      <section className="p-6 rounded-xl border border-stone-200/80 dark:border-stone-800/80 bg-white dark:bg-stone-900 shadow-2xs space-y-4">
-        <div className="flex items-center gap-2">
-          <Sparkles className="w-4 h-4 text-[#C26D53]" />
-          <h3 className="text-base font-semibold text-stone-900 dark:text-stone-100">
-            Your profile is getting smarter.
-          </h3>
-        </div>
-        <p className="text-xs text-stone-500 dark:text-stone-400 max-w-2xl leading-relaxed">
-          Unlike static survey engines, Joyory tracks how your real usage experiences evolve. Here is how your profile adapted across your shopping journey:
-        </p>
-
-        {/* Before / After Transition Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
-          {/* Card 1 */}
-          <div className="p-4 rounded-xl border border-stone-100 dark:border-stone-800 bg-stone-50/60 dark:bg-stone-950/40 space-y-2 text-xs">
-            <span className="text-[10px] uppercase font-semibold text-stone-400 block">Texture Need</span>
-            <div className="flex items-center justify-between text-stone-400 line-through">
-              <span>Before:</span>
-              <span>Unknown / Unspecified</span>
-            </div>
-            <div className="flex items-center justify-between font-semibold text-stone-900 dark:text-stone-100 pt-1 border-t border-stone-200/40 dark:border-stone-800">
-              <span className="text-[#C26D53]">After Feedback:</span>
-              <span className="text-emerald-600 dark:text-emerald-400">Lightweight Water-Burst (94%)</span>
-            </div>
+      {/* Profile Overview Card */}
+      <div className="p-6 rounded-2xl border border-stone-200/80 dark:border-stone-800/80 bg-white dark:bg-stone-900 shadow-2xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div className="flex items-center gap-4">
+          <div className="w-14 h-14 rounded-full bg-[#C26D53]/15 text-[#C26D53] flex items-center justify-center font-bold text-xl">
+            {displayName.charAt(0)}
           </div>
-
-          {/* Card 2 */}
-          <div className="p-4 rounded-xl border border-stone-100 dark:border-stone-800 bg-stone-50/60 dark:bg-stone-950/40 space-y-2 text-xs">
-            <span className="text-[10px] uppercase font-semibold text-stone-400 block">Pricing Tolerance</span>
-            <div className="flex items-center justify-between text-stone-400 line-through">
-              <span>Before:</span>
-              <span>Generic Mass Market</span>
+          <div>
+            <div className="flex items-center gap-2">
+              <h2 className="text-lg font-semibold text-stone-900 dark:text-stone-100">
+                {displayName}
+              </h2>
+              <Badge variant="accent" size="sm">Customer</Badge>
             </div>
-            <div className="flex items-center justify-between font-semibold text-stone-900 dark:text-stone-100 pt-1 border-t border-stone-200/40 dark:border-stone-800">
-              <span className="text-[#C26D53]">After Purchases:</span>
-              <span className="text-stone-900 dark:text-stone-100">Strictly &lt; ₹800 (Avg ₹674)</span>
-            </div>
-          </div>
-
-          {/* Card 3 */}
-          <div className="p-4 rounded-xl border border-stone-100 dark:border-stone-800 bg-stone-50/60 dark:bg-stone-950/40 space-y-2 text-xs">
-            <span className="text-[10px] uppercase font-semibold text-stone-400 block">Sensory Profile</span>
-            <div className="flex items-center justify-between text-stone-400 line-through">
-              <span>Before:</span>
-              <span>Standard Scent</span>
-            </div>
-            <div className="flex items-center justify-between font-semibold text-stone-900 dark:text-stone-100 pt-1 border-t border-stone-200/40 dark:border-stone-800">
-              <span className="text-[#C26D53]">After Filter Logs:</span>
-              <span className="text-stone-900 dark:text-stone-100">Zero Fragrance Preferred</span>
-            </div>
+            <p className="text-xs text-stone-500 dark:text-stone-400 flex items-center gap-1.5 mt-0.5">
+              <Mail className="w-3 h-3 text-stone-400" />
+              {displayEmail}
+            </p>
           </div>
         </div>
-      </section>
 
-      {/* Stated vs Learned Preferences Dual View */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        {/* Stated Preferences */}
-        <div className="lg:col-span-5 p-6 rounded-xl border border-stone-200/80 dark:border-stone-800/80 bg-white dark:bg-stone-900 space-y-4 shadow-2xs">
+        <Link
+          to="/customer/beauty-memory"
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-medium border border-stone-200 dark:border-stone-800 hover:bg-stone-50 dark:hover:bg-stone-800/60 text-stone-800 dark:text-stone-200 transition-colors"
+        >
+          <Sparkles className="w-3.5 h-3.5 text-[#C26D53]" />
+          <span>View Beauty Memory</span>
+          <ArrowRight className="w-3 h-3 text-stone-400" />
+        </Link>
+      </div>
+
+      {/* Two column grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Saved Beauty Preferences */}
+        <div className="p-6 rounded-2xl border border-stone-200/80 dark:border-stone-800/80 bg-white dark:bg-stone-900 shadow-2xs space-y-4">
           <div className="flex items-center justify-between border-b border-stone-100 dark:border-stone-800 pb-3">
-            <h3 className="text-sm font-semibold text-stone-900 dark:text-stone-100">
-              Stated Baseline Preferences
-            </h3>
-            <Badge variant="neutral" size="sm">Self-Declared</Badge>
+            <div className="flex items-center gap-2">
+              <Heart className="w-4 h-4 text-[#C26D53]" />
+              <h3 className="text-sm font-semibold text-stone-900 dark:text-stone-100">
+                Beauty Preferences
+              </h3>
+            </div>
+            <span className="text-[11px] text-stone-400">Learned from orders</span>
           </div>
 
           <div className="space-y-3 text-xs">
-            <div className="flex justify-between py-1.5 border-b border-stone-50 dark:border-stone-800/50">
-              <span className="text-stone-500">Skin Profile</span>
+            <div className="flex justify-between py-2 border-b border-stone-100 dark:border-stone-800/50">
+              <span className="text-stone-500">Skin Type</span>
               <span className="font-semibold text-stone-900 dark:text-stone-100">{stated.skinType}</span>
             </div>
-            <div className="flex justify-between py-1.5 border-b border-stone-50 dark:border-stone-800/50">
-              <span className="text-stone-500">Primary Objective</span>
+            <div className="flex justify-between py-2 border-b border-stone-100 dark:border-stone-800/50">
+              <span className="text-stone-500">Primary Goal</span>
               <span className="font-semibold text-stone-900 dark:text-stone-100">{stated.primaryGoal}</span>
             </div>
-            <div className="flex justify-between py-1.5 border-b border-stone-50 dark:border-stone-800/50">
-              <span className="text-stone-500">Target Budget</span>
+            <div className="flex justify-between py-2 border-b border-stone-100 dark:border-stone-800/50">
+              <span className="text-stone-500">Budget Range</span>
               <span className="font-semibold text-stone-900 dark:text-stone-100">{stated.budgetRange}</span>
             </div>
-            <div className="flex justify-between py-1.5 border-b border-stone-50 dark:border-stone-800/50">
-              <span className="text-stone-500">Fragrance</span>
+            <div className="flex justify-between py-2 border-b border-stone-100 dark:border-stone-800/50">
+              <span className="text-stone-500">Preferred Fragrance</span>
               <span className="font-semibold text-stone-900 dark:text-stone-100">{stated.fragrance}</span>
             </div>
-            <div className="flex justify-between py-1.5 border-b border-stone-50 dark:border-stone-800/50">
-              <span className="text-stone-500">Routine Depth</span>
+            <div className="flex justify-between py-2">
+              <span className="text-stone-500">Daily Routine</span>
               <span className="font-semibold text-stone-900 dark:text-stone-100">{stated.routine}</span>
-            </div>
-            <div className="flex justify-between py-1.5">
-              <span className="text-stone-500">Focus Categories</span>
-              <span className="font-semibold text-stone-900 dark:text-stone-100">{stated.preferredCategories?.join(", ")}</span>
             </div>
           </div>
         </div>
 
-        {/* Learned Preferences with Confidence Bars */}
-        <div className="lg:col-span-7 p-6 rounded-xl border border-stone-200/80 dark:border-stone-800/80 bg-white dark:bg-stone-900 space-y-4 shadow-2xs">
+        {/* Shipping & Account Security */}
+        <div className="p-6 rounded-2xl border border-stone-200/80 dark:border-stone-800/80 bg-white dark:bg-stone-900 shadow-2xs space-y-4">
           <div className="flex items-center justify-between border-b border-stone-100 dark:border-stone-800 pb-3">
-            <h3 className="text-sm font-semibold text-stone-900 dark:text-stone-100">
-              Learned Preferences & Statistical Confidence
-            </h3>
-            <Badge variant="accent" size="sm">Dynamic AI Engine</Badge>
+            <div className="flex items-center gap-2">
+              <MapPin className="w-4 h-4 text-[#C26D53]" />
+              <h3 className="text-sm font-semibold text-stone-900 dark:text-stone-100">
+                Default Delivery Address
+              </h3>
+            </div>
+            <Badge variant="neutral" size="sm">Primary</Badge>
           </div>
 
-          <div className="space-y-4">
-            {learned.map((pref) => (
-              <div key={pref.id} className="space-y-1.5 p-3 rounded-lg bg-stone-50/70 dark:bg-stone-950/40 border border-stone-100 dark:border-stone-800/80">
-                <div className="flex items-center justify-between text-xs">
-                  <span className="font-semibold text-stone-900 dark:text-stone-100">
-                    {pref.trait}
-                  </span>
-                  <div className="flex items-center gap-2">
-                    <span className="text-stone-400 text-[11px]">{pref.level} confidence</span>
-                    <span className="font-mono text-xs font-bold text-[#C26D53]">{pref.confidence}%</span>
-                  </div>
-                </div>
+          <div className="space-y-2 text-xs text-stone-600 dark:text-stone-300 leading-relaxed">
+            <p className="font-semibold text-stone-900 dark:text-stone-100">{displayName}</p>
+            <p>Flat 402, Palm Grove Heights</p>
+            <p>Turner Road, Bandra West</p>
+            <p>Mumbai, Maharashtra — 400050</p>
+            <p className="text-stone-400 pt-1">Phone: +91 98765 43210</p>
+          </div>
 
-                <div className="h-1.5 w-full bg-stone-200 dark:bg-stone-800 rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-[#C26D53] rounded-full transition-all duration-500"
-                    style={{ width: `${pref.confidence}%` }}
-                  />
-                </div>
-
-                <div className="flex items-center justify-between text-[11px] text-stone-500 dark:text-stone-400 pt-1">
-                  <span>Sources: {pref.learnedFrom?.join(" • ")}</span>
-                  <span>{pref.lastUpdated}</span>
-                </div>
-              </div>
-            ))}
+          <div className="pt-4 border-t border-stone-100 dark:border-stone-800 flex items-center justify-between">
+            <div className="flex items-center gap-1.5 text-xs text-stone-500">
+              <Shield className="w-3.5 h-3.5 text-emerald-600" />
+              <span>Verified Customer Account</span>
+            </div>
           </div>
         </div>
       </div>

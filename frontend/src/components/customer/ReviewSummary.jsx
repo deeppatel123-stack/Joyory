@@ -19,7 +19,7 @@ export const ReviewSummary = ({ reviewSummary, totalReviews = 384 }) => {
           <div className="flex items-center gap-1.5 text-xs text-stone-500 dark:text-stone-400 mb-1">
             <MessageSquare className="w-3.5 h-3.5 text-[#C26D53]" />
             <span className="uppercase tracking-wider text-[10px] font-medium">
-              AI Review Intelligence
+              Customer Reviews
             </span>
           </div>
           <h3 className="text-base font-semibold text-stone-900 dark:text-stone-100">
@@ -27,29 +27,8 @@ export const ReviewSummary = ({ reviewSummary, totalReviews = 384 }) => {
           </h3>
         </div>
         <Badge variant="accent" size="sm">
-          {summary.sentimentLabel || "Highly Positive"}
+          {summary.sentimentLabel || "Highly Rated"}
         </Badge>
-      </div>
-
-      {/* Horizontal sentiment breakdown visualization */}
-      <div className="space-y-1.5">
-        <div className="flex justify-between text-xs text-stone-500 dark:text-stone-400">
-          <span>Overall Sentiment</span>
-          <span className="font-semibold text-stone-900 dark:text-stone-100">
-            {sentimentPercent}% Positive ({totalReviews} verified reviews)
-          </span>
-        </div>
-        <div className="h-2 w-full bg-stone-100 dark:bg-stone-800 rounded-full overflow-hidden flex">
-          <div
-            className="h-full bg-emerald-500 rounded-full transition-all duration-500"
-            style={{ width: `${sentimentPercent}%` }}
-          />
-          <div
-            className="h-full bg-amber-400"
-            style={{ width: `${Math.max(0, 100 - sentimentPercent - 4)}%` }}
-          />
-          <div className="h-full bg-rose-400" style={{ width: "4%" }} />
-        </div>
       </div>
 
       {/* Two columns: Positive themes & Common concerns */}

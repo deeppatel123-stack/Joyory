@@ -49,10 +49,10 @@ export const AdminOrdersPage = () => {
     <div className="space-y-6 max-w-7xl mx-auto">
       <div>
         <h1 className="text-2xl font-semibold tracking-tight text-stone-950 dark:text-stone-50">
-          Customer Orders Pipeline
+          Customer Orders
         </h1>
         <p className="text-xs text-stone-500">
-          Track lifecycle fulfillment from Confirmed &rarr; Delivered. Delivering orders triggers customer Beauty Outcome tracking.
+          View customer orders and update delivery status.
         </p>
       </div>
 

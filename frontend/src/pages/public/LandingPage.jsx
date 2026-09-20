@@ -96,7 +96,7 @@ export const LandingPage = () => {
                 </Link>
                 <Link to={isAuthenticated ? "/customer/journey" : "/login"} className="w-full sm:w-auto">
                   <Button size="lg" variant="secondary" className="w-full sm:w-auto justify-center">
-                    Discover Your Beauty Journey
+                    Discover Your Journey
                   </Button>
                 </Link>
               </div>

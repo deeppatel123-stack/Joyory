@@ -64,7 +64,7 @@ export const AdminUsersPage = () => {
           Customer Directory
         </h1>
         <p className="text-xs text-stone-500">
-          Verified beauty shoppers, skin profile attributes, and lifetime engagement metrics
+          View registered customer accounts and order history.
         </p>
       </div>
 

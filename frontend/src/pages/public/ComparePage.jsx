@@ -24,13 +24,13 @@ export const ComparePage = () => {
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-stone-200/80 dark:border-stone-800/80 pb-6">
           <div>
             <span className="text-xs font-semibold uppercase tracking-wider text-[#C26D53]">
-              Side-by-Side Analysis
+              Side-by-Side
             </span>
             <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-stone-900 dark:text-stone-100 mt-1">
-              Formulation Comparison
+              Compare Products
             </h1>
             <p className="text-xs sm:text-sm text-stone-500 dark:text-stone-400 mt-1">
-              Compare 2 to 4 products against your personalized Beauty Preference Graph.
+              Compare 2 to 4 products side by side to choose what works best for you.
             </p>
           </div>
 
@@ -50,9 +50,9 @@ export const ComparePage = () => {
 
         {compareList.length === 0 ? (
           <EmptyState
-            title="Your comparison board is empty"
-            description="Select 2 to 4 products from the catalog to evaluate formulation textures, pricing, and personal preference matches."
-            actionLabel="Explore Formulations"
+            title="Your comparison list is empty"
+            description="Select 2 to 4 products from the catalog to compare texture, pricing, and suitability."
+            actionLabel="Browse Products"
             onAction={() => window.location.href = "/products"}
           />
         ) : (

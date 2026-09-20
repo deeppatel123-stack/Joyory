@@ -62,7 +62,7 @@ export const ProductDetailPage = () => {
       <div className="min-h-screen bg-stone-50 dark:bg-stone-950 text-stone-900 dark:text-stone-100">
         <PublicNavbar />
         <div className="max-w-5xl mx-auto px-4 py-16 text-center text-xs text-stone-400">
-          Loading formulation specifications...
+          Loading product details...
         </div>
       </div>
     );
@@ -116,7 +116,7 @@ export const ProductDetailPage = () => {
                 size="md"
                 className="absolute top-4 left-4 bg-white/95 dark:bg-stone-900/95 backdrop-blur-xs font-semibold shadow-xs"
               >
-                {product.matchScore || 94}% Personal Preference Match
+                Good match for your preferences
               </Badge>
             </div>
           </div>
@@ -179,12 +179,12 @@ export const ProductDetailPage = () => {
                 <div className="flex items-center justify-between text-xs font-semibold text-stone-900 dark:text-stone-100">
                   <div className="flex items-center gap-1.5 text-[#C26D53]">
                     <Sparkles className="w-4 h-4" />
-                    <span>Why this matches your Beauty Profile</span>
+                    <span>Why this matches your preferences</span>
                   </div>
-                  <span className="text-[#C26D53] text-[11px] font-medium">Inspect &rarr;</span>
+                  <span className="text-[#C26D53] text-[11px] font-medium">View &rarr;</span>
                 </div>
                 <p className="text-xs text-stone-500 dark:text-stone-400">
-                  {product.matchReasons?.[0]?.detail || "Matches your high-confidence lightweight preference and under ₹800 budget criteria."}
+                  {product.matchReasons?.[0]?.detail || "Matches your preference for lightweight texture and everyday budget."}
                 </p>
               </div>
 
@@ -235,13 +235,13 @@ export const ProductDetailPage = () => {
                 }`}
               >
                 <Scale className="w-4 h-4" />
-                <span>{inCompare ? "Comparing in Tray (Open Compare)" : "Add to Side-by-Side Compare"}</span>
+                <span>{inCompare ? "Comparing (Open Compare)" : "Compare with Other Products"}</span>
               </button>
             </div>
           </div>
         </div>
 
-        {/* 28. AI REVIEW INTELLIGENCE SECTION */}
+        {/* Reviews Section */}
         <section className="pt-8">
           <ReviewSummary
             reviewSummary={product.reviewSummary}
@@ -262,7 +262,7 @@ export const ProductDetailPage = () => {
                     : "text-stone-400 hover:text-stone-700 dark:hover:text-stone-300"
                 }`}
               >
-                {tab === "overview" ? "Formula Architecture" : tab === "ingredients" ? "Key Active Ingredients" : "Sensory & Routine Fit"}
+                {tab === "overview" ? "Product Overview" : tab === "ingredients" ? "Key Ingredients" : "Texture & Feel"}
               </button>
             ))}
           </div>
@@ -330,7 +330,7 @@ export const ProductDetailPage = () => {
         {similar.length > 0 && (
           <div className="space-y-4 pt-6">
             <h3 className="text-base font-semibold text-stone-900 dark:text-stone-100">
-              Similar Formulations You Might Explore
+              Similar Products
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
               {similar.map((s) => (

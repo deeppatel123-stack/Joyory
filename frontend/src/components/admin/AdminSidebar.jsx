@@ -19,11 +19,9 @@ export const AdminSidebar = () => {
   const links = [
     { label: "Overview", path: "/admin", icon: LayoutDashboard },
     { label: "Products", path: "/admin/products", icon: Package },
-    { label: "Orders", path: "/admin/orders", icon: ShoppingBag },
     { label: "Customers", path: "/admin/customers", icon: Users },
-    { label: "Insights", path: "/admin/insights", icon: TrendingUp },
-    { label: "Opportunities", path: "/admin/opportunities", icon: Sparkles },
-    { label: "Settings", path: "/admin/settings", icon: Settings }
+    { label: "Orders", path: "/admin/orders", icon: ShoppingBag },
+    { label: "Opportunities", path: "/admin/opportunities", icon: Sparkles }
   ];
 
   const isActive = (path) => {

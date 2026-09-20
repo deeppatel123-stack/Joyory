@@ -212,9 +212,10 @@ export const ProductsPage = () => {
           </div>
 
           {/* Detailed Filters (Desktop or expanded mobile) */}
+          {/* Simple Filters: Brand, Skin Type, Price */}
           <div
-            className={`pt-3 border-t border-stone-100 dark:border-stone-800 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 ${
-              showMobileFilters ? "block" : "hidden lg:grid"
+            className={`pt-3 border-t border-stone-100 dark:border-stone-800 grid grid-cols-1 sm:grid-cols-3 gap-4 ${
+              showMobileFilters ? "block" : "hidden sm:grid"
             }`}
           >
             {/* Brand Filter */}
@@ -225,7 +226,7 @@ export const ProductsPage = () => {
               <select
                 value={brand}
                 onChange={(e) => setBrand(e.target.value)}
-                className="w-full text-xs rounded-md border border-stone-200 dark:border-stone-700 bg-stone-50/50 dark:bg-stone-800/50 p-1.5 text-stone-800 dark:text-stone-200"
+                className="w-full text-xs rounded-md border border-stone-200 dark:border-stone-700 bg-stone-50/50 dark:bg-stone-800/50 p-2 text-stone-800 dark:text-stone-200"
               >
                 {brandsList.map((b) => (
                   <option key={b} value={b}>
@@ -243,7 +244,7 @@ export const ProductsPage = () => {
               <select
                 value={skinType}
                 onChange={(e) => setSkinType(e.target.value)}
-                className="w-full text-xs rounded-md border border-stone-200 dark:border-stone-700 bg-stone-50/50 dark:bg-stone-800/50 p-1.5 text-stone-800 dark:text-stone-200"
+                className="w-full text-xs rounded-md border border-stone-200 dark:border-stone-700 bg-stone-50/50 dark:bg-stone-800/50 p-2 text-stone-800 dark:text-stone-200"
               >
                 {skinTypesList.map((st) => (
                   <option key={st} value={st}>
@@ -253,65 +254,12 @@ export const ProductsPage = () => {
               </select>
             </div>
 
-            {/* Concern Filter */}
-            <div>
-              <label className="block text-[11px] font-medium text-stone-500 dark:text-stone-400 mb-1">
-                Concern
-              </label>
-              <select
-                value={concern}
-                onChange={(e) => setConcern(e.target.value)}
-                className="w-full text-xs rounded-md border border-stone-200 dark:border-stone-700 bg-stone-50/50 dark:bg-stone-800/50 p-1.5 text-stone-800 dark:text-stone-200"
-              >
-                {concernsList.map((cn) => (
-                  <option key={cn} value={cn}>
-                    {cn}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            {/* Texture Filter */}
-            <div>
-              <label className="block text-[11px] font-medium text-stone-500 dark:text-stone-400 mb-1">
-                Texture
-              </label>
-              <select
-                value={texture}
-                onChange={(e) => setTexture(e.target.value)}
-                className="w-full text-xs rounded-md border border-stone-200 dark:border-stone-700 bg-stone-50/50 dark:bg-stone-800/50 p-1.5 text-stone-800 dark:text-stone-200"
-              >
-                {textures.map((t) => (
-                  <option key={t} value={t}>
-                    {t}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            {/* Rating Filter */}
-            <div>
-              <label className="block text-[11px] font-medium text-stone-500 dark:text-stone-400 mb-1">
-                Min Rating
-              </label>
-              <select
-                value={rating}
-                onChange={(e) => setRating(e.target.value)}
-                className="w-full text-xs rounded-md border border-stone-200 dark:border-stone-700 bg-stone-50/50 dark:bg-stone-800/50 p-1.5 text-stone-800 dark:text-stone-200"
-              >
-                <option value="All">All Ratings</option>
-                <option value="4.8">4.8+ Stars</option>
-                <option value="4.5">4.5+ Stars</option>
-                <option value="4.0">4.0+ Stars</option>
-              </select>
-            </div>
-
             {/* Price Range */}
             <div>
               <div className="flex items-center justify-between text-[11px] font-medium text-stone-500 dark:text-stone-400 mb-1">
                 <span>Max Price</span>
                 <span className="text-stone-900 dark:text-stone-100 font-semibold">
-                  {maxPrice < 1500 ? `₹${maxPrice}` : "Any"}
+                  {maxPrice < 1500 ? `₹${maxPrice}` : "Any Price"}
                 </span>
               </div>
               <input
@@ -321,7 +269,7 @@ export const ProductsPage = () => {
                 step="50"
                 value={maxPrice}
                 onChange={(e) => setMaxPrice(Number(e.target.value))}
-                className="w-full accent-[#C26D53] cursor-pointer mt-1"
+                className="w-full accent-[#C26D53] cursor-pointer mt-2"
               />
             </div>
           </div>
