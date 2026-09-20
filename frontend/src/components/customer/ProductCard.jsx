@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Heart, Star, Sparkles, Scale, ShoppingBag, Check, Eye } from "lucide-react";
-import { Badge } from "../common/Badge";
 import { Button } from "../common/Button";
 import { FallbackImage } from "../common/FallbackImage";
 import { QuickViewModal } from "../common/QuickViewModal";
@@ -49,7 +48,7 @@ export const ProductCard = ({ product }) => {
 
   return (
     <>
-      <div className="group relative rounded-xl border border-stone-200/80 dark:border-stone-800/80 bg-white dark:bg-stone-900 overflow-hidden flex flex-col justify-between hover:border-stone-300 dark:hover:border-stone-700 transition-all duration-200 shadow-2xs hover:shadow-xs">
+      <div className="group relative rounded-2xl border border-stone-200/80 dark:border-stone-800/80 bg-white dark:bg-stone-900 overflow-hidden flex flex-col justify-between hover:border-rose-500/40 dark:hover:border-rose-500/40 hover:-translate-y-1 transition-all duration-300 shadow-2xs hover:shadow-lg hover:shadow-rose-500/10">
         {/* Card Top / Image Area */}
         <div className="relative aspect-square overflow-hidden bg-stone-50 dark:bg-stone-950 flex items-center justify-center p-3">
           <Link to={`/products/${product.id}`} className="block w-full h-full">
@@ -63,7 +62,7 @@ export const ProductCard = ({ product }) => {
           {/* Discount badge */}
           {discount > 0 && (
             <div className="absolute top-2.5 left-2.5">
-              <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-[#C26D53] text-white">
+              <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-gradient-to-r from-rose-500 to-orange-500 text-white shadow-xs">
                 {discount}% OFF
               </span>
             </div>

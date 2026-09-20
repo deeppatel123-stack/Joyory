@@ -20,11 +20,11 @@ export const Button = ({
   };
 
   const variantStyles = {
-    primary: "bg-[#C26D53] hover:bg-[#b05f47] active:bg-[#9d533d] text-white shadow-xs",
-    secondary: "bg-stone-100 hover:bg-stone-200 dark:bg-stone-800 dark:hover:bg-stone-700 text-stone-900 dark:text-stone-100 border border-stone-200/80 dark:border-stone-700/80",
-    outline: "bg-transparent border border-stone-300 dark:border-stone-700 hover:bg-stone-100 dark:hover:bg-stone-800/60 text-stone-800 dark:text-stone-200",
+    primary: "bg-gradient-to-r from-rose-500 via-rose-600 to-rose-700 hover:from-rose-600 hover:via-rose-700 hover:to-rose-800 text-white shadow-sm shadow-rose-500/25 hover:shadow-md hover:shadow-rose-500/35 hover:-translate-y-0.5 active:translate-y-0",
+    secondary: "bg-stone-100 hover:bg-stone-200 dark:bg-stone-800 dark:hover:bg-stone-700 text-stone-900 dark:text-stone-100 border border-stone-200/80 dark:border-stone-700/80 hover:-translate-y-0.5 active:translate-y-0",
+    outline: "bg-transparent border border-stone-300 dark:border-stone-700 hover:bg-stone-100 dark:hover:bg-stone-800/60 text-stone-800 dark:text-stone-200 hover:-translate-y-0.5 active:translate-y-0",
     ghost: "bg-transparent hover:bg-stone-100 dark:hover:bg-stone-800 text-stone-700 dark:text-stone-300",
-    danger: "bg-rose-600 hover:bg-rose-700 text-white"
+    danger: "bg-rose-600 hover:bg-rose-700 text-white shadow-sm shadow-rose-600/25"
   };
 
   return (

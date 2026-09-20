@@ -47,12 +47,16 @@ export const LandingPage = () => {
 
       {/* 2. PRODUCT-FREE PROFESSIONAL HERO SECTION */}
       <section className="relative pt-14 pb-18 sm:pt-24 sm:pb-28 border-b border-stone-200/80 dark:border-stone-800/80 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Subtle Ambient Radial Glows */}
+        <div className="absolute -top-24 -left-24 w-96 h-96 bg-rose-500/10 dark:bg-rose-500/15 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute top-1/3 -right-24 w-96 h-96 bg-orange-500/10 dark:bg-orange-500/10 rounded-full blur-3xl pointer-events-none" />
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
             {/* Left Content */}
             <div className="lg:col-span-7 space-y-6 text-left">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-stone-100 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-[11px] uppercase tracking-wider text-[#C26D53] font-semibold">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#C26D53]" />
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gradient-to-r from-rose-500/10 to-orange-500/10 border border-rose-500/25 text-[11px] uppercase tracking-wider text-rose-600 dark:text-rose-400 font-bold shadow-2xs">
+                <span className="w-2 h-2 rounded-full bg-rose-500 animate-pulse" />
                 <span>Intelligent Beauty Commerce</span>
               </div>
 
@@ -97,7 +101,7 @@ export const LandingPage = () => {
 
             {/* Right: Abstract Beauty Journey Flow Visual (Product-Free) */}
             <div className="lg:col-span-5 relative">
-              <div className="relative rounded-2xl p-6 sm:p-8 bg-white dark:bg-stone-900 border border-stone-200/80 dark:border-stone-800/80 shadow-sm space-y-6">
+              <div className="relative rounded-3xl p-6 sm:p-8 bg-white/85 dark:bg-stone-900/85 backdrop-blur-xl border border-rose-500/20 dark:border-rose-500/30 shadow-xl shadow-rose-500/5 space-y-6">
                 <div className="border-b border-stone-100 dark:border-stone-800 pb-3 flex items-center justify-between">
                   <span className="text-[11px] font-semibold uppercase tracking-wider text-[#C26D53]">
                     The Journey Cycle

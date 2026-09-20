@@ -65,7 +65,13 @@ export const CheckoutPage = () => {
         paymentMethod,
         subtotal: cartTotal,
         shippingFee,
-        totalAmount
+        totalAmount,
+        userId: user?.id || user?._id || "cust-101",
+        user: {
+          id: user?.id || user?._id || "cust-101",
+          name: user?.name || "Aria Chen",
+          email: user?.email || "aria.chen@joyory.com"
+        }
       };
 
       const res = await orderService.createOrder(orderPayload);

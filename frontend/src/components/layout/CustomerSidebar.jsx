@@ -33,7 +33,7 @@ export const CustomerSidebar = ({ onClose }) => {
     logout();
     addToast("Logged out successfully.", "info");
     if (onClose) onClose();
-    navigate("/login");
+    navigate("/");
   };
 
   return (
@@ -42,7 +42,7 @@ export const CustomerSidebar = ({ onClose }) => {
         {/* Brand */}
         <div className="mb-6 px-2 pt-1 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2">
-            <div className="w-7 h-7 rounded-md bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 font-semibold text-xs flex items-center justify-center">
+            <div className="w-7 h-7 rounded-md bg-gradient-to-tr from-rose-600 to-rose-500 text-white font-bold text-xs flex items-center justify-center shadow-xs">
               J
             </div>
             <div>

@@ -14,10 +14,10 @@ export const Badge = ({
 
   const variantStyles = {
     neutral: "bg-stone-100 dark:bg-stone-800 text-stone-700 dark:text-stone-300 border border-stone-200/80 dark:border-stone-700/80",
-    accent: "bg-[#C26D53]/10 text-[#C26D53] border border-[#C26D53]/25 font-medium",
-    success: "bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border border-emerald-200/60 dark:border-emerald-800/60",
-    warning: "bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 border border-amber-200/60 dark:border-amber-800/60",
-    danger: "bg-rose-50 dark:bg-rose-950/40 text-rose-700 dark:text-rose-300 border border-rose-200/60 dark:border-rose-800/60",
+    accent: "bg-gradient-to-r from-rose-500/15 to-orange-500/15 text-rose-600 dark:text-rose-400 border border-rose-500/30 font-semibold shadow-2xs",
+    success: "bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200/80 dark:border-emerald-800/80 font-medium",
+    warning: "bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 border border-amber-200/80 dark:border-amber-800/80 font-medium",
+    danger: "bg-rose-50 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300 border border-rose-200/80 dark:border-rose-800/80 font-medium",
     outline: "bg-transparent border border-stone-300 dark:border-stone-700 text-stone-600 dark:text-stone-400"
   };
 

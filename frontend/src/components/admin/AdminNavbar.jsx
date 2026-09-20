@@ -14,7 +14,7 @@ export const AdminNavbar = () => {
   const handleLogout = () => {
     logout();
     addToast("Logged out from admin portal.", "info");
-    navigate("/login");
+    navigate("/");
   };
 
   const adminName = user?.name || "Joyory Admin";

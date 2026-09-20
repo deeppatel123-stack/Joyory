@@ -3,7 +3,18 @@
 export const initialOrders = [
   {
     id: "JOY-10492",
-    date: "September 16, 2026",
+    orderId: "JOY-10492",
+    userId: "cust-101",
+    user: {
+      id: "cust-101",
+      name: "Aria Chen",
+      email: "aria.chen@joyory.com"
+    },
+    date: "16 Sep 2026",
+    orderDate: "16 Sep 2026",
+    status: "Delivered",
+    deliveredDate: "18 Sep 2026",
+    totalAmount: 699,
     product: {
       id: "prod-4",
       name: "Invisible Water SPF 50+ Sun Gel",
@@ -13,13 +24,35 @@ export const initialOrders = [
       size: "50ml",
       texture: "Water-gel"
     },
-    status: "Delivered",
-    deliveredDate: "September 18, 2026",
+    items: [
+      {
+        productId: "prod-4",
+        id: "prod-4",
+        name: "Invisible Water SPF 50+ Sun Gel",
+        brand: "Joyory Labs",
+        image: "https://images.unsplash.com/photo-1567928815117-69b56f8f0729?w=600&auto=format&fit=crop&q=80",
+        price: 699,
+        quantity: 1,
+        size: "50ml",
+        texture: "Water-gel"
+      }
+    ],
     hasFeedback: false
   },
   {
-    id: "JOY-10231",
-    date: "September 10, 2026",
+    id: "JOY-1023",
+    orderId: "JOY-1023",
+    userId: "cust-101",
+    user: {
+      id: "cust-101",
+      name: "Aria Chen",
+      email: "aria.chen@joyory.com"
+    },
+    date: "10 Sep 2026",
+    orderDate: "10 Sep 2026",
+    status: "Delivered",
+    deliveredDate: "12 Sep 2026",
+    totalAmount: 649,
     product: {
       id: "prod-1",
       name: "HydraGel Ultra-Light Moisturizer",
@@ -29,8 +62,19 @@ export const initialOrders = [
       size: "50ml",
       texture: "Gel"
     },
-    status: "Delivered",
-    deliveredDate: "September 12, 2026",
+    items: [
+      {
+        productId: "prod-1",
+        id: "prod-1",
+        name: "HydraGel Ultra-Light Moisturizer",
+        brand: "Joyory Labs",
+        image: "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=600&auto=format&fit=crop&q=80",
+        price: 649,
+        quantity: 1,
+        size: "50ml",
+        texture: "Gel"
+      }
+    ],
     hasFeedback: true,
     feedbackGiven: {
       rating: 4,
@@ -42,7 +86,18 @@ export const initialOrders = [
   },
   {
     id: "JOY-09874",
-    date: "August 28, 2026",
+    orderId: "JOY-09874",
+    userId: "cust-101",
+    user: {
+      id: "cust-101",
+      name: "Aria Chen",
+      email: "aria.chen@joyory.com"
+    },
+    date: "28 Aug 2026",
+    orderDate: "28 Aug 2026",
+    status: "Delivered",
+    deliveredDate: "31 Aug 2026",
+    totalAmount: 499,
     product: {
       id: "prod-8",
       name: "Amino Acid Gentle Foaming Cleanser",
@@ -52,8 +107,19 @@ export const initialOrders = [
       size: "150ml",
       texture: "Foaming Gel"
     },
-    status: "Delivered",
-    deliveredDate: "August 31, 2026",
+    items: [
+      {
+        productId: "prod-8",
+        id: "prod-8",
+        name: "Amino Acid Gentle Foaming Cleanser",
+        brand: "Joyory Labs",
+        image: "https://images.unsplash.com/photo-1556228722-d0b5be7490bf?w=600&auto=format&fit=crop&q=80",
+        price: 499,
+        quantity: 1,
+        size: "150ml",
+        texture: "Foaming Gel"
+      }
+    ],
     hasFeedback: true,
     feedbackGiven: {
       rating: 5,

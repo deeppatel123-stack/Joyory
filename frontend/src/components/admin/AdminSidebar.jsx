@@ -33,7 +33,7 @@ export const AdminSidebar = () => {
   const handleLogout = () => {
     logout();
     addToast("Logged out from admin portal.", "info");
-    navigate("/login");
+    navigate("/");
   };
 
   return (
@@ -42,7 +42,7 @@ export const AdminSidebar = () => {
         {/* Brand */}
         <div className="px-3 pt-2">
           <Link to="/admin" className="flex items-center gap-2.5">
-            <div className="w-7 h-7 rounded-lg bg-stone-900 dark:bg-stone-100 flex items-center justify-center text-white dark:text-stone-900 font-bold text-xs">
+            <div className="w-7 h-7 rounded-lg bg-gradient-to-tr from-rose-600 to-rose-500 flex items-center justify-center text-white font-bold text-xs shadow-xs">
               J
             </div>
             <div>

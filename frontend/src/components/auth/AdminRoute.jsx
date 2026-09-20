@@ -3,7 +3,7 @@ import { Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 
 export const AdminRoute = ({ children }) => {
-  const { isAuthenticated, isAdmin, isLoading } = useAuth();
+  const { isAuthenticated, role, isAdmin, isLoading } = useAuth();
   const location = useLocation();
 
   if (isLoading) {
@@ -18,7 +18,7 @@ export const AdminRoute = ({ children }) => {
     return <Navigate to="/login" state={{ from: location, message: "Please sign in to continue." }} replace />;
   }
 
-  if (!isAdmin) {
+  if (role !== "admin" || !isAdmin) {
     return <Navigate to="/customer/discover" replace />;
   }
 

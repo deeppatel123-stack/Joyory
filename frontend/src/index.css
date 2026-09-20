@@ -1,6 +1,25 @@
 @import "tailwindcss";
 
-@custom-variant dark (&:where(.dark, .dark *));
+@variant dark (&:where(.dark, .dark *));
+
+@theme {
+  /* Rich Modern Beauty Palette - Crisp Pearl & Obsidian Slate */
+  --color-stone-50: #f8fafc;
+  --color-stone-100: #f1f5f9;
+  --color-stone-200: #e2e8f0;
+  --color-stone-300: #cbd5e1;
+  --color-stone-400: #94a3b8;
+  --color-stone-500: #64748b;
+  --color-stone-600: #475569;
+  --color-stone-700: #334155;
+  --color-stone-800: #1e293b;
+  --color-stone-900: #0f172a;
+  --color-stone-950: #080c16;
+
+  --color-rose-500: #f43f5e;
+  --color-rose-600: #e11d48;
+  --color-rose-700: #be123c;
+}
 
 @layer base {
   :root {
@@ -13,7 +32,66 @@
   }
 }
 
-/* Custom scrollbar for minimal UI */
+/* Radiant Modern Beauty Accents - Vibrant Rose-Coral */
+.text-\[\#C26D53\] {
+  color: #f43f5e !important;
+}
+.bg-\[\#C26D53\] {
+  background-color: #f43f5e !important;
+}
+.border-\[\#C26D53\] {
+  border-color: #f43f5e !important;
+}
+.fill-\[\#C26D53\] {
+  fill: #f43f5e !important;
+}
+.accent-\[\#C26D53\] {
+  accent-color: #f43f5e !important;
+}
+
+.ring-\[\#C26D53\]\/10 {
+  --tw-ring-color: rgba(244, 63, 94, 0.12) !important;
+}
+.ring-\[\#C26D53\]\/20 {
+  --tw-ring-color: rgba(244, 63, 94, 0.22) !important;
+}
+
+.border-\[\#C26D53\]\/20 {
+  border-color: rgba(244, 63, 94, 0.2) !important;
+}
+.border-\[\#C26D53\]\/25 {
+  border-color: rgba(244, 63, 94, 0.25) !important;
+}
+.border-\[\#C26D53\]\/30 {
+  border-color: rgba(244, 63, 94, 0.3) !important;
+}
+.border-\[\#C26D53\]\/50 {
+  border-color: rgba(244, 63, 94, 0.5) !important;
+}
+
+.bg-\[\#C26D53\]\/5 {
+  background-color: rgba(244, 63, 94, 0.05) !important;
+}
+.bg-\[\#C26D53\]\/10 {
+  background-color: rgba(244, 63, 94, 0.1) !important;
+}
+.bg-\[\#C26D53\]\/15 {
+  background-color: rgba(244, 63, 94, 0.15) !important;
+}
+.bg-\[\#C26D53\]\/70 {
+  background-color: rgba(244, 63, 94, 0.7) !important;
+}
+
+/* Radiant glow & smooth elevation for Bento cards */
+.shadow-2xs {
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04), 0 1px 2px -1px rgba(0, 0, 0, 0.04) !important;
+}
+
+.dark .shadow-2xs {
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Custom modern scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -24,18 +102,18 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #d6d3d1;
+  background: #cbd5e1;
   border-radius: 9999px;
 }
 
 .dark ::-webkit-scrollbar-thumb {
-  background: #44403c;
+  background: #334155;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #a8a29e;
+  background: #94a3b8;
 }
 
 .dark ::-webkit-scrollbar-thumb:hover {
-  background: #57534e;
+  background: #475569;
 }

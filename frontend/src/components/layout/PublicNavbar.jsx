@@ -31,7 +31,7 @@ export const PublicNavbar = () => {
     logout();
     setUserDropdownOpen(false);
     setMobileMenuOpen(false);
-    navigate("/login");
+    navigate("/");
   };
 
   return (
@@ -39,7 +39,7 @@ export const PublicNavbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Brand */}
         <Link to="/" className="flex items-center gap-2.5 group">
-          <div className="w-8 h-8 rounded-lg bg-stone-900 dark:bg-stone-100 flex items-center justify-center text-white dark:text-stone-900 font-semibold text-sm transition-transform group-hover:scale-95 shadow-xs">
+          <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-rose-600 to-rose-500 flex items-center justify-center text-white font-bold text-sm transition-transform group-hover:scale-95 shadow-xs shadow-rose-500/20">
             J
           </div>
           <div>

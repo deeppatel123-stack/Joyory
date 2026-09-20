@@ -171,6 +171,7 @@ export default function App() {
                 }
               >
                 <Route index element={<AdminDashboard />} />
+                <Route path="overview" element={<AdminDashboard />} />
                 <Route path="products" element={<AdminProductsPage />} />
                 <Route path="orders" element={<AdminOrdersPage />} />
                 <Route path="customers" element={<AdminUsersPage />} />

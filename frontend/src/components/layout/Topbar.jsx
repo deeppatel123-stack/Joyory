@@ -14,7 +14,7 @@ export const Topbar = ({ mode = "customer", onMenuClick }) => {
 
   const handleLogout = () => {
     logout();
-    navigate("/login");
+    navigate("/");
   };
 
   const getPageTitle = () => {

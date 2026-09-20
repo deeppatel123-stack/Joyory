@@ -9,15 +9,31 @@ export const orderService = {
     } catch (err) {
       // Fallback order creation in localStorage
       const savedOrders = JSON.parse(localStorage.getItem("joyory_orders") || "[]");
+      const idStr = `JOY-${Date.now().toString().slice(-6)}`;
+      const dateStr = new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+      const firstItem = orderData.items?.[0] || {};
       const newOrder = {
-        id: `JOY-${Date.now().toString().slice(-6)}`,
-        orderId: `JOY-${Date.now().toString().slice(-6)}`,
-        orderDate: new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }),
-        items: orderData.items,
-        totalAmount: orderData.totalAmount || 1200,
-        subtotal: orderData.subtotal || 1200,
+        id: idStr,
+        orderId: idStr,
+        userId: orderData.userId || "cust-101",
+        user: orderData.user || { id: "cust-101", name: "Aria Chen", email: "aria.chen@joyory.com" },
+        orderDate: dateStr,
+        date: dateStr,
+        items: orderData.items || [],
+        product: {
+          id: firstItem.productId || firstItem.id || "prod-1",
+          name: firstItem.name || "HydraGel Ultra-Light Moisturizer",
+          brand: firstItem.brand || "Joyory Labs",
+          image: firstItem.image || "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=600&auto=format&fit=crop&q=80",
+          price: firstItem.price || orderData.totalAmount || 649,
+          size: firstItem.size || "50ml",
+          texture: firstItem.texture || "Gel"
+        },
+        totalAmount: orderData.totalAmount || 649,
+        subtotal: orderData.subtotal || orderData.totalAmount || 649,
         shippingFee: orderData.shippingFee || 0,
         status: "Confirmed",
+        deliveredDate: dateStr,
         paymentMethod: orderData.paymentMethod || "cod",
         shippingAddress: orderData.shippingAddress,
         hasFeedback: false
