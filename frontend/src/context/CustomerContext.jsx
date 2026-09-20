@@ -40,8 +40,8 @@ export const CustomerProvider = ({ children }) => {
   // Compare products state (max 4)
   const [compareList, setCompareList] = useState(() => {
     // Default 2 products to immediately showcase comparison table
-    const p1 = products.find(p => p.id === "prod-1");
-    const p2 = products.find(p => p.id === "prod-2");
+    const p1 = products.find(p => p.id === "prod-1") || products[0];
+    const p2 = products.find(p => p.id === "prod-2") || products[1];
     return p1 && p2 ? [p1, p2] : [];
   });
 

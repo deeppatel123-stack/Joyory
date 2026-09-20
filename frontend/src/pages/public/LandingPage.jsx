@@ -1,40 +1,31 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
-  Sparkles,
   ArrowRight,
   CheckCircle2,
-  Star,
   Compass,
-  Brain,
+  BookmarkCheck,
   RotateCw,
-  TrendingUp,
-  ShoppingBag
+  TrendingUp
 } from "lucide-react";
 import { Button } from "../../components/common/Button";
 import { PublicNavbar } from "../../components/layout/PublicNavbar";
 import { Footer } from "../../components/layout/Footer";
 import { ProductCard } from "../../components/customer/ProductCard";
 import { productService } from "../../services/productService";
-import { FallbackImage } from "../../components/common/FallbackImage";
 import { useAuth } from "../../context/AuthContext";
-import { useCustomer } from "../../context/CustomerContext";
 
 export const LandingPage = () => {
   const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
   const { isAuthenticated } = useAuth();
-  const { addToCart } = useCustomer();
 
   useEffect(() => {
     async function load() {
       try {
         const data = await productService.getProducts();
         setProducts(data);
-      } catch (err) {
+      } catch {
         console.warn("Using local product catalog");
-      } finally {
-        setLoading(false);
       }
     }
     load();
@@ -233,7 +224,7 @@ export const LandingPage = () => {
             {/* Card 2: Remember */}
             <div className="p-6 rounded-2xl border border-stone-200/80 dark:border-stone-800/80 bg-white dark:bg-stone-900 shadow-2xs space-y-3">
               <div className="w-10 h-10 rounded-xl bg-stone-100 dark:bg-stone-800 flex items-center justify-center text-[#C26D53]">
-                <Brain className="w-5 h-5" />
+                <BookmarkCheck className="w-5 h-5" />
               </div>
               <h3 className="text-base font-semibold text-stone-900 dark:text-stone-100">
                 Remember
