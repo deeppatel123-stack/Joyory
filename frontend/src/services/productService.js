@@ -46,8 +46,16 @@ export const productService = {
       console.warn("[productService] Falling back to local catalog:", err.message);
     }
 
-    // Resilient local fallback
-    let result = localProducts.map(normalizeProduct);
+    // Resilient local fallback from stored catalog
+    let catalog = [];
+    try {
+      const saved = localStorage.getItem("joyory_catalog");
+      catalog = saved ? JSON.parse(saved) : localProducts.map(normalizeProduct);
+    } catch {
+      catalog = localProducts.map(normalizeProduct);
+    }
+
+    let result = catalog;
 
     // Helper for diacritic/case insensitive normalization
     const normalizeStr = (str) =>
@@ -57,7 +65,10 @@ export const productService = {
       const catNorm = normalizeStr(filters.category);
       result = result.filter(p =>
         normalizeStr(p.category) === catNorm ||
-        normalizeStr(p.subcategory) === catNorm
+        normalizeStr(p.subcategory) === catNorm ||
+        normalizeStr(p.category).includes(catNorm) ||
+        normalizeStr(p.subcategory).includes(catNorm) ||
+        (p.tags || []).some(t => normalizeStr(t).includes(catNorm))
       );
     }
     if (filters.brand && filters.brand !== "All" && filters.brand !== "all") {
@@ -127,11 +138,19 @@ export const productService = {
       if (res && res.data) {
         return normalizeProduct(res.data);
       }
-    } catch (err) {
-      console.warn(`[productService] Falling back for product ${id}:`, err.message);
+    } catch {
+      // Fallback below
     }
 
-    const product = localProducts.find(p => p.id === id || p.sku === id);
+    let catalog = [];
+    try {
+      const saved = localStorage.getItem("joyory_catalog");
+      catalog = saved ? JSON.parse(saved) : localProducts.map(normalizeProduct);
+    } catch {
+      catalog = localProducts.map(normalizeProduct);
+    }
+
+    const product = catalog.find(p => p.id === id || p.sku === id);
     if (!product) {
       throw new Error("Product not found");
     }
@@ -148,18 +167,87 @@ export const productService = {
       .slice(0, 4);
   },
 
+  // Decrease stock on customer purchase
+  async decreaseStock(items = []) {
+    try {
+      let catalog = [];
+      const saved = localStorage.getItem("joyory_catalog");
+      catalog = saved ? JSON.parse(saved) : localProducts.map(normalizeProduct);
+      
+      const updated = catalog.map(p => {
+        const purchased = items.find(item => (item.productId || item.id) === p.id);
+        if (purchased) {
+          const qty = purchased.quantity || 1;
+          const newStock = Math.max(0, (p.stock || 0) - qty);
+          return { ...p, stock: newStock };
+        }
+        return p;
+      });
+
+      localStorage.setItem("joyory_catalog", JSON.stringify(updated));
+    } catch (e) {
+      console.warn("Could not decrease stock locally:", e);
+    }
+  },
+
   // Admin CRUD
   async createProduct(productData) {
-    const res = await apiClient.post("/products", productData);
-    return normalizeProduct(res.data);
+    try {
+      const res = await apiClient.post("/products", productData);
+      return normalizeProduct(res.data);
+    } catch {
+      let catalog = [];
+      const saved = localStorage.getItem("joyory_catalog");
+      catalog = saved ? JSON.parse(saved) : localProducts.map(normalizeProduct);
+
+      const newProduct = normalizeProduct({
+        ...productData,
+        id: `prod-${Date.now().toString().slice(-4)}`,
+        rating: 4.8,
+        reviewsCount: 1,
+        stock: Number(productData.stock) || 30
+      });
+
+      catalog.unshift(newProduct);
+      localStorage.setItem("joyory_catalog", JSON.stringify(catalog));
+      return newProduct;
+    }
   },
 
   async updateProduct(id, productData) {
-    const res = await apiClient.put(`/products/${id}`, productData);
-    return normalizeProduct(res.data);
+    try {
+      const res = await apiClient.put(`/products/${id}`, productData);
+      return normalizeProduct(res.data);
+    } catch {
+      let catalog = [];
+      const saved = localStorage.getItem("joyory_catalog");
+      catalog = saved ? JSON.parse(saved) : localProducts.map(normalizeProduct);
+
+      let updatedProd = null;
+      const updated = catalog.map(p => {
+        if (p.id === id) {
+          updatedProd = normalizeProduct({ ...p, ...productData });
+          return updatedProd;
+        }
+        return p;
+      });
+
+      localStorage.setItem("joyory_catalog", JSON.stringify(updated));
+      return updatedProd || productData;
+    }
   },
 
   async deleteProduct(id) {
-    return await apiClient.delete(`/products/${id}`);
+    try {
+      return await apiClient.delete(`/products/${id}`);
+    } catch {
+      let catalog = [];
+      const saved = localStorage.getItem("joyory_catalog");
+      catalog = saved ? JSON.parse(saved) : localProducts.map(normalizeProduct);
+
+      const filtered = catalog.filter(p => p.id !== id);
+      localStorage.setItem("joyory_catalog", JSON.stringify(filtered));
+      return { success: true, id };
+    }
   }
 };

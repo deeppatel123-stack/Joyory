@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
   Brain,
@@ -10,36 +10,55 @@ import {
   ArrowRight
 } from "lucide-react";
 import { Button } from "../../components/common/Button";
+import { customerService } from "../../services/customerService";
 
 export const BeautyMemoryPage = () => {
+  const [profile, setProfile] = useState(null);
+
+  useEffect(() => {
+    async function load() {
+      try {
+        const p = await customerService.getProfile();
+        setProfile(p);
+      } catch (err) {
+        console.error("Failed to load profile for Beauty Memory:", err);
+      }
+    }
+    load();
+  }, []);
+
+  const texturePref = profile?.learnedPreferences?.find(p => p.category === "Texture");
+  const textureValue = texturePref?.trait || "Lightweight";
+  const textureDesc = texturePref?.evolution || "Water-burst and gel textures that absorb quickly without greasy residue.";
+
   const preferences = [
     {
-      label: "Texture",
-      value: "Lightweight",
-      desc: "Water-burst and gel textures that absorb quickly without greasy residue.",
+      label: "Preferred Texture",
+      value: textureValue,
+      desc: textureDesc,
       icon: Layers
     },
     {
       label: "Skin Type",
-      value: "Oily",
+      value: profile?.statedPreferences?.skinType || "Oily",
       desc: "Prone to midday T-zone shine; thrives with oil-free hydration.",
       icon: Droplets
     },
     {
       label: "Budget",
-      value: "₹500–₹1,000",
+      value: profile?.statedPreferences?.budgetRange || "₹500–₹1,000",
       desc: "Accessible, high-efficacy daily skincare essentials.",
       icon: Wallet
     },
     {
-      label: "Finish",
+      label: "Preferred Finish",
       value: "Natural",
       desc: "Soft natural look with minimal gloss or artificial shine.",
       icon: Sparkle
     },
     {
       label: "Fragrance",
-      value: "Low",
+      value: profile?.statedPreferences?.fragrance || "Low",
       desc: "Unscented or subtle botanical scents to prevent skin reactivity.",
       icon: Feather
     }

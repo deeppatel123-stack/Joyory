@@ -5,6 +5,8 @@ import { useCustomer } from "../../context/CustomerContext";
 import { useAuth } from "../../context/AuthContext";
 import { useNotification } from "../../context/NotificationContext";
 import { orderService } from "../../services/orderService";
+import { productService } from "../../services/productService";
+import { journeyService } from "../../services/journeyService";
 import { Button } from "../../components/common/Button";
 import { Input } from "../../components/common/Input";
 import { FallbackImage } from "../../components/common/FallbackImage";
@@ -12,7 +14,7 @@ import { PublicNavbar } from "../../components/layout/PublicNavbar";
 import { Footer } from "../../components/layout/Footer";
 
 export const CheckoutPage = () => {
-  const { cart, cartTotal, resetAllDemoData } = useCustomer();
+  const { cart, cartTotal, clearCart } = useCustomer();
   const { user } = useAuth();
   const { addToast } = useNotification();
   const navigate = useNavigate();
@@ -54,11 +56,11 @@ export const CheckoutPage = () => {
     try {
       const orderPayload = {
         items: cart.map(item => ({
-          productId: item.productId || item.product.id,
-          product: item.product.id,
-          name: item.product.name,
-          image: item.product.image || item.product.images?.[0],
-          price: item.product.price,
+          productId: item.productId || item.product?.id,
+          product: item.product?.id || item.productId,
+          name: item.product?.name || item.name,
+          image: item.product?.image || item.product?.images?.[0] || item.image,
+          price: item.product?.price || item.price,
           quantity: item.quantity
         })),
         shippingAddress: address,
@@ -75,6 +77,32 @@ export const CheckoutPage = () => {
       };
 
       const res = await orderService.createOrder(orderPayload);
+
+      // Decrement catalog stock for purchased products
+      try {
+        await productService.decreaseStock(orderPayload.items);
+      } catch (stockErr) {
+        console.warn("Stock decrease warning:", stockErr);
+      }
+
+      // Record in customer Beauty Journey
+      try {
+        await journeyService.addEvent({
+          type: "PURCHASE",
+          title: `Order Placed (${res.orderId || res.id})`,
+          description: `Ordered ${orderPayload.items.map(i => i.name).join(", ")} (₹${totalAmount})`,
+          productName: orderPayload.items[0]?.name || "Skincare Formulations",
+          systemImpact: "Stock decremented. Items queued for Beauty Outcome feedback loop."
+        });
+      } catch (journeyErr) {
+        console.warn("Journey event warning:", journeyErr);
+      }
+
+      // Clear customer cart
+      if (clearCart) {
+        clearCart();
+      }
+
       setConfirmedOrder(res);
       addToast("Order placed successfully! Beauty Outcome Loop initiated.", "success");
     } catch (err) {

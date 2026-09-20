@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Heart, Trash2, Scale, ShoppingBag, ArrowRight } from "lucide-react";
 import { useCustomer } from "../../context/CustomerContext";
+import { productService } from "../../services/productService";
 import { products } from "../../data/products";
 import { Button } from "../../components/common/Button";
 import { Badge } from "../../components/common/Badge";
@@ -9,8 +10,21 @@ import { EmptyState } from "../../components/common/EmptyState";
 
 export const WishlistPage = () => {
   const { wishlist, toggleWishlist, addToBag, addToCompare, isInCompare } = useCustomer();
+  const [allProducts, setAllProducts] = useState(products);
 
-  const savedProducts = products.filter(p => wishlist.includes(p.id));
+  useEffect(() => {
+    async function load() {
+      try {
+        const prods = await productService.getProducts();
+        if (prods && prods.length > 0) setAllProducts(prods);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    load();
+  }, []);
+
+  const savedProducts = allProducts.filter(p => wishlist.includes(p.id));
 
   return (
     <div className="space-y-8">

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
   GitBranch,
@@ -12,52 +12,93 @@ import {
   ArrowRight
 } from "lucide-react";
 import { Button } from "../../components/common/Button";
+import { journeyService } from "../../services/journeyService";
+import { customerService } from "../../services/customerService";
+import { useCustomer } from "../../context/CustomerContext";
+import { useNotification } from "../../context/NotificationContext";
 
 export const BeautyJourneyPage = () => {
+  const { profile } = useCustomer();
+  const { addToast } = useNotification();
+
   // Outcome Loop State
   const [textureFeedback, setTextureFeedback] = useState("Loved it");
   const [overallFeedback, setOverallFeedback] = useState("Loved it");
   const [experienceSaved, setExperienceSaved] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  // 5 simple events as specified
-  const journeyEvents = [
-    {
-      title: "Searched for moisturizer",
-      desc: 'Looking for lightweight hydration for daily use',
-      icon: Search
-    },
-    {
-      title: "Viewed HydraGel Moisturizer",
-      desc: "Checked ingredients, texture details, and reviews",
-      icon: Eye
-    },
-    {
-      title: "Compared 2 products",
-      desc: "Evaluated HydraGel against Oat & Cica Calming Cream",
-      icon: Scale
-    },
-    {
-      title: "Purchased HydraGel",
-      desc: "Ordered HydraGel Ultra-Light Moisturizer (₹649)",
-      icon: ShoppingBag
-    },
-    {
-      title: "Loved the lightweight texture",
-      desc: "Feedback recorded in your Beauty Memory",
-      icon: Heart
+  // Load journey events from real journeyService
+  useEffect(() => {
+    async function loadEvents() {
+      setLoading(true);
+      try {
+        const list = await journeyService.getJourney();
+        setEvents(list || []);
+      } catch (err) {
+        console.error("Failed to load journey events:", err);
+      } finally {
+        setLoading(false);
+      }
     }
-  ];
+    loadEvents();
+  }, []);
 
-  const handleSaveOutcome = (e) => {
+  const getEventIcon = (type) => {
+    switch (type) {
+      case "SEARCH": return Search;
+      case "VIEW": return Eye;
+      case "COMPARE": return Scale;
+      case "WISHLIST": return Heart;
+      case "PURCHASE": return ShoppingBag;
+      case "FEEDBACK":
+      case "EXPERIENCE": return CheckCircle2;
+      default: return Sparkles;
+    }
+  };
+
+  const handleSaveOutcome = async (e) => {
     e.preventDefault();
-    setExperienceSaved(true);
+    setIsSaving(true);
+    try {
+      // 1. Update customer preferences in Beauty Memory
+      await customerService.updatePreferences({
+        id: "pref-1",
+        trait: textureFeedback === "Loved it" ? "Lightweight Texture (Verified Loved)" : "Alternative Texture Required",
+        category: "Texture",
+        confidence: 98,
+        level: "High",
+        learnedFrom: ["Outcome Feedback Loop"],
+        lastUpdated: "Just now",
+        evolution: `Customer feedback recorded: Texture ${textureFeedback}, Overall ${overallFeedback}`
+      });
+
+      // 2. Add event to Beauty Journey
+      const updated = await journeyService.addEvent({
+        type: "FEEDBACK",
+        title: `Shared Experience: ${textureFeedback} texture`,
+        description: `Customer submitted experience for HydraGel Moisturizer. Overall: ${overallFeedback}.`,
+        productName: "HydraGel Moisturizer",
+        systemImpact: "Beauty Memory updated. Recommended feed refined toward verified texture affinities."
+      });
+
+      setEvents(updated);
+      setExperienceSaved(true);
+      addToast("Experience saved! Beauty Memory and Journey updated.", "success");
+    } catch (err) {
+      console.error(err);
+      setExperienceSaved(true);
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   return (
     <div className="max-w-3xl mx-auto space-y-10 py-4">
       {/* Header */}
       <div className="border-b border-stone-200/80 dark:border-stone-800/80 pb-5 space-y-1">
-        <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#C26D53]">
+        <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-rose-600 dark:text-rose-400">
           <GitBranch className="w-4 h-4" />
           <span>My Journey</span>
         </div>
@@ -72,36 +113,54 @@ export const BeautyJourneyPage = () => {
       {/* 1. SIMPLE JOURNEY TIMELINE */}
       <section className="p-6 sm:p-8 rounded-2xl border border-stone-200/80 dark:border-stone-800/80 bg-white dark:bg-stone-900 shadow-2xs space-y-6">
         <h2 className="text-base font-semibold text-stone-900 dark:text-stone-100">
-          Recent Steps
+          Recent Steps ({events.length})
         </h2>
 
-        <div className="space-y-6">
-          {journeyEvents.map((event, idx) => {
-            const Icon = event.icon;
-            const isLast = idx === journeyEvents.length - 1;
+        {loading ? (
+          <div className="text-xs text-stone-400 py-4">Loading your journey...</div>
+        ) : events.length === 0 ? (
+          <div className="text-xs text-stone-500 py-4">No journey events recorded yet.</div>
+        ) : (
+          <div className="space-y-6">
+            {events.map((event, idx) => {
+              const Icon = getEventIcon(event.type);
+              const isLast = idx === events.length - 1;
 
-            return (
-              <div key={idx} className="relative flex items-start gap-4">
-                {!isLast && (
-                  <div className="absolute left-4 top-8 -bottom-6 w-0.5 bg-stone-200 dark:bg-stone-800" />
-                )}
+              return (
+                <div key={event.id || idx} className="relative flex items-start gap-4">
+                  {!isLast && (
+                    <div className="absolute left-4 top-8 -bottom-6 w-0.5 bg-stone-200 dark:bg-stone-800" />
+                  )}
 
-                <div className="w-8 h-8 rounded-full bg-stone-100 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 flex items-center justify-center shrink-0 z-10 text-[#C26D53]">
-                  <Icon className="w-4 h-4" />
+                  <div className="w-8 h-8 rounded-full bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/60 flex items-center justify-center shrink-0 z-10 text-rose-600 dark:text-rose-400">
+                    <Icon className="w-4 h-4" />
+                  </div>
+
+                  <div className="pt-0.5 space-y-0.5">
+                    <div className="flex items-center gap-2">
+                      <h3 className="text-sm font-semibold text-stone-900 dark:text-stone-100">
+                        {event.title}
+                      </h3>
+                      {event.date && (
+                        <span className="text-[11px] text-stone-400 font-mono">
+                          {event.date}
+                        </span>
+                      )}
+                    </div>
+                    <p className="text-xs text-stone-500 dark:text-stone-400">
+                      {event.description || event.desc}
+                    </p>
+                    {event.systemImpact && (
+                      <p className="text-[11px] text-stone-400 italic">
+                        Impact: {event.systemImpact}
+                      </p>
+                    )}
+                  </div>
                 </div>
-
-                <div className="pt-0.5 space-y-0.5">
-                  <h3 className="text-sm font-semibold text-stone-900 dark:text-stone-100">
-                    {event.title}
-                  </h3>
-                  <p className="text-xs text-stone-500 dark:text-stone-400">
-                    {event.desc}
-                  </p>
-                </div>
-              </div>
-            );
-          })}
-        </div>
+              );
+            })}
+          </div>
+        )}
       </section>
 
       {/* 2. DECISION REPLAY — "Why you chose this" */}

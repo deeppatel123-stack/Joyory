@@ -68,8 +68,22 @@ export const orderService = {
     try {
       const res = await apiClient.put(`/orders/${id}/status`, { status });
       return res.data;
-    } catch (err) {
-      throw err;
+    } catch {
+      let savedOrders = [];
+      try {
+        const raw = localStorage.getItem("joyory_orders");
+        savedOrders = raw ? JSON.parse(raw) : initialOrders;
+      } catch {
+        savedOrders = initialOrders;
+      }
+      const updated = savedOrders.map(o => {
+        if (o.id === id || o.orderId === id) {
+          return { ...o, status };
+        }
+        return o;
+      });
+      localStorage.setItem("joyory_orders", JSON.stringify(updated));
+      return { success: true, status };
     }
   }
 };

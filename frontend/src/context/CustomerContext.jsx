@@ -110,14 +110,24 @@ export const CustomerProvider = ({ children }) => {
 
   // Cart actions
   const addToBag = (product, quantity = 1) => {
+    const stock = product.stock !== undefined ? product.stock : 99;
+    if (stock <= 0) {
+      addToast(`${product.name} is currently out of stock.`, "error");
+      return;
+    }
     setCart(prev => {
       const existing = prev.find(item => item.productId === product.id);
       if (existing) {
+        if (existing.quantity >= stock) {
+          addToast(`Maximum available stock (${stock} units) reached.`, "error");
+          return prev;
+        }
+        const newQty = Math.min(stock, existing.quantity + quantity);
         return prev.map(item =>
-          item.productId === product.id ? { ...item, quantity: item.quantity + quantity } : item
+          item.productId === product.id ? { ...item, quantity: newQty } : item
         );
       }
-      return [...prev, { productId: product.id, product, quantity }];
+      return [...prev, { productId: product.id, product, quantity: Math.min(stock, quantity) }];
     });
     addToast(`Added ${product.name} to bag`, "success");
   };
@@ -132,9 +142,20 @@ export const CustomerProvider = ({ children }) => {
       removeFromBag(productId);
       return;
     }
-    setCart(prev => prev.map(item =>
-      item.productId === productId ? { ...item, quantity: qty } : item
-    ));
+    setCart(prev => prev.map(item => {
+      if (item.productId === productId) {
+        const stock = item.product?.stock !== undefined ? item.product.stock : 99;
+        if (qty > stock) {
+          addToast(`Only ${stock} units available in stock.`, "error");
+        }
+        return { ...item, quantity: Math.min(stock, qty) };
+      }
+      return item;
+    }));
+  };
+
+  const clearCart = () => {
+    setCart([]);
   };
 
   // Compare actions
@@ -264,6 +285,7 @@ export const CustomerProvider = ({ children }) => {
         addToBag,
         removeFromBag,
         updateQuantity,
+        clearCart,
         cartTotal,
         cartCount,
         compareList,
