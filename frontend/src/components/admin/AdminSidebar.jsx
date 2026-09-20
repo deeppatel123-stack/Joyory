@@ -65,10 +65,10 @@ export const AdminSidebar = () => {
               <Link
                 key={link.path}
                 to={link.path}
-                className={`flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium transition-colors ${
+                className={`flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-colors ${
                   active
-                    ? "bg-stone-100 dark:bg-stone-800 text-stone-950 dark:text-stone-50 font-semibold"
-                    : "text-stone-600 dark:text-stone-400 hover:bg-stone-50 dark:hover:bg-stone-800/50 hover:text-stone-900 dark:hover:text-stone-100"
+                    ? "bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 font-semibold shadow-2xs border border-rose-200/50 dark:border-rose-900/50"
+                    : "text-stone-700 dark:text-stone-300 hover:bg-stone-50 dark:hover:bg-stone-800/50 hover:text-stone-950 dark:hover:text-stone-50"
                 }`}
               >
                 <Icon className={`w-4 h-4 ${active ? "text-[#C26D53]" : "text-stone-400"}`} />

@@ -66,10 +66,10 @@ export const CustomerSidebar = ({ onClose }) => {
                 to={item.path}
                 onClick={onClose}
                 className={({ isActive }) =>
-                  `flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium transition-colors ${
+                  `flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium transition-colors ${
                     isActive
-                      ? "bg-stone-200/70 dark:bg-stone-800/90 text-stone-950 dark:text-stone-50 font-semibold shadow-2xs"
-                      : "text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-200 hover:bg-stone-100 dark:hover:bg-stone-900/60"
+                      ? "bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 font-semibold shadow-2xs border border-rose-200/50 dark:border-rose-900/50"
+                      : "text-stone-700 dark:text-stone-300 hover:text-stone-950 dark:hover:text-stone-50 hover:bg-stone-100 dark:hover:bg-stone-900/60"
                   }`
                 }
               >

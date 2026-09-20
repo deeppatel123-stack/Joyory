@@ -11,10 +11,9 @@ export const products = [
     originalPrice: 799,
     mrp: 799,
     discount: 19,
-    image: "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=600&auto=format&fit=crop&q=80",
+    image: "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=700&auto=format&fit=crop&q=80",
     images: [
-      "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=600&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1608248597359-009d115e8557?w=600&auto=format&fit=crop&q=80"
+      "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=700&auto=format&fit=crop&q=80"
     ],
     description: "An oil-free, weightless water-burst gel moisturizer formulated for oily and combination skin. Delivers 48-hour hydration with zero greasy residue.",
     shortDescription: "Ultra-lightweight oil-free water gel with 2% Hyaluronic Acid and Centella.",
@@ -57,8 +56,10 @@ export const products = [
     originalPrice: 399,
     mrp: 399,
     discount: 13,
-    image: "https://images.unsplash.com/photo-1556228722-d0b5be7490bf?w=600&auto=format&fit=crop&q=80",
-    images: ["https://images.unsplash.com/photo-1556228722-d0b5be7490bf?w=600&auto=format&fit=crop&q=80"],
+    image: "https://images.unsplash.com/photo-1556228722-d0b5be7490bf?w=700&auto=format&fit=crop&q=80",
+    images: [
+      "https://images.unsplash.com/photo-1556228722-d0b5be7490bf?w=700&auto=format&fit=crop&q=80"
+    ],
     description: "Ultra-gentle sulfate-free foaming face wash with colloidal oat and soothing cica extract. Removes excess sebum without stripping the acid mantle.",
     shortDescription: "Sulfate-free oat and cica wash for sensitive and acne-prone skin.",
     size: "120ml",
@@ -100,8 +101,10 @@ export const products = [
     originalPrice: 699,
     mrp: 699,
     discount: 14,
-    image: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=600&auto=format&fit=crop&q=80",
-    images: ["https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=600&auto=format&fit=crop&q=80"],
+    image: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=700&auto=format&fit=crop&q=80",
+    images: [
+      "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=700&auto=format&fit=crop&q=80"
+    ],
     description: "High-potency clinical serum with pure pharmaceutical-grade Niacinamide and Zinc PCA to visibly reduce sebum production, pore appearance, and dark marks.",
     shortDescription: "10% Niacinamide + 1% Zinc PCA serum for blemish control and dark spots.",
     size: "30ml",
@@ -143,8 +146,10 @@ export const products = [
     originalPrice: 595,
     mrp: 595,
     discount: 17,
-    image: "https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=600&auto=format&fit=crop&q=80",
-    images: ["https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=600&auto=format&fit=crop&q=80"],
+    image: "https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=700&auto=format&fit=crop&q=80",
+    images: [
+      "https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=700&auto=format&fit=crop&q=80"
+    ],
     description: "Ultra-refreshing, non-sticky sunscreen formulated with watermelon extract and broad-spectrum UV filters. Absorbs in 10 seconds with zero white cast.",
     shortDescription: "Zero-white cast hydrating cooling sunscreen with SPF 50+ PA++++.",
     size: "50g",
@@ -186,8 +191,10 @@ export const products = [
     originalPrice: 450,
     mrp: 450,
     discount: 13,
-    image: "https://images.unsplash.com/photo-1617897903246-719242758050?w=600&auto=format&fit=crop&q=80",
-    images: ["https://images.unsplash.com/photo-1617897903246-719242758050?w=600&auto=format&fit=crop&q=80"],
+    image: "https://images.unsplash.com/photo-1617897903246-719242758050?w=700&auto=format&fit=crop&q=80",
+    images: [
+      "https://images.unsplash.com/photo-1617897903246-719242758050?w=700&auto=format&fit=crop&q=80"
+    ],
     description: "Gentle, non-drying toner packed with antioxidant-rich green tea leaf water and glycolic acid to sweep away dead skin cells and prevent breakout congestion.",
     shortDescription: "Alcohol-free green tea toner with glycolic acid for clear, balanced skin.",
     size: "200ml",
@@ -229,8 +236,10 @@ export const products = [
     originalPrice: 650,
     mrp: 650,
     discount: 19,
-    image: "https://images.unsplash.com/photo-1556228722-d0b5be7490bf?w=600&auto=format&fit=crop&q=80",
-    images: ["https://images.unsplash.com/photo-1556228722-d0b5be7490bf?w=600&auto=format&fit=crop&q=80"],
+    image: "https://images.unsplash.com/photo-1567928815114-87d3297c1caf?w=700&auto=format&fit=crop&q=80",
+    images: [
+      "https://images.unsplash.com/photo-1567928815114-87d3297c1caf?w=700&auto=format&fit=crop&q=80"
+    ],
     description: "Deep-cleaning clay mask with ceremonial Japanese matcha and white kaolin clay. Draws out blackheads, pollutants, and excess oil without cracking the skin.",
     shortDescription: "Detoxifying green matcha clay mask for smooth, purified pores.",
     size: "100g",
@@ -272,8 +281,10 @@ export const products = [
     originalPrice: 999,
     mrp: 999,
     discount: 15,
-    image: "https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=600&auto=format&fit=crop&q=80",
-    images: ["https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=600&auto=format&fit=crop&q=80"],
+    image: "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=700&auto=format&fit=crop&q=80",
+    images: [
+      "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=700&auto=format&fit=crop&q=80"
+    ],
     description: "Intense overnight restorative barrier cream with 5 essential ceramides and multi-peptides to seal moisture and reverse water loss while you sleep.",
     shortDescription: "5-Ceramide + Multi-Peptide overnight barrier repair cream.",
     size: "60g",
@@ -315,8 +326,10 @@ export const products = [
     originalPrice: 549,
     mrp: 549,
     discount: 18,
-    image: "https://images.unsplash.com/photo-1608248597359-009d115e8557?w=600&auto=format&fit=crop&q=80",
-    images: ["https://images.unsplash.com/photo-1608248597359-009d115e8557?w=600&auto=format&fit=crop&q=80"],
+    image: "https://images.unsplash.com/photo-1599305090598-fe179d501227?w=700&auto=format&fit=crop&q=80",
+    images: [
+      "https://images.unsplash.com/photo-1599305090598-fe179d501227?w=700&auto=format&fit=crop&q=80"
+    ],
     description: "Water-light sunscreen infused with watermelon and niacinamide to hydrate skin while defending against UVA/UVB rays and blue light damage.",
     shortDescription: "Hydrating water-light sunscreen for luminous dewy protection.",
     size: "50g",
@@ -358,8 +371,10 @@ export const products = [
     originalPrice: 649,
     mrp: 649,
     discount: 15,
-    image: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=600&auto=format&fit=crop&q=80",
-    images: ["https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=600&auto=format&fit=crop&q=80"],
+    image: "https://images.unsplash.com/photo-1631730486784-5456119f69ae?w=700&auto=format&fit=crop&q=80",
+    images: [
+      "https://images.unsplash.com/photo-1631730486784-5456119f69ae?w=700&auto=format&fit=crop&q=80"
+    ],
     description: "Iconic oil-free liquid foundation with micro-powders that control shine and blur pores for a natural, seamless matte finish.",
     shortDescription: "Breathable liquid foundation for a natural seamless poreless matte finish.",
     size: "30ml",
@@ -401,8 +416,10 @@ export const products = [
     originalPrice: 299,
     mrp: 299,
     discount: 17,
-    image: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=600&auto=format&fit=crop&q=80",
-    images: ["https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=600&auto=format&fit=crop&q=80"],
+    image: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=700&auto=format&fit=crop&q=80",
+    images: [
+      "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=700&auto=format&fit=crop&q=80"
+    ],
     description: "Crease-resistant, lightweight liquid concealer that provides full coverage for dark circles, blemishes, and spots with an effortless blend.",
     shortDescription: "High-pigment crease-proof concealer for dark circles and spots.",
     size: "6ml",
@@ -444,8 +461,10 @@ export const products = [
     originalPrice: 399,
     mrp: 399,
     discount: 13,
-    image: "https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=600&auto=format&fit=crop&q=80",
-    images: ["https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=600&auto=format&fit=crop&q=80"],
+    image: "https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=700&auto=format&fit=crop&q=80",
+    images: [
+      "https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=700&auto=format&fit=crop&q=80"
+    ],
     description: "Intensely pigmented liquid lipstick with an ultra-lightweight formula that delivers rich, 16-hour smudge-proof matte color without drying out lips.",
     shortDescription: "16-hour transferproof matte liquid lipstick in versatile shades.",
     size: "5.6ml",
@@ -487,8 +506,10 @@ export const products = [
     originalPrice: 299,
     mrp: 299,
     discount: 23,
-    image: "https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=600&auto=format&fit=crop&q=80",
-    images: ["https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=600&auto=format&fit=crop&q=80"],
+    image: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=700&auto=format&fit=crop&q=80",
+    images: [
+      "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=700&auto=format&fit=crop&q=80"
+    ],
     description: "High-shine plumping lip lacquer infused with vitamin E and jojoba oil. Delivers a reflective mirror finish with zero gummy stickiness.",
     shortDescription: "High-shine mirror glass lip gloss with non-sticky hydrating formula.",
     size: "4ml",
@@ -530,8 +551,10 @@ export const products = [
     originalPrice: 350,
     mrp: 350,
     discount: 16,
-    image: "https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=600&auto=format&fit=crop&q=80",
-    images: ["https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=600&auto=format&fit=crop&q=80"],
+    image: "https://images.unsplash.com/photo-1563178406-4cdc2923acbc?w=700&auto=format&fit=crop&q=80",
+    images: [
+      "https://images.unsplash.com/photo-1563178406-4cdc2923acbc?w=700&auto=format&fit=crop&q=80"
+    ],
     description: "Nourishing tinted butter balm with barrier-repairing ceramides, shea butter, and SPF 30 sun protection for soft, juicy, protected lips.",
     shortDescription: "SPF 30 Ceramide tinted lip butter for sun-protected, hydrated lips.",
     size: "12g",
@@ -573,8 +596,10 @@ export const products = [
     originalPrice: 495,
     mrp: 495,
     discount: 14,
-    image: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=600&auto=format&fit=crop&q=80",
-    images: ["https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=600&auto=format&fit=crop&q=80"],
+    image: "https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=700&auto=format&fit=crop&q=80",
+    images: [
+      "https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=700&auto=format&fit=crop&q=80"
+    ],
     description: "Melt-in cream-to-powder blush tint formulated with squalane and jojoba oil. Imparts a soft-focus watercolor flush that lasts up to 10 hours.",
     shortDescription: "Multi-use cream-to-powder blush and lip flush with squalane.",
     size: "8ml",
@@ -616,8 +641,10 @@ export const products = [
     originalPrice: 799,
     mrp: 799,
     discount: 13,
-    image: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=600&auto=format&fit=crop&q=80",
-    images: ["https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=600&auto=format&fit=crop&q=80"],
+    image: "https://images.unsplash.com/photo-1591360236480-4ed861025fa1?w=700&auto=format&fit=crop&q=80",
+    images: [
+      "https://images.unsplash.com/photo-1591360236480-4ed861025fa1?w=700&auto=format&fit=crop&q=80"
+    ],
     description: "Breakthrough Flex Tower brush reaches every lash from root to tip. Infused with bamboo extract and fibers for boundless length and weightless volume.",
     shortDescription: "Sky-high waterproof lengthening mascara with bamboo extract.",
     size: "7.2ml",
@@ -659,8 +686,10 @@ export const products = [
     originalPrice: 450,
     mrp: 450,
     discount: 17,
-    image: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=600&auto=format&fit=crop&q=80",
-    images: ["https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=600&auto=format&fit=crop&q=80"],
+    image: "https://images.unsplash.com/photo-1590156546946-ce55a12a6a5d?w=700&auto=format&fit=crop&q=80",
+    images: [
+      "https://images.unsplash.com/photo-1590156546946-ce55a12a6a5d?w=700&auto=format&fit=crop&q=80"
+    ],
     description: "Silky micro-fine pressed compact powder with oil-absorbing minerals and SPF 20. Sets foundation for all-day matte freshness without looking cakey.",
     shortDescription: "Micro-fine oil control pressed powder with SPF 20.",
     size: "9g",
@@ -702,8 +731,10 @@ export const products = [
     originalPrice: 595,
     mrp: 595,
     discount: 17,
-    image: "https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?w=600&auto=format&fit=crop&q=80",
-    images: ["https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?w=600&auto=format&fit=crop&q=80"],
+    image: "https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?w=700&auto=format&fit=crop&q=80",
+    images: [
+      "https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?w=700&auto=format&fit=crop&q=80"
+    ],
     description: "Sulfate-free scalp purifying shampoo infused with Spanish Rosemary oil and Biotin to boost microcirculation, strengthen weak strands, and curb breakage.",
     shortDescription: "Sulfate-free scalp strengthening shampoo with Rosemary & Biotin.",
     size: "250ml",
@@ -745,8 +776,10 @@ export const products = [
     originalPrice: 650,
     mrp: 650,
     discount: 20,
-    image: "https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?w=600&auto=format&fit=crop&q=80",
-    images: ["https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?w=600&auto=format&fit=crop&q=80"],
+    image: "https://images.unsplash.com/photo-1608248597359-009d115e8557?w=700&auto=format&fit=crop&q=80",
+    images: [
+      "https://images.unsplash.com/photo-1608248597359-009d115e8557?w=700&auto=format&fit=crop&q=80"
+    ],
     description: "Intense deep conditioning treatment packed with cold-pressed olive oil, macadamia seed oil, and plant keratin to detangle, smooth frizz, and seal split ends.",
     shortDescription: "Rich moisturizing conditioner & mask for dry, damaged, frizzy hair.",
     size: "250g",
@@ -788,8 +821,10 @@ export const products = [
     originalPrice: 499,
     mrp: 499,
     discount: 20,
-    image: "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=600&auto=format&fit=crop&q=80",
-    images: ["https://images.unsplash.com/photo-1556228720-195a672e8a03?w=600&auto=format&fit=crop&q=80"],
+    image: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=700&auto=format&fit=crop&q=80",
+    images: [
+      "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=700&auto=format&fit=crop&q=80"
+    ],
     description: "Non-greasy, fast-absorbing daily body lotion with 3% Niacinamide and Ethyl Ascorbic Acid to even out sun tan, fade body pigmentation, and provide 24H hydration.",
     shortDescription: "3% Niacinamide + Vitamin C body lotion for even-toned, smooth skin.",
     size: "200ml",
@@ -831,8 +866,10 @@ export const products = [
     originalPrice: 495,
     mrp: 495,
     discount: 14,
-    image: "https://images.unsplash.com/photo-1556228722-d0b5be7490bf?w=600&auto=format&fit=crop&q=80",
-    images: ["https://images.unsplash.com/photo-1556228722-d0b5be7490bf?w=600&auto=format&fit=crop&q=80"],
+    image: "https://images.unsplash.com/photo-1556228724-4da943486a42?w=700&auto=format&fit=crop&q=80",
+    images: [
+      "https://images.unsplash.com/photo-1556228724-4da943486a42?w=700&auto=format&fit=crop&q=80"
+    ],
     description: "Luscious foaming shower gel infused with watermelon extract, lactic acid, and glycolic acid to gently buff away bumpy strawberry skin and body dullness.",
     shortDescription: "AHA exfoliating body cleanser to smooth bumps and refresh skin.",
     size: "250ml",
@@ -874,8 +911,10 @@ export const products = [
     originalPrice: 599,
     mrp: 599,
     discount: 8,
-    image: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=600&auto=format&fit=crop&q=80",
-    images: ["https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=600&auto=format&fit=crop&q=80"],
+    image: "https://images.unsplash.com/photo-1601049541289-9b1b7bbbfe19?w=700&auto=format&fit=crop&q=80",
+    images: [
+      "https://images.unsplash.com/photo-1601049541289-9b1b7bbbfe19?w=700&auto=format&fit=crop&q=80"
+    ],
     description: "Water-based leave-on liquid exfoliant with pharmaceutical-grade Salicylic Acid. Dissolves sebum plugs deep within pores to banish blackheads and active pimples.",
     shortDescription: "2% Salicylic Acid liquid for deep pore declogging and blackheads.",
     size: "30ml",
@@ -911,8 +950,10 @@ export const products = [
     originalPrice: 790,
     mrp: 790,
     discount: 15,
-    image: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=600&auto=format&fit=crop&q=80",
-    images: ["https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=600&auto=format&fit=crop&q=80"],
+    image: "https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?w=700&auto=format&fit=crop&q=80",
+    images: [
+      "https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?w=700&auto=format&fit=crop&q=80"
+    ],
     description: "Stabilized 10% Ethyl Ascorbic Acid serum infused with Japanese Mandarin and Ferulic acid to combat free radical damage and restore lit-from-within luminosity.",
     shortDescription: "Quick-absorbing 10% Vitamin C serum for glow and dark spot reduction.",
     size: "30ml",
@@ -948,8 +989,10 @@ export const products = [
     originalPrice: 450,
     mrp: 450,
     discount: 12,
-    image: "https://images.unsplash.com/photo-1556228722-d0b5be7490bf?w=600&auto=format&fit=crop&q=80",
-    images: ["https://images.unsplash.com/photo-1556228722-d0b5be7490bf?w=600&auto=format&fit=crop&q=80"],
+    image: "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=700&auto=format&fit=crop&q=80",
+    images: [
+      "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=700&auto=format&fit=crop&q=80"
+    ],
     description: "Bouncy, cushiony jelly cleanser with 5 essential ceramides and Japanese rice water that melts makeup, dirt, and excess oil while respecting natural barrier lipids.",
     shortDescription: "5-Ceramide + Rice water jelly cleanser for soft, balanced skin.",
     size: "100ml",
@@ -985,8 +1028,10 @@ export const products = [
     originalPrice: 899,
     mrp: 899,
     discount: 17,
-    image: "https://images.unsplash.com/photo-1608248597359-009d115e8557?w=600&auto=format&fit=crop&q=80",
-    images: ["https://images.unsplash.com/photo-1608248597359-009d115e8557?w=600&auto=format&fit=crop&q=80"],
+    image: "https://images.unsplash.com/photo-1616683693504-3ea7e9ad6fec?w=700&auto=format&fit=crop&q=80",
+    images: [
+      "https://images.unsplash.com/photo-1616683693504-3ea7e9ad6fec?w=700&auto=format&fit=crop&q=80"
+    ],
     description: "Fast-absorbing mattifying fluid with 1.5% encapsulated Salicylic Acid and Zinc PCA. Minimizes enlarged pores and balances sebum without drying.",
     shortDescription: "Lightweight fluid with BHA and Zinc for pore care and oil control.",
     size: "60ml",
@@ -1022,8 +1067,10 @@ export const products = [
     originalPrice: 525,
     mrp: 525,
     discount: 15,
-    image: "https://images.unsplash.com/photo-1617897903246-719242758050?w=600&auto=format&fit=crop&q=80",
-    images: ["https://images.unsplash.com/photo-1617897903246-719242758050?w=600&auto=format&fit=crop&q=80"],
+    image: "https://images.unsplash.com/photo-1615397349754-cfa2066a298e?w=700&auto=format&fit=crop&q=80",
+    images: [
+      "https://images.unsplash.com/photo-1615397349754-cfa2066a298e?w=700&auto=format&fit=crop&q=80"
+    ],
     description: "Silky milky toner packed with fermented rice bran water and 5% niacinamide to flood skin with lightweight hydration and brighten lackluster skin tone.",
     shortDescription: "Milky rice water toner with 5% Niacinamide for glass skin glow.",
     size: "150ml",
@@ -1059,8 +1106,10 @@ export const products = [
     originalPrice: 850,
     mrp: 850,
     discount: 18,
-    image: "https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=600&auto=format&fit=crop&q=80",
-    images: ["https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=600&auto=format&fit=crop&q=80"],
+    image: "https://images.unsplash.com/photo-1556228721-a3f2b69cb151?w=700&auto=format&fit=crop&q=80",
+    images: [
+      "https://images.unsplash.com/photo-1556228721-a3f2b69cb151?w=700&auto=format&fit=crop&q=80"
+    ],
     description: "Pure mineral physical sunscreen with 20% micronized non-nano zinc oxide. Silky powdery finish with zero oiliness, ideal for highly reactive and acne-prone skin.",
     shortDescription: "100% Zinc Oxide mineral matte sunscreen with zero eye sting.",
     size: "50g",
@@ -1096,8 +1145,10 @@ export const products = [
     originalPrice: 599,
     mrp: 599,
     discount: 17,
-    image: "https://images.unsplash.com/photo-1556228722-d0b5be7490bf?w=600&auto=format&fit=crop&q=80",
-    images: ["https://images.unsplash.com/photo-1556228722-d0b5be7490bf?w=600&auto=format&fit=crop&q=80"],
+    image: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=700&auto=format&fit=crop&q=80",
+    images: [
+      "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=700&auto=format&fit=crop&q=80"
+    ],
     description: "Biodegradable cellulose sheet mask drenched in 2% BHA serum to quickly unclog blackheads, calm active redness, and purify congested T-zones in 15 minutes.",
     shortDescription: "Pack of 5 clarifying BHA sheet masks for immediate pore reset.",
     size: "5 x 25ml",
@@ -1133,8 +1184,10 @@ export const products = [
     originalPrice: 699,
     mrp: 699,
     discount: 14,
-    image: "https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=600&auto=format&fit=crop&q=80",
-    images: ["https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=600&auto=format&fit=crop&q=80"],
+    image: "https://images.unsplash.com/photo-1617897903247-3195240212f4?w=700&auto=format&fit=crop&q=80",
+    images: [
+      "https://images.unsplash.com/photo-1617897903247-3195240212f4?w=700&auto=format&fit=crop&q=80"
+    ],
     description: "Stable, water-free retinol emulsion packaged in squalane to accelerate cell turnover, smooth early fine lines, and refine bumpy skin texture with minimal irritation.",
     shortDescription: "0.3% Pure Retinol in Squalane for cellular renewal and fine lines.",
     size: "30ml",
@@ -1170,8 +1223,10 @@ export const products = [
     originalPrice: 599,
     mrp: 599,
     discount: 17,
-    image: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=600&auto=format&fit=crop&q=80",
-    images: ["https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=600&auto=format&fit=crop&q=80"],
+    image: "https://images.unsplash.com/photo-1515688594390-b649af70d282?w=700&auto=format&fit=crop&q=80",
+    images: [
+      "https://images.unsplash.com/photo-1515688594390-b649af70d282?w=700&auto=format&fit=crop&q=80"
+    ],
     description: "Hybrid skincare foundation packed with 2% Hyaluronic Acid and Niacinamide. Delivers featherlight medium coverage with a radiant glass finish.",
     shortDescription: "Skincare-infused serum foundation with SPF 30 for dewy radiant coverage.",
     size: "30ml",
@@ -1207,8 +1262,10 @@ export const products = [
     originalPrice: 699,
     mrp: 699,
     discount: 14,
-    image: "https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=600&auto=format&fit=crop&q=80",
-    images: ["https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=600&auto=format&fit=crop&q=80"],
+    image: "https://images.unsplash.com/photo-1625093742435-6fa192b6fb10?w=700&auto=format&fit=crop&q=80",
+    images: [
+      "https://images.unsplash.com/photo-1625093742435-6fa192b6fb10?w=700&auto=format&fit=crop&q=80"
+    ],
     description: "Industry benchmark transfer-proof liquid lip color that delivers flawless, saturated matte color for up to 16 hours through meals and drinks.",
     shortDescription: "Flawless 16-hour saturated transfer-proof liquid lipstick.",
     size: "5ml",
@@ -1244,8 +1301,10 @@ export const products = [
     originalPrice: 495,
     mrp: 495,
     discount: 14,
-    image: "https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?w=600&auto=format&fit=crop&q=80",
-    images: ["https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?w=600&auto=format&fit=crop&q=80"],
+    image: "https://images.unsplash.com/photo-1527799820374-dcf8d9d4a388?w=700&auto=format&fit=crop&q=80",
+    images: [
+      "https://images.unsplash.com/photo-1527799820374-dcf8d9d4a388?w=700&auto=format&fit=crop&q=80"
+    ],
     description: "Clarifying scalp shampoo with raw apple cider vinegar and pro-vitamin B5. Resets product buildup, balances greasy roots, and restores natural shine.",
     shortDescription: "Clarifying ACV shampoo for scalp buildup removal and glossy strands.",
     size: "250ml",
@@ -1281,8 +1340,10 @@ export const products = [
     originalPrice: 895,
     mrp: 895,
     discount: 17,
-    image: "https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?w=600&auto=format&fit=crop&q=80",
-    images: ["https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?w=600&auto=format&fit=crop&q=80"],
+    image: "https://images.unsplash.com/photo-1629198688000-71f23e745b6e?w=700&auto=format&fit=crop&q=80",
+    images: [
+      "https://images.unsplash.com/photo-1629198688000-71f23e745b6e?w=700&auto=format&fit=crop&q=80"
+    ],
     description: "Award-winning leave-on scalp serum with 3% Redensyl, 3% Anagain, and Procapil. Targets thinning hair parts and reactivates dormant hair follicles in 90 days.",
     shortDescription: "3% Redensyl + Anagain scalp serum for hair density and volume.",
     size: "50ml",
@@ -1318,8 +1379,10 @@ export const products = [
     originalPrice: 699,
     mrp: 699,
     discount: 21,
-    image: "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=600&auto=format&fit=crop&q=80",
-    images: ["https://images.unsplash.com/photo-1556228720-195a672e8a03?w=600&auto=format&fit=crop&q=80"],
+    image: "https://images.unsplash.com/photo-1556228723-dd33be32c748?w=700&auto=format&fit=crop&q=80",
+    images: [
+      "https://images.unsplash.com/photo-1556228723-dd33be32c748?w=700&auto=format&fit=crop&q=80"
+    ],
     description: "Decadent whipped body butter with raw Ghanaian shea butter, cocoa seed butter, and sweet almond oil. Banishes winter ashiness and seals moisture for 72 hours.",
     shortDescription: "Rich raw shea and cocoa butter for 72-hour winter moisture repair.",
     size: "200g",
@@ -1355,8 +1418,10 @@ export const products = [
     originalPrice: 395,
     mrp: 395,
     discount: 13,
-    image: "https://images.unsplash.com/photo-1556228722-d0b5be7490bf?w=600&auto=format&fit=crop&q=80",
-    images: ["https://images.unsplash.com/photo-1556228722-d0b5be7490bf?w=600&auto=format&fit=crop&q=80"],
+    image: "https://images.unsplash.com/photo-1556228725-d91d17983637?w=700&auto=format&fit=crop&q=80",
+    images: [
+      "https://images.unsplash.com/photo-1556228725-d91d17983637?w=700&auto=format&fit=crop&q=80"
+    ],
     description: "Soft micro-bubble cleanser with ferment rice water and 2% niacinamide. Gently rinses sunscreen and grime while keeping the skin soft and radiant.",
     shortDescription: "Rice water & niacinamide foam wash for bright, hydrated cleansing.",
     size: "120ml",
@@ -1392,8 +1457,10 @@ export const products = [
     originalPrice: 549,
     mrp: 549,
     discount: 9,
-    image: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=600&auto=format&fit=crop&q=80",
-    images: ["https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=600&auto=format&fit=crop&q=80"],
+    image: "https://images.unsplash.com/photo-1598452963314-b09f397a5c48?w=700&auto=format&fit=crop&q=80",
+    images: [
+      "https://images.unsplash.com/photo-1598452963314-b09f397a5c48?w=700&auto=format&fit=crop&q=80"
+    ],
     description: "Oil-free breathable liquid concealer that matches skin tones to deliver a more even complexion with a natural, undetectable finish.",
     shortDescription: "Natural breathable liquid concealer for effortless daily coverage.",
     size: "6.8ml",
@@ -1429,8 +1496,10 @@ export const products = [
     originalPrice: 750,
     mrp: 750,
     discount: 20,
-    image: "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=600&auto=format&fit=crop&q=80",
-    images: ["https://images.unsplash.com/photo-1556228720-195a672e8a03?w=600&auto=format&fit=crop&q=80"],
+    image: "https://images.unsplash.com/photo-1576426863848-c21f53c60b19?w=700&auto=format&fit=crop&q=80",
+    images: [
+      "https://images.unsplash.com/photo-1576426863848-c21f53c60b19?w=700&auto=format&fit=crop&q=80"
+    ],
     description: "Rapid relief soothing gel loaded with 90% Centella Asiatica leaf water, panthenol, and madecassoside. Quenches irritated, inflamed, or sunburnt skin instantly.",
     shortDescription: "90% Pure Centella Asiatica calming gel for sensitized and acne-prone skin.",
     size: "100ml",
@@ -1472,9 +1541,9 @@ export const products = [
     originalPrice: 999,
     mrp: 999,
     discount: 20,
-    image: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=600&auto=format&fit=crop&q=80",
+    image: "https://images.unsplash.com/photo-1512290903671-17adc8320494?w=700&auto=format&fit=crop&q=80",
     images: [
-      "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=600&auto=format&fit=crop&q=80"
+      "https://images.unsplash.com/photo-1512290903671-17adc8320494?w=700&auto=format&fit=crop&q=80"
     ],
     description: "Intensive hydrating serum with 1.5% pure Hyaluronic Acid. Instantly plumps and hydrates skin, visibly reducing fine lines and boosting skin radiance.",
     shortDescription: "1.5% Pure Hyaluronic Acid plumping serum for deep moisture and anti-aging bounce.",
@@ -1511,9 +1580,9 @@ export const products = [
     originalPrice: 849,
     mrp: 849,
     discount: 18,
-    image: "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=600&auto=format&fit=crop&q=80",
+    image: "https://images.unsplash.com/photo-1585232351009-aa87416fca90?w=700&auto=format&fit=crop&q=80",
     images: [
-      "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=600&auto=format&fit=crop&q=80"
+      "https://images.unsplash.com/photo-1585232351009-aa87416fca90?w=700&auto=format&fit=crop&q=80"
     ],
     description: "Lightweight daily liquid moisturizer infused with Aloe Water and Hyaluronic Acid. Delivers 72 hours of continuous hydration specifically formulated for dry and normal skin.",
     shortDescription: "72H daily liquid care moisturizer with Aloe Water and Hyaluronic Acid for dry skin.",

@@ -53,10 +53,10 @@ export const PublicNavbar = () => {
         </Link>
 
         {/* Desktop Nav Links */}
-        <nav className="hidden md:flex items-center gap-1 text-xs font-medium text-stone-600 dark:text-stone-300">
+        <nav className="hidden md:flex items-center gap-1.5 text-sm font-medium text-stone-700 dark:text-stone-200">
           <Link
             to="/products"
-            className={`px-3 py-1.5 rounded-md transition-colors ${
+            className={`px-3.5 py-2 rounded-lg transition-colors ${
               isActive("/products")
                 ? "text-stone-900 dark:text-stone-100 bg-stone-200/60 dark:bg-stone-800 font-semibold"
                 : "hover:text-stone-900 dark:hover:text-stone-100 hover:bg-stone-100 dark:hover:bg-stone-800/60"

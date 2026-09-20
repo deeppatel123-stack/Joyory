@@ -10,12 +10,26 @@ export const SmartDiscoveryPage = () => {
   const { recordSearch, profile } = useCustomer();
   const [currentQuery, setCurrentQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const [selectedBrand, setSelectedBrand] = useState("All");
   const [selectedSkinType, setSelectedSkinType] = useState("All");
   const [selectedPrice, setSelectedPrice] = useState("All");
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const categories = ["All", "Moisturizer", "Serum", "Sunscreen", "Face Wash", "Toner"];
+  const brands = [
+    "All",
+    "Joyory Labs",
+    "Minimalist",
+    "Dot & Key",
+    "Plum",
+    "Pilgrim",
+    "Aqualogica",
+    "Maybelline",
+    "Swiss Beauty",
+    "Lakmé",
+    "L'Oréal Paris"
+  ];
   const skinTypes = ["All", "Oily", "Dry", "Combination", "Sensitive"];
   const priceOptions = [
     { label: "All Prices", value: "All" },
@@ -27,10 +41,17 @@ export const SmartDiscoveryPage = () => {
   const hasActiveFilters =
     currentQuery.trim() !== "" ||
     selectedCategory !== "All" ||
+    selectedBrand !== "All" ||
     selectedSkinType !== "All" ||
     selectedPrice !== "All";
 
-  const loadProducts = async (queryText = currentQuery, cat = selectedCategory, st = selectedSkinType, price = selectedPrice) => {
+  const loadProducts = async (
+    queryText = currentQuery,
+    cat = selectedCategory,
+    br = selectedBrand,
+    st = selectedSkinType,
+    price = selectedPrice
+  ) => {
     const trimmed = (queryText || "").trim();
     if (trimmed) recordSearch(trimmed);
 
@@ -39,6 +60,7 @@ export const SmartDiscoveryPage = () => {
       const filters = {};
       if (trimmed) filters.searchQuery = trimmed;
       if (cat !== "All") filters.category = cat;
+      if (br !== "All") filters.brand = br;
       if (st !== "All") filters.skinType = st;
       if (price !== "All") filters.maxPrice = Number(price);
 
@@ -66,20 +88,21 @@ export const SmartDiscoveryPage = () => {
   };
 
   useEffect(() => {
-    loadProducts(currentQuery, selectedCategory, selectedSkinType, selectedPrice);
-  }, [profile, selectedCategory, selectedSkinType, selectedPrice]);
+    loadProducts(currentQuery, selectedCategory, selectedBrand, selectedSkinType, selectedPrice);
+  }, [profile, selectedCategory, selectedBrand, selectedSkinType, selectedPrice]);
 
   const handleSearch = (q) => {
     setCurrentQuery(q);
-    loadProducts(q, selectedCategory, selectedSkinType, selectedPrice);
+    loadProducts(q, selectedCategory, selectedBrand, selectedSkinType, selectedPrice);
   };
 
   const handleClearFilters = () => {
     setCurrentQuery("");
     setSelectedCategory("All");
+    setSelectedBrand("All");
     setSelectedSkinType("All");
     setSelectedPrice("All");
-    loadProducts("", "All", "All", "All");
+    loadProducts("", "All", "All", "All", "All");
   };
 
   return (
@@ -123,6 +146,26 @@ export const SmartDiscoveryPage = () => {
               {cat}
             </button>
           ))}
+        </div>
+
+        <div className="h-4 w-px bg-stone-200 dark:bg-stone-800 hidden sm:block" />
+
+        {/* Brand Dropdown */}
+        <div className="flex items-center gap-1.5">
+          <span className="text-[11px] uppercase font-semibold text-stone-400 dark:text-stone-500">
+            Brand:
+          </span>
+          <select
+            value={selectedBrand}
+            onChange={(e) => setSelectedBrand(e.target.value)}
+            className="text-xs px-2.5 py-1 rounded-lg bg-stone-100 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-stone-700 dark:text-stone-200 focus:outline-none cursor-pointer"
+          >
+            {brands.map((b) => (
+              <option key={b} value={b}>
+                {b === "All" ? "All Brands" : b}
+              </option>
+            ))}
+          </select>
         </div>
 
         <div className="h-4 w-px bg-stone-200 dark:bg-stone-800 hidden sm:block" />

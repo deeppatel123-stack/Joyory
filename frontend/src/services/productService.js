@@ -15,6 +15,8 @@ const normalizeProduct = (p) => {
   };
 };
 
+const CATALOG_STORAGE_KEY = "joyory_catalog_v2";
+
 export const productService = {
   // GET /api/products
   async getProducts(filters = {}) {
@@ -22,7 +24,7 @@ export const productService = {
       const params = new URLSearchParams();
       if (filters.searchQuery) params.append("q", filters.searchQuery);
       if (filters.category && filters.category !== "All" && filters.category !== "all") params.append("category", filters.category);
-      if (filters.brand && filters.brand !== "All") params.append("brand", filters.brand);
+      if (filters.brand && filters.brand !== "All" && filters.brand !== "all") params.append("brand", filters.brand);
       if (filters.skinType && filters.skinType !== "All") params.append("skinType", filters.skinType);
       if (filters.concern && filters.concern !== "All") params.append("concern", filters.concern);
       if (filters.texture && filters.texture !== "All") params.append("texture", filters.texture);
@@ -49,7 +51,7 @@ export const productService = {
     // Resilient local fallback from stored catalog
     let catalog = [];
     try {
-      const saved = localStorage.getItem("joyory_catalog");
+      const saved = localStorage.getItem(CATALOG_STORAGE_KEY);
       catalog = saved ? JSON.parse(saved) : localProducts.map(normalizeProduct);
     } catch {
       catalog = localProducts.map(normalizeProduct);
@@ -73,7 +75,10 @@ export const productService = {
     }
     if (filters.brand && filters.brand !== "All" && filters.brand !== "all") {
       const brandNorm = normalizeStr(filters.brand);
-      result = result.filter(p => normalizeStr(p.brand) === brandNorm);
+      result = result.filter(p => {
+        const pb = normalizeStr(p.brand);
+        return pb === brandNorm || pb.includes(brandNorm) || brandNorm.includes(pb);
+      });
     }
     if (filters.maxPrice) {
       result = result.filter(p => p.price <= filters.maxPrice);
@@ -112,19 +117,30 @@ export const productService = {
     }
     if (filters.searchQuery) {
       const rawQ = normalizeStr(filters.searchQuery).trim();
-      let q = rawQ;
-      if (q.startsWith("moisturi")) q = "moist";
+      const tokens = rawQ.split(/\s+/).filter(t => t.length > 0);
+
       result = result.filter(p => {
-        const nameMatch = normalizeStr(p.name).includes(q) || normalizeStr(p.name).includes(rawQ);
-        const brandMatch = normalizeStr(p.brand).includes(q) || normalizeStr(p.brand).includes(rawQ);
-        const catMatch = normalizeStr(p.category).includes(q) || normalizeStr(p.subcategory).includes(q);
-        const descMatch = normalizeStr(p.description).includes(q) || normalizeStr(p.shortDescription).includes(q);
-        const tagMatch = (p.tags || []).some(t => normalizeStr(t).includes(q) || normalizeStr(t).includes(rawQ));
-        const ingMatch = (p.ingredients || p.keyIngredients || []).some(i => normalizeStr(i).includes(q));
-        const conMatch = (p.concerns || []).some(c => normalizeStr(c).includes(q));
-        const texMatch = normalizeStr(p.texture).includes(q);
-        const stMatch = (p.skinTypes || p.skinType || []).some(st => normalizeStr(st).includes(q));
-        return nameMatch || brandMatch || catMatch || descMatch || tagMatch || ingMatch || conMatch || texMatch || stMatch;
+        const searchableFields = [
+          normalizeStr(p.name),
+          normalizeStr(p.brand),
+          normalizeStr(p.category),
+          normalizeStr(p.subcategory),
+          normalizeStr(p.description),
+          normalizeStr(p.shortDescription),
+          normalizeStr(p.texture),
+          normalizeStr(p.finish),
+          ...(p.tags || []).map(normalizeStr),
+          ...(p.ingredients || p.keyIngredients || []).map(normalizeStr),
+          ...(p.concerns || []).map(normalizeStr),
+          ...(p.skinTypes || p.skinType || []).map(normalizeStr)
+        ].join(" ");
+
+        if (searchableFields.includes(rawQ)) return true;
+        return tokens.every(token => {
+          let t = token;
+          if (t.startsWith("moisturi")) t = "moist";
+          return searchableFields.includes(t);
+        });
       });
     }
 
@@ -144,7 +160,7 @@ export const productService = {
 
     let catalog = [];
     try {
-      const saved = localStorage.getItem("joyory_catalog");
+      const saved = localStorage.getItem(CATALOG_STORAGE_KEY);
       catalog = saved ? JSON.parse(saved) : localProducts.map(normalizeProduct);
     } catch {
       catalog = localProducts.map(normalizeProduct);
@@ -171,7 +187,7 @@ export const productService = {
   async decreaseStock(items = []) {
     try {
       let catalog = [];
-      const saved = localStorage.getItem("joyory_catalog");
+      const saved = localStorage.getItem(CATALOG_STORAGE_KEY);
       catalog = saved ? JSON.parse(saved) : localProducts.map(normalizeProduct);
       
       const updated = catalog.map(p => {
@@ -184,7 +200,7 @@ export const productService = {
         return p;
       });
 
-      localStorage.setItem("joyory_catalog", JSON.stringify(updated));
+      localStorage.setItem(CATALOG_STORAGE_KEY, JSON.stringify(updated));
     } catch (e) {
       console.warn("Could not decrease stock locally:", e);
     }
@@ -197,7 +213,7 @@ export const productService = {
       return normalizeProduct(res.data);
     } catch {
       let catalog = [];
-      const saved = localStorage.getItem("joyory_catalog");
+      const saved = localStorage.getItem(CATALOG_STORAGE_KEY);
       catalog = saved ? JSON.parse(saved) : localProducts.map(normalizeProduct);
 
       const newProduct = normalizeProduct({
@@ -209,7 +225,7 @@ export const productService = {
       });
 
       catalog.unshift(newProduct);
-      localStorage.setItem("joyory_catalog", JSON.stringify(catalog));
+      localStorage.setItem(CATALOG_STORAGE_KEY, JSON.stringify(catalog));
       return newProduct;
     }
   },
@@ -220,7 +236,7 @@ export const productService = {
       return normalizeProduct(res.data);
     } catch {
       let catalog = [];
-      const saved = localStorage.getItem("joyory_catalog");
+      const saved = localStorage.getItem(CATALOG_STORAGE_KEY);
       catalog = saved ? JSON.parse(saved) : localProducts.map(normalizeProduct);
 
       let updatedProd = null;
@@ -232,7 +248,7 @@ export const productService = {
         return p;
       });
 
-      localStorage.setItem("joyory_catalog", JSON.stringify(updated));
+      localStorage.setItem(CATALOG_STORAGE_KEY, JSON.stringify(updated));
       return updatedProd || productData;
     }
   },
@@ -242,11 +258,11 @@ export const productService = {
       return await apiClient.delete(`/products/${id}`);
     } catch {
       let catalog = [];
-      const saved = localStorage.getItem("joyory_catalog");
+      const saved = localStorage.getItem(CATALOG_STORAGE_KEY);
       catalog = saved ? JSON.parse(saved) : localProducts.map(normalizeProduct);
 
       const filtered = catalog.filter(p => p.id !== id);
-      localStorage.setItem("joyory_catalog", JSON.stringify(filtered));
+      localStorage.setItem(CATALOG_STORAGE_KEY, JSON.stringify(filtered));
       return { success: true, id };
     }
   }
